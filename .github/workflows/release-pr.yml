@@ -1,4 +1,4 @@
-name: Release Skills
+name: Prepare Release PR
 
 on:
   workflow_dispatch:
@@ -14,31 +14,40 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   validate:
-    name: Validate skill structure
+    name: Validate skills
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Verify skill structure
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install skills-ref
+        run: pip install skills-ref
+
+      - name: Validate all skills
         run: |
           exit_code=0
           while IFS= read -r skill_file; do
             skill_dir=$(dirname "$skill_file")
             skill_name=$(basename "$skill_dir")
             echo "Validating $skill_name..."
-            if [ ! -f "${skill_dir}/SKILL.md" ]; then
-              echo "::error::Skill '$skill_name' is missing SKILL.md"
+            if ! agentskills validate "$skill_dir"; then
+              echo "::error::Skill '$skill_name' failed validation"
               exit_code=1
             fi
           done < <(find skills -name "SKILL.md")
           exit $exit_code
 
-  release:
-    name: Create release for skills
+  release-prep:
+    name: Prepare release PR
     needs: validate
     runs-on: ubuntu-latest
     steps:
@@ -78,14 +87,9 @@ jobs:
           TAG: ${{ steps.version.outputs.tag }}
         run: |
           for manifest in ".claude-plugin/plugin.json" ".cursor-plugin/plugin.json"; do
-            jq ".version = \"${TAG}\"" "${manifest}" > "${manifest}.tmp"
+            jq ".version = \"${TAG#v}\"" "${manifest}" > "${manifest}.tmp"
             mv "${manifest}.tmp" "${manifest}"
-            git add "${manifest}"
           done
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git diff --cached --quiet && echo "Plugin manifests unchanged, skipping commit." || { git commit -m "chore: update plugin manifests for ${TAG}"; git push origin HEAD; }
 
       - name: Update CHANGELOG.md
         env:
@@ -131,27 +135,58 @@ jobs:
             } > CHANGELOG.md
           fi
 
-      - name: Commit changelog
+      - name: Create release branch and commit
         env:
           TAG: ${{ steps.version.outputs.tag }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          REPO: ${{ github.repository }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          git diff --cached --quiet && echo "CHANGELOG.md unchanged, skipping commit." || { git commit -m "chore: update changelog for ${TAG}"; git push origin HEAD; }
+          git push origin --delete "release/${TAG}" 2>/dev/null || true
+          git checkout -b "release/${TAG}"
+          git push --set-upstream origin "release/${TAG}"
 
-      - name: Create tag
-        env:
-          TAG: ${{ steps.version.outputs.tag }}
-        run: |
-          git tag -a "${TAG}" -m "${TAG}"
-          git push origin "${TAG}"
+          HEAD_OID=$(git rev-parse HEAD)
+          CLAUDE_PLUGIN=$(base64 -w0 .claude-plugin/plugin.json)
+          CURSOR_PLUGIN=$(base64 -w0 .cursor-plugin/plugin.json)
+          CHANGELOG=$(base64 -w0 CHANGELOG.md)
 
-      - name: Create GitHub release
+          gh api graphql -f query='
+            mutation($repo: String!, $branch: String!, $oid: GitObjectID!,
+                     $headline: String!, $cp: Base64String!, $crp: Base64String!, $cl: Base64String!) {
+              createCommitOnBranch(input: {
+                branch: { repositoryNameWithOwner: $repo, branchName: $branch },
+                message: { headline: $headline },
+                expectedHeadOid: $oid,
+                fileChanges: {
+                  additions: [
+                    { path: ".claude-plugin/plugin.json", contents: $cp },
+                    { path: ".cursor-plugin/plugin.json", contents: $crp },
+                    { path: "CHANGELOG.md", contents: $cl }
+                  ]
+                }
+              }) { commit { url } }
+            }' \
+            -f repo="${REPO}" \
+            -f branch="release/${TAG}" \
+            -f oid="${HEAD_OID}" \
+            -f headline="chore: release ${TAG}" \
+            -f cp="${CLAUDE_PLUGIN}" \
+            -f crp="${CURSOR_PLUGIN}" \
+            -f cl="${CHANGELOG}"
+
+      - name: Open release PR
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           TAG: ${{ steps.version.outputs.tag }}
         run: |
-          gh release create "${TAG}" \
-            --title "${TAG}" \
-            --generate-notes
+          gh pr create \
+            --title "chore: release ${TAG}" \
+            --body "Automated release PR for ${TAG}.
+
+          **Changes include:**
+          - Updated plugin manifests to \`${TAG#v}\`
+          - Updated CHANGELOG.md
+
+          Merging this PR will trigger the \`release-tag\` workflow to create the git tag and GitHub release." \
+            --base master \
+            --head "release/${TAG}"

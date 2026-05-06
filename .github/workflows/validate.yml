@@ -1,0 +1,36 @@
+name: Validate Skills
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  validate:
+    name: Check skill spec compliance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install skills-ref
+        run: pip install skills-ref
+
+      - name: Validate all skills
+        run: |
+          exit_code=0
+          while IFS= read -r skill_file; do
+            skill_dir=$(dirname "$skill_file")
+            skill_name=$(basename "$skill_dir")
+            echo "Validating $skill_name..."
+            if ! agentskills validate "$skill_dir"; then
+              echo "::error::Skill '$skill_name' failed validation"
+              exit_code=1
+            fi
+          done < <(find skills -name "SKILL.md")
+          exit $exit_code

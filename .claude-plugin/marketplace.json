@@ -1,0 +1,13 @@
+{
+  "name": "cx-skills",
+  "owner": {
+    "name": "Coralogix"
+  },
+  "plugins": [
+    {
+      "name": "coralogix",
+      "description": "Coralogix observability skills for AI agents — OpenTelemetry Collector deployment, OTTL pipeline authoring, and Coralogix dashboard creation.",
+      "source": "./"
+    }
+  ]
+}

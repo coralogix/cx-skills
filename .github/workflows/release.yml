@@ -1,0 +1,157 @@
+name: Release Skills
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump type"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    name: Validate skill structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Verify skill structure
+        run: |
+          exit_code=0
+          while IFS= read -r skill_file; do
+            skill_dir=$(dirname "$skill_file")
+            skill_name=$(basename "$skill_dir")
+            echo "Validating $skill_name..."
+            if [ ! -f "${skill_dir}/SKILL.md" ]; then
+              echo "::error::Skill '$skill_name' is missing SKILL.md"
+              exit_code=1
+            fi
+          done < <(find skills -name "SKILL.md")
+          exit $exit_code
+
+  release:
+    name: Create release for skills
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Compute next version
+        id: version
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          MAJOR=$(echo "$LAST_TAG" | sed 's/^v//' | cut -d. -f1)
+          MINOR=$(echo "$LAST_TAG" | sed 's/^v//' | cut -d. -f2)
+          PATCH=$(echo "$LAST_TAG" | sed 's/^v//' | cut -d. -f3)
+
+          case "${{ inputs.bump }}" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          echo "tag=v${MAJOR}.${MINOR}.${PATCH}" >> "$GITHUB_OUTPUT"
+          echo "last_tag=$LAST_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Update plugin manifests
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          for manifest in ".claude-plugin/plugin.json" ".cursor-plugin/plugin.json"; do
+            jq ".version = \"${TAG}\"" "${manifest}" > "${manifest}.tmp"
+            mv "${manifest}.tmp" "${manifest}"
+            git add "${manifest}"
+          done
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --cached --quiet && echo "Plugin manifests unchanged, skipping commit." || { git commit -m "chore: update plugin manifests for ${TAG}"; git push origin HEAD; }
+
+      - name: Update CHANGELOG.md
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+          LAST_TAG: ${{ steps.version.outputs.last_tag }}
+        run: |
+          [ "$LAST_TAG" = "v0.0.0" ] && RANGE="HEAD" || RANGE="${LAST_TAG}..HEAD"
+
+          FEATS=""
+          FIXES=""
+          OTHER=""
+
+          while IFS= read -r line || [ -n "$line" ]; do
+            summary=$(echo "$line" | sed -E 's/^[a-z]+(\([^)]*\))?!?: //')
+            case "$line" in
+              feat*)  FEATS="${FEATS}- ${summary}\n" ;;
+              fix*)   FIXES="${FIXES}- ${summary}\n" ;;
+              *)      OTHER="${OTHER}- ${summary}\n" ;;
+            esac
+          done < <(git log --pretty=format:"%s" "$RANGE")
+
+          generate_entry() {
+            echo "## ${TAG} ($(date +%Y-%m-%d))"
+            echo ""
+            [ -n "$FEATS" ] && { echo "### Added"; echo ""; echo -e "$FEATS"; }
+            [ -n "$FIXES" ] && { echo "### Fixed"; echo ""; echo -e "$FIXES"; }
+            [ -n "$OTHER" ] && { echo "### Changed"; echo ""; echo -e "$OTHER"; }
+          }
+
+          if [ -f CHANGELOG.md ]; then
+            {
+              head -1 CHANGELOG.md
+              echo ""
+              generate_entry
+              tail -n +2 CHANGELOG.md
+            } > CHANGELOG.tmp
+            mv CHANGELOG.tmp CHANGELOG.md
+          else
+            {
+              echo "# Changelog"
+              echo ""
+              generate_entry
+            } > CHANGELOG.md
+          fi
+
+      - name: Commit changelog
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet && echo "CHANGELOG.md unchanged, skipping commit." || { git commit -m "chore: update changelog for ${TAG}"; git push origin HEAD; }
+
+      - name: Create tag
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git tag -a "${TAG}" -m "${TAG}"
+          git push origin "${TAG}"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          gh release create "${TAG}" \
+            --title "${TAG}" \
+            --generate-notes

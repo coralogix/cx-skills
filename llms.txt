@@ -1,0 +1,56 @@
+# Coralogix Skills
+
+> Source: https://github.com/coralogix/cx-skills
+> Format: Agent Skills (https://agentskills.io)
+
+## What is Coralogix
+
+Coralogix is an observability platform for logs, metrics, traces, and security
+data. It supports OpenTelemetry-native collection, real-time analytics,
+dashboards, alerting, APM, infrastructure monitoring, and archive-first log
+management.
+
+## What this repository provides
+
+This repository contains agent skills: portable knowledge packages that teach
+AI coding agents how to work with Coralogix and OpenTelemetry. Skills provide
+domain-specific instructions, configuration patterns, troubleshooting flows,
+query examples, and best practices.
+
+Skills are knowledge-only. To send telemetry, query data, or manage your
+Coralogix environment, pair them with the relevant Coralogix integrations,
+OpenTelemetry Collector distributions, SDKs, APIs, or platform tooling.
+
+## Available skills
+
+OpenTelemetry:
+- [opentelemetry-collector](skills/opentelemetry/opentelemetry-collector/SKILL.md):
+  Deploy, configure, and troubleshoot the OpenTelemetry Collector for Coralogix.
+  Covers the `coralogix` exporter, `domain:` versus `endpoint:`, processor
+  chains, agent to cluster-collector to gateway topology, the `otel-integration`
+  Helm chart, ECS EC2/Fargate, standalone installs, Docker, and the universal
+  installer.
+- [opentelemetry-ottl](skills/opentelemetry/opentelemetry-ottl/SKILL.md):
+  Write and debug OpenTelemetry Transformation Language (OTTL) statements for
+  transform processors, filter processors, and routing connectors. Covers
+  context selection, path expressions, `error_mode`, cardinality reduction, JSON
+  body parsing, PII redaction, and span naming.
+
+## Installation
+
+Claude Code:  `claude plugin marketplace add coralogix/cx-skills`
+Cursor:       Install the Coralogix Observability Skills plugin from this repo
+Manual:       Copy skill directories into your agent's skills directory
+
+## Skill format
+
+Each skill is a directory with a `SKILL.md` file containing YAML frontmatter and
+markdown instructions. Skills use progressive disclosure: the name and
+description are loaded first, then full instructions and references are loaded
+when the task activates the skill.
+
+## Naming convention
+
+Skills use descriptive kebab-case names. OpenTelemetry skills use the
+`opentelemetry-<domain>` pattern, such as `opentelemetry-collector`,
+`opentelemetry-instrumentation`, and `opentelemetry-ottl`.

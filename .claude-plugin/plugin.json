@@ -1,0 +1,31 @@
+{
+  "name": "cx-skills",
+  "description": "OpenTelemetry Collector deployment, OTTL pipeline authoring, and Coralogix dashboard creation skills for AI coding assistants",
+  "version": "0.1.0",
+  "author": {
+    "name": "Coralogix",
+    "email": "support@coralogix.com"
+  },
+  "homepage": "https://github.com/coralogix/cx-skills",
+  "repository": "https://github.com/coralogix/cx-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "coralogix",
+    "opentelemetry",
+    "otel",
+    "observability",
+    "o11y",
+    "otel-collector",
+    "ottl",
+    "monitoring",
+    "dashboard",
+    "dataprime",
+    "promql",
+    "ai-agent",
+    "skills",
+    "agentic",
+    "developer",
+    "coding",
+    "productivity"
+  ]
+}

@@ -14,7 +14,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - `opentelemetry-collector` skill — deployment, configuration, and troubleshooting for the OTel Collector shipping to Coralogix (Helm, ECS EC2/Fargate, standalone, universal installer)
 - `opentelemetry-instrumentation` skill — SDK instrumentation for Java, Python, Node.js, .NET, and Go with Coralogix OTLP export
 - `opentelemetry-ottl` skill — OTTL authoring for transform, filter, and routing processors
-- `create-dashboard` skill — importable Coralogix dashboard JSON generation with DataPrime and PromQL
+- Codex plugin config (`.codex-plugin/`)
 - Claude Code plugin config (`.claude-plugin/`)
 - Cursor plugin config (`.cursor-plugin/`)
 - `llms.txt` for LLM-friendly repo discovery

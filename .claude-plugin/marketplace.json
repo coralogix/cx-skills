@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "coralogix",
-      "description": "Coralogix observability skills for AI agents — OpenTelemetry Collector deployment, OTTL pipeline authoring, and Coralogix dashboard creation.",
+      "description": "Coralogix observability skills for AI agents — OpenTelemetry Collector deployment, OTTL pipeline authoring, and SDK instrumentation.",
       "source": "./"
     }
   ]

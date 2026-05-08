@@ -44,9 +44,16 @@ OpenTelemetry:
 
 ## Installation
 
-Claude Code:  `claude plugin marketplace add coralogix/cx-skills`
-Cursor:       Install the Coralogix Observability Skills plugin from this repo
-Manual:       Copy skill directories into your agent's skills directory
+Agent Skills CLI: `npx skills add coralogix/cx-skills`
+Claude Code:      `claude plugin marketplace add coralogix/cx-skills`
+                  then `claude plugin install coralogix@cx-skills`
+Cursor GitHub:    Add `https://github.com/coralogix/cx-skills` from Cursor
+                  Settings -> Rules, Skills, Subagents
+Cursor CLI:       `git clone https://github.com/coralogix/cx-skills ~/.cursor/skills/cx-skills`
+
+All install paths load the same `skills/**/SKILL.md` directories. The
+`.codex-plugin/`, `.claude-plugin/`, and `.cursor-plugin/` files are discovery
+metadata only.
 
 ## Skill format
 

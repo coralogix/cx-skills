@@ -20,6 +20,45 @@ Every skill in this repo is continuously evaluated against all three major LLM p
 - `google/gemini-3-flash-preview`
 - `openai/gpt-5.4-mini`
 
+## Installation
+
+### Agent Skills CLI, Codex, and other agents
+
+Use this for any tool that supports the [Agent Skills](https://agentskills.io)
+standard:
+
+```bash
+npx skills add coralogix/cx-skills
+```
+
+OpenAI Codex can also package these skills as a plugin via
+`.codex-plugin/plugin.json`.
+
+### Claude Code
+
+```bash
+# Add this marketplace
+claude plugin marketplace add coralogix/cx-skills
+
+# Install the plugin
+claude plugin install coralogix@cx-skills
+```
+
+### Cursor
+
+Via the UI:
+
+1. Open **Cursor Settings** — **Cmd+Shift+J** (macOS) or **Ctrl+Shift+J** (Windows/Linux)
+2. Navigate to **Rules**
+3. Under **Project Rules**, click **Add Rule** → **Remote Rule (GitHub)**
+4. Enter: `https://github.com/coralogix/cx-skills`
+
+Or clone directly into Cursor's global skills directory:
+
+```bash
+git clone https://github.com/coralogix/cx-skills ~/.cursor/skills/cx-skills
+```
+
 ## Local development
 
 Spec conformance (no API keys, ~5s):

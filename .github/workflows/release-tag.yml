@@ -21,8 +21,10 @@ jobs:
 
       - name: Extract version from commit message
         id: version
+        env:
+          HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
-          TAG=$(echo "${{ github.event.head_commit.message }}" | grep -oP 'v\d+\.\d+\.\d+')
+          TAG=$(printf '%s\n' "$HEAD_COMMIT_MESSAGE" | grep -oP 'v\d+\.\d+\.\d+')
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Create and push tag

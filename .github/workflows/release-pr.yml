@@ -32,6 +32,12 @@ jobs:
       - name: Install skills-ref
         run: pip install skills-ref
 
+      - name: Validate marketplace JSON files
+        run: |
+          jq empty .claude-plugin/marketplace.json && echo "✓ .claude-plugin/marketplace.json"
+          jq empty .cursor-plugin/plugin.json      && echo "✓ .cursor-plugin/plugin.json"
+          jq empty .codex-plugin/plugin.json       && echo "✓ .codex-plugin/plugin.json"
+
       - name: Validate all skills
         run: |
           exit_code=0
@@ -86,7 +92,7 @@ jobs:
         env:
           TAG: ${{ steps.version.outputs.tag }}
         run: |
-          for manifest in ".claude-plugin/plugin.json" ".cursor-plugin/plugin.json"; do
+          for manifest in ".claude-plugin/plugin.json" ".cursor-plugin/plugin.json" ".codex-plugin/plugin.json"; do
             jq ".version = \"${TAG#v}\"" "${manifest}" > "${manifest}.tmp"
             mv "${manifest}.tmp" "${manifest}"
           done
@@ -148,11 +154,13 @@ jobs:
           HEAD_OID=$(git rev-parse HEAD)
           CLAUDE_PLUGIN=$(base64 -w0 .claude-plugin/plugin.json)
           CURSOR_PLUGIN=$(base64 -w0 .cursor-plugin/plugin.json)
+          CODEX_PLUGIN=$(base64 -w0 .codex-plugin/plugin.json)
           CHANGELOG=$(base64 -w0 CHANGELOG.md)
 
+          # shellcheck disable=SC2016
           gh api graphql -f query='
             mutation($repo: String!, $branch: String!, $oid: GitObjectID!,
-                     $headline: String!, $cp: Base64String!, $crp: Base64String!, $cl: Base64String!) {
+                     $headline: String!, $cp: Base64String!, $crp: Base64String!, $cxp: Base64String!, $cl: Base64String!) {
               createCommitOnBranch(input: {
                 branch: { repositoryNameWithOwner: $repo, branchName: $branch },
                 message: { headline: $headline },
@@ -161,6 +169,7 @@ jobs:
                   additions: [
                     { path: ".claude-plugin/plugin.json", contents: $cp },
                     { path: ".cursor-plugin/plugin.json", contents: $crp },
+                    { path: ".codex-plugin/plugin.json", contents: $cxp },
                     { path: "CHANGELOG.md", contents: $cl }
                   ]
                 }
@@ -172,6 +181,7 @@ jobs:
             -f headline="chore: release ${TAG}" \
             -f cp="${CLAUDE_PLUGIN}" \
             -f crp="${CURSOR_PLUGIN}" \
+            -f cxp="${CODEX_PLUGIN}" \
             -f cl="${CHANGELOG}"
 
       - name: Open release PR

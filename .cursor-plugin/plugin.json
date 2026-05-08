@@ -1,7 +1,7 @@
 {
   "name": "cx-skills",
   "displayName": "Coralogix Observability Skills",
-  "description": "OpenTelemetry Collector deployment, OTTL pipeline authoring, and Coralogix dashboard creation skills for AI coding assistants",
+  "description": "OpenTelemetry Collector deployment, OTTL pipeline authoring, and SDK instrumentation skills for AI coding assistants",
   "version": "0.1.0",
   "author": {
     "name": "Coralogix",
@@ -19,8 +19,6 @@
     "otel-collector",
     "ottl",
     "monitoring",
-    "dashboard",
-    "dataprime",
     "ai-agent",
     "skills",
     "agentic",

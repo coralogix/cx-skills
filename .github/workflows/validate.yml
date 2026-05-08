@@ -1,6 +1,9 @@
 name: Validate Skills
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -12,6 +15,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Validate marketplace JSON files
+        run: |
+          echo "Validating marketplace JSON files..."
+          jq empty .claude-plugin/marketplace.json && echo "✓ .claude-plugin/marketplace.json"
+          jq empty .cursor-plugin/plugin.json      && echo "✓ .cursor-plugin/plugin.json"
+          jq empty .codex-plugin/plugin.json       && echo "✓ .codex-plugin/plugin.json"
 
       - name: Set up Python
         uses: actions/setup-python@v5

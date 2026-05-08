@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.0 (2026-05-08)
+
+### Added
+
+- add Codex plugin, tighten install docs and CI (#4)
+- add opentelemetry-instrumentation skill (#3)
+- add OpenTelemetry skills for Coralogix (#1)
+
+### Changed
+
+- replace direct-push release with PR-based verified-commit workflow (#2)
+- initial commit
+
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

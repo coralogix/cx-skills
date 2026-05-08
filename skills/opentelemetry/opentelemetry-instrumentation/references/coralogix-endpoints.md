@@ -10,22 +10,31 @@
 
 ## OTLP Endpoint for Direct SDK Export
 
-When exporting directly from the SDK (not via a collector), OTLP gRPC SDKs use this
-endpoint value:
+When exporting directly from the SDK (not via a collector), the required endpoint format
+depends on the language:
 
-```
-ingress.<region>.coralogix.com:443
-```
-
-**No scheme, no trailing path for gRPC.** The `grpc://` scheme is implicit. Do not put
-`https://` before the hostname when using gRPC for Java, Python, Node.js, or Go. Use TLS
-on port 443.
-
-**.NET exception:** .NET OTLP exporter options expect a URI even when `Protocol = Grpc`:
-
+**Java and .NET** — the SDK's URI parser requires a full URI with `https://` scheme:
 ```
 https://ingress.<region>.coralogix.com:443
 ```
+
+**Python and Node.js** — the standard Coralogix gRPC form is bare `host:port`:
+```
+ingress.<region>.coralogix.com:443
+```
+The OpenTelemetry gRPC exporter spec also requires SDKs to accept `https://host:port`.
+So `https://ingress.<region>.coralogix.com:443` is valid for Python and Node.js gRPC,
+but prefer the bare form in generated Coralogix examples.
+
+**Go** — `WithEndpoint` uses bare `host:port` with no scheme or path:
+```
+ingress.<region>.coralogix.com:443
+```
+Use `credentials.NewTLS(nil)` with Go gRPC exporters. Do not pass `https://` to
+`WithEndpoint`; use `WithEndpointURL` only when intentionally using a full URL option.
+
+TLS is always enabled on port 443. Do not use `http://` for direct Coralogix export — all
+Coralogix OTLP endpoints require TLS.
 
 For HTTP/protobuf exporters (e.g. Node.js `@opentelemetry/exporter-trace-otlp-proto`),
 append the signal path:
@@ -45,8 +54,9 @@ export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```
 
-For gRPC exporters, change only the endpoint to `ingress.<CORALOGIX_REGION>.coralogix.com:443`
-and keep TLS enabled.
+For gRPC exporters, use `https://ingress.<CORALOGIX_REGION>.coralogix.com:443` (Java/.NET) or
+the standard bare form `ingress.<CORALOGIX_REGION>.coralogix.com:443` (Python/Node.js/Go),
+and keep TLS enabled. Python and Node.js also accept the `https://host:port` URL form.
 
 ## Regional Domains
 
@@ -131,14 +141,14 @@ that specific exporter.
 ## Endpoint vs Domain — SDK vs Collector
 
 The OTel Collector's `coralogix` exporter uses `domain: eu2.coralogix.com` (bare hostname,
-no `ingress.` prefix, no port). The SDK's gRPC `OTEL_EXPORTER_OTLP_ENDPOINT` uses
-`ingress.eu2.coralogix.com:443` (with `ingress.` prefix and port). HTTP/protobuf SDK
-export uses the full signal path.
+no `ingress.` prefix, no port). SDK endpoints use `ingress.` prefix and port 443. The
+required format varies by language and protocol.
 
 | Shipper | Format | Example |
 |---|---|---|
-| OTel SDK direct gRPC (Java, Python, Node.js, Go) | `ingress.<region>.coralogix.com:443` | `ingress.eu2.coralogix.com:443` |
-| OTel SDK direct gRPC (.NET) | `https://ingress.<region>.coralogix.com:443` | `https://ingress.eu2.coralogix.com:443` |
+| OTel SDK direct gRPC (Python, Node.js) | Prefer `ingress.<region>.coralogix.com:443`; `https://host:port` also accepted | `ingress.eu2.coralogix.com:443` |
+| OTel SDK direct gRPC (Go `WithEndpoint`) | `ingress.<region>.coralogix.com:443` | `ingress.eu2.coralogix.com:443` |
+| OTel SDK direct gRPC (Java, .NET) | `https://ingress.<region>.coralogix.com:443` | `https://ingress.eu2.coralogix.com:443` |
 | OTel SDK direct HTTP/protobuf | `https://ingress.<region>.coralogix.com:443/v1/<signal>` | `https://ingress.eu2.coralogix.com:443/v1/traces` |
 | OTel Collector `coralogix` exporter | `domain: <region>.coralogix.com` | `domain: eu2.coralogix.com` |
 

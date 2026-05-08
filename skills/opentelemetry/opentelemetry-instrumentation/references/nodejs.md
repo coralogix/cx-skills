@@ -23,6 +23,11 @@ Node.js instrumentation immediately. Do not explain how to configure the depreca
 
 See: https://coralogix.com/docs/user-guides/latest-updates/deprecations/
 
+## Prerequisites
+
+- Node.js `^18.19.0 || >=20.6.0` (required by OTel JS SDK 2.x — Node 14/16 are not supported)
+- Coralogix Send-Your-Data API key and region/domain.
+
 ## Overview
 
 Node.js supports three approaches:
@@ -51,7 +56,7 @@ Set environment variables and use `NODE_OPTIONS` to load the registration librar
 export OTEL_TRACES_EXPORTER="otlp"
 export OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 export OTEL_EXPORTER_OTLP_COMPRESSION="gzip"
-# gRPC endpoint: no scheme, no path suffix
+# gRPC endpoint: bare host:port is the standard Coralogix form; https://host:port is also accepted
 export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
 export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 export OTEL_NODE_RESOURCE_DETECTORS="all"
@@ -73,6 +78,12 @@ before the auto-instrumentation library starts at process startup.
 **Limitation:** Bundled auto-instrumentation does NOT support Coralogix transactions.
 Switch to individual method below if transactions are needed.
 
+**ESM apps (using `import` syntax):** `--require` does not fire for ES modules — auto-instrumentation silently does nothing. Use `--import` plus the loader hook instead:
+```bash
+node --experimental-loader=@opentelemetry/instrumentation/hook.mjs \
+     --import @opentelemetry/auto-instrumentations-node/register YourApp.mjs
+```
+
 ## Individual Auto-Instrumentation (supports Coralogix transactions)
 
 Create an `instrumentation.js` file:
@@ -82,10 +93,11 @@ Create an `instrumentation.js` file:
 const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
 const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express');
 const opentelemetry = require("@opentelemetry/sdk-node");
-const { OTLPTraceExporter } = require("@opentelemetry/exporter-trace-otlp-proto");
 const { CoralogixTransactionSampler } = require("@coralogix/opentelemetry");
 const { AlwaysOnSampler } = require("@opentelemetry/sdk-trace-base");
 
+// Exporter is configured via env vars (OTEL_TRACES_EXPORTER, OTEL_EXPORTER_OTLP_PROTOCOL,
+// OTEL_EXPORTER_OTLP_ENDPOINT, OTEL_EXPORTER_OTLP_HEADERS) — same as the bundled approach.
 const sdk = new opentelemetry.NodeSDK({
   sampler: new CoralogixTransactionSampler(new AlwaysOnSampler()),
   instrumentations: [
@@ -214,9 +226,10 @@ If the downstream service creates independent spans despite receiving `tracepare
 
 | Mistake | Symptom | Fix |
 |---|---|---|
+| Using `--require` in an ESM app | Auto-instrumentation silently does nothing | Use `--import` + `--experimental-loader=@opentelemetry/instrumentation/hook.mjs` for ESM |
 | Setting env vars inside the app | Auto-instrumentation ignores them | Set env vars before process start |
 | Bundled auto-instr + expects Transactions | Transactions view empty in Coralogix | Switch to individual method with `CoralogixTransactionSampler` |
 | HTTP exporter URL missing `/v1/traces` path | 404 from Coralogix | Append `/v1/traces` to the HTTP/proto endpoint URL |
-| gRPC exporter but URL has `https://` scheme | Connection error | For gRPC: `ingress.<region>.coralogix.com:443` (no scheme); for HTTP/proto: `https://...:443/v1/<signal>` |
+| gRPC exporter URL includes `/v1/traces` path | Connection or export failure | gRPC endpoints have no signal path. Prefer `ingress.<region>.coralogix.com:443`; `https://host:port` is also accepted. HTTP/proto uses `https://...:443/v1/<signal>` |
 | `OTEL_NODE_RESOURCE_DETECTORS=all` on local machine | Resource detector errors | Use `env,host,os,process` locally to suppress errors |
 | Missing `cx.application.name` / `cx.subsystem.name` | APM features degraded | Set as resource attributes in SDK or as OTLP headers |

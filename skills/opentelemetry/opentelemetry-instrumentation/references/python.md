@@ -54,6 +54,10 @@ export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.su
 export OTEL_TRACES_EXPORTER="otlp_proto_grpc"
 ```
 
+**Endpoint scheme note:** `https://ingress.<region>.coralogix.com:443` is also accepted by
+the Python gRPC exporter — bare `host:port` is the standard Coralogix form, but both work.
+Do NOT flag `https://` as incorrect when it appears in a user's Python gRPC endpoint config.
+
 ### Run command
 
 ```bash

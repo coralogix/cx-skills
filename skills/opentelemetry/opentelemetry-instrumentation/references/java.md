@@ -41,7 +41,7 @@ export OTEL_TRACES_EXPORTER="otlp"
 export OTEL_METRICS_EXPORTER="none"         # set to "otlp" to enable metrics
 export OTEL_LOGS_EXPORTER="none"            # set to "otlp" to enable logs
 export OTEL_EXPORTER_OTLP_TRACES_PROTOCOL="grpc"
-export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443"
 export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
@@ -57,7 +57,7 @@ java -javaagent:/path/to/opentelemetry-javaagent.jar \
     -Dotel.metrics.exporter=none \
     -Dotel.logs.exporter=none \
     -Dotel.exporter.otlp.traces.protocol=grpc \
-    -Dotel.exporter.otlp.traces.endpoint="ingress.<CORALOGIX_REGION>.coralogix.com:443" \
+    -Dotel.exporter.otlp.traces.endpoint="https://ingress.<CORALOGIX_REGION>.coralogix.com:443" \
     -Dotel.exporter.otlp.traces.headers="Authorization=Bearer <CORALOGIX_API_KEY>" \
     -Dotel.service.name="<SERVICE_NAME>" \
     -Dotel.resource.attributes="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>" \
@@ -169,7 +169,7 @@ export OTEL_LOGS_EXPORTER="otlp"      # enables logs (requires log bridge setup)
 | Mistake | Symptom | Fix |
 |---|---|---|
 | Missing `-javaagent` flag | No agent log line at startup; no traces | Add `-javaagent:` to `JAVA_TOOL_OPTIONS` or command line |
-| Wrong endpoint format (`https://` prefix) | Connection error or TLS handshake failure | Use bare `ingress.<region>.coralogix.com:443` without scheme for gRPC |
+| Wrong endpoint format (bare `host:port` without scheme) | URI parse error or silent export failure | Java SDK requires a URI — use `https://ingress.<region>.coralogix.com:443` (unlike Python/Go/Node.js which accept bare `host:port`) |
 | Missing `cx.application.name` / `cx.subsystem.name` | Telemetry lands under defaults; invisible in APM | Add both to `OTEL_RESOURCE_ATTRIBUTES` |
 | `@WithSpan` without agent running | No custom spans, no error | Confirm agent is attached; annotation is a no-op without agent |
 | Wrong API key type (not Send-Your-Data) | 401 / auth failure | Use Send-Your-Data key from Settings → API Keys |

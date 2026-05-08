@@ -118,11 +118,14 @@ SDK instrumentation to their app — not when they are deploying or configuring 
 Direct OTLP export to Coralogix requires `Authorization=Bearer <key>` (Send-Your-Data type)
 as an OTLP header, plus `cx.application.name`, `cx.subsystem.name`, and `service.name` as
 resource attributes. The HTTP/protobuf traces endpoint is
-`https://ingress.<region>.coralogix.com:443/v1/traces`; logs use `/v1/logs`. The gRPC endpoint is
-`ingress.<region>.coralogix.com:443` — no scheme, no path, TLS enabled. **Exception: .NET** — both
-auto and manual .NET OTLP exporters require the full `https://` URI scheme:
-`https://ingress.<region>.coralogix.com:443`. When exporting via a collector, the SDK sends unauthed
-to the collector; the collector holds the key. Full region table and header formats:
+`https://ingress.<region>.coralogix.com:443/v1/traces`; logs use `/v1/logs`. For gRPC the
+required format depends on the language: **Java and .NET** require the full `https://` URI
+scheme (`https://ingress.<region>.coralogix.com:443`) because their OTLP exporters perform
+URI parsing on the endpoint value. **Python and Node.js** examples should prefer bare
+`host:port` (`ingress.<region>.coralogix.com:443`), but both SDKs also accept
+`https://host:port`; do not flag that as incorrect in a user's config. **Go `WithEndpoint`**
+uses bare `host:port` only. When exporting via a collector, the SDK sends unauthed to the
+collector; the collector holds the key. Full region table and per-language formats:
 [references/coralogix-endpoints.md](references/coralogix-endpoints.md).
 
 ### Resource attributes and Coralogix feature requirements
@@ -152,7 +155,7 @@ Always include in generated answers:
 
 - **`cx.application.name` + `cx.subsystem.name` + `service.name`.** All three are required;
   missing any one silently degrades APM features.
-- **Required direct-export env vars.** Show `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS`, `OTEL_SERVICE_NAME`, and `OTEL_RESOURCE_ATTRIBUTES` in every setup answer. For HTTP/protobuf traces use `https://ingress.<region>.coralogix.com:443/v1/traces`; for gRPC use `ingress.<region>.coralogix.com:443` with TLS.
+- **Required direct-export env vars.** Show `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS`, `OTEL_SERVICE_NAME`, and `OTEL_RESOURCE_ATTRIBUTES` in every setup answer. For HTTP/protobuf traces use `https://ingress.<region>.coralogix.com:443/v1/traces`; for gRPC use `https://ingress.<region>.coralogix.com:443` (Java/.NET) or the standard Coralogix bare form `ingress.<region>.coralogix.com:443` (Python/Node.js/Go). Python and Node.js also accept `https://host:port`; Go `WithEndpoint` does not.
 - **Telemetry quality checks.** Keep span names low-cardinality, avoid sensitive data in all telemetry, keep metric attributes bounded, use structured single-line logs with trace/span correlation, and include validation steps for the configured signal.
 - **Official install references.** For new setup answers, link to `https://opentelemetry.io/docs/languages/<lang>/getting-started/` instead of writing install commands. Still name required package artifacts when they affect correctness.
 - **Validation paths.** Traces → Coralogix UI **Explore → Tracing**. Metrics → **Grafana → Explore → Metric Browser**. Logs → **Logs**.

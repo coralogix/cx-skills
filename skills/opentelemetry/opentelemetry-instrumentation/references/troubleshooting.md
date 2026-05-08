@@ -17,7 +17,7 @@ reports from the application SDK side (not collector-side issues).
 | No traces in Coralogix, no error in app | Endpoint wrong or auth header missing | Enable SDK debug logging; check `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_EXPORTER_OTLP_HEADERS` |
 | 401 / Unauthorized from Coralogix | Wrong API key type or malformed auth header | Confirm key is Send-Your-Data; check `Authorization=Bearer <key>` format |
 | `connection refused` or timeout | Wrong region / DNS failure / port blocked | Verify endpoint `ingress.<region>.coralogix.com:443`; test connectivity with `curl` or `nc` |
-| TLS handshake failure | Go: missing `credentials.NewTLS`; .NET: wrong scheme | Add TLS credentials (Go) or check `https://` prefix (.NET auto-instr) |
+| TLS handshake failure or silent export failure | Go: missing `credentials.NewTLS`; Java/.NET: endpoint missing `https://` scheme | Add TLS credentials (Go); for Java and .NET ensure endpoint is `https://ingress.<region>.coralogix.com:443` — bare `host:port` fails because the Java/dotnet OTLP exporter performs URI parsing |
 | Traces arrive but no APM Transactions | Missing `CoralogixTransactionSampler` | Add `CoralogixTransactionSampler` to sampler chain (Python, Node.js, Go) |
 | Python: traces arrive but auth fails intermittently | OTLP header not URL encoded | Replace `Bearer <key>` with `Bearer%20<key>` in `OTEL_EXPORTER_OTLP_HEADERS` |
 | Node.js: no transactions despite setting up CoralogixTransactionSampler | Using bundled auto-instrumentation | Switch to individual `instrumentation.js` method |
@@ -137,7 +137,9 @@ No data in Coralogix?
 │       └─ No errors, 0 spans exported → nothing instrumented; no traffic; sampler dropping all
 │
 ├─ Is OTEL_EXPORTER_OTLP_ENDPOINT correct?
-│   Format: ingress.<region>.coralogix.com:443 (gRPC) or https://....:443/v1/traces (HTTP)
+│   Format: https://ingress.<region>.coralogix.com:443 (Java/.NET gRPC),
+│   ingress.<region>.coralogix.com:443 (standard Python/Node.js/Go gRPC),
+│   or https://....:443/v1/traces (HTTP/protobuf)
 │
 ├─ Is OTEL_EXPORTER_OTLP_HEADERS correct?
 │   Format: Authorization=Bearer <key>

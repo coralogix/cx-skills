@@ -34,7 +34,7 @@ See: https://coralogix.com/docs/user-guides/latest-updates/deprecations/dotnet-s
 
 Both paths export traces, metrics, and logs to Coralogix via OTLP/gRPC.
 
-**Requirements:** .NET SDK 6.0 or later.
+**Requirements:** .NET SDK 8.0 or later (for .NET Framework: 4.6.2 or later).
 
 ## Auto-Instrumentation (Zero-Code)
 
@@ -74,7 +74,8 @@ Relevant NuGet package artifacts to name in manual setup answers:
 
 **Important:** .NET OTLP exporters
 require the full `https://` URI scheme — use `https://ingress.<region>.coralogix.com:443`,
-not the bare `host:port` form used by Java, Python, Go, and Node.js.
+not the bare `host:port` form used by Go `WithEndpoint` and commonly shown in Python/Node.js
+Coralogix gRPC examples. Java also requires the `https://` URI form.
 
 ### Step 1: Create and configure the app
 
@@ -323,4 +324,4 @@ outgoing `HttpClient` calls and does NOT fix broken incoming trace propagation.
 | NLog bridge + `Microsoft.Extensions.Logging` NLog provider both active | Duplicate logs | Use only one path |
 | `OpenTelemetry.Exporter.OpenTelemetryProtocol < 1.8.0` | Exceptions not emitted as semantic convention fields | Upgrade to `>= 1.8.0` |
 | Exceptions thrown but spanmetrics show `STATUS_CODE_UNSET` | Span status not set explicitly | Call `activity.SetStatus(ActivityStatusCode.Error, message)` in every catch block |
-| Auto-instrumentation fails silently on Amazon Linux 2 | GLIBC 2.26 on AL2 is below the required 2.27 | Upgrade to Amazon Linux 2023 (GLIBC 2.34+) or use manual SDK instrumentation |
+| Auto-instrumentation on musl-based systems (Alpine) | glibc build fails on musl libc | Use the musl-specific build of the auto-instrumentation profiler |

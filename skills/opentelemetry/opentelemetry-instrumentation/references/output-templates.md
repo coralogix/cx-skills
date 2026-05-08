@@ -38,7 +38,7 @@ Use for: "How do I instrument my X app with OpenTelemetry to send to Coralogix?"
 # HTTP/protobuf traces endpoint
 export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443/v1/traces"
 export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
-# gRPC endpoint: no scheme, no path, port 443 with TLS
+# gRPC endpoint: standard bare form for Python/Node.js/Go; Java/.NET use https://host:port
 # export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
 # Python exception: URL-encode the space in env-var headers
 # export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20<CORALOGIX_API_KEY>"
@@ -78,7 +78,7 @@ Use for: "Review my OTel instrumentation code" or "What am I missing?"
 
 | Item | Status | Notes |
 |---|---|---|
-| OTLP endpoint format | ✅ / ❌ | gRPC Java/Python/Node/Go: `ingress.<region>.coralogix.com:443` with TLS; .NET gRPC: `https://ingress.<region>.coralogix.com:443`; HTTP/proto: `https://ingress.<region>.coralogix.com:443/v1/<signal>` |
+| OTLP endpoint format | ✅ / ❌ | gRPC Java/.NET: `https://ingress.<region>.coralogix.com:443` (URI required); gRPC Python/Node.js: prefer `ingress.<region>.coralogix.com:443`, but `https://host:port` is accepted; Go `WithEndpoint`: bare host:port only; HTTP/proto: `https://ingress.<region>.coralogix.com:443/v1/<signal>` |
 | Auth header present | ✅ / ❌ | `Authorization=Bearer <key>`; Python env vars require `Authorization=Bearer%20<key>` |
 | `cx.application.name` set | ✅ / ❌ | Required resource attribute |
 | `cx.subsystem.name` set | ✅ / ❌ | Required resource attribute |

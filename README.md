@@ -11,6 +11,7 @@ APIs, naming conventions, collector behavior, SDK instrumentation, and pipeline 
 | Skill | Use case | Entry point |
 |---|---|---|
 | `opentelemetry-collector` | OpenTelemetry Collector deployment, configuration, and troubleshooting for Helm, ECS, standalone, and installer flows. | [`skills/opentelemetry/opentelemetry-collector/SKILL.md`](skills/opentelemetry/opentelemetry-collector/SKILL.md) |
+| `opentelemetry-instrumentation` | Instrument Java, Python, Node.js, .NET, and Go applications with OpenTelemetry SDKs — OTLP exporter setup, Coralogix auth headers, APM transactions, Kubernetes Operator injection, and missing-telemetry debugging. | [`skills/opentelemetry/opentelemetry-instrumentation/SKILL.md`](skills/opentelemetry/opentelemetry-instrumentation/SKILL.md) |
 | `opentelemetry-ottl` | OpenTelemetry Transformation Language for transform, filter, and routing questions across logs, metrics, and traces. | [`skills/opentelemetry/opentelemetry-ottl/SKILL.md`](skills/opentelemetry/opentelemetry-ottl/SKILL.md) |
 
 Every skill in this repo is continuously evaluated against all three major LLM providers to ensure consistent cross-model reliability:

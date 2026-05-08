@@ -30,6 +30,12 @@ OpenTelemetry:
   chains, agent to cluster-collector to gateway topology, the `otel-integration`
   Helm chart, ECS EC2/Fargate, standalone installs, Docker, and the universal
   installer.
+- [opentelemetry-instrumentation](skills/opentelemetry/opentelemetry-instrumentation/SKILL.md):
+  Instrument Java, Python, Node.js, .NET, and Go applications with OpenTelemetry
+  SDKs to send traces, metrics, and logs to Coralogix. Covers OTLP exporter env
+  vars, Coralogix auth headers, `cx.application.name`/`cx.subsystem.name` resource
+  attributes, APM transaction samplers, Kubernetes Operator injection, and
+  debugging missing telemetry from the SDK side.
 - [opentelemetry-ottl](skills/opentelemetry/opentelemetry-ottl/SKILL.md):
   Write and debug OpenTelemetry Transformation Language (OTTL) statements for
   transform processors, filter processors, and routing connectors. Covers

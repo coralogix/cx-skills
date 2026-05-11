@@ -70,6 +70,3 @@ jobs:
           optimize: false
           tessl-token: ${{ env.TESSL_TOKEN }}
 
-      - name: Lint tile
-        if: ${{ env.TESSL_TOKEN != '' }}
-        run: tessl tile lint

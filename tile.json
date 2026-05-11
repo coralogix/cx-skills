@@ -1,5 +1,5 @@
 {
-  "name": "cx-skills/cx-opentelemetry",
+  "name": "coralogix/agent-skills",
   "version": "0.1.0",
   "summary": "OpenTelemetry Collector deployment, instrumentation (Java/Python/Node.js/.NET/Go), and OTTL pipeline transforms for Coralogix — coralogix exporter config, Helm chart selection, Kubernetes topology, ECS/EKS/GKE deployments, SDK setup, APM transactions, and OTTL cardinality/PII/routing.",
   "skills": {

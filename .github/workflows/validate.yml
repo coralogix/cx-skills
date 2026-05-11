@@ -57,19 +57,13 @@ jobs:
           done < <(find skills -name "SKILL.md")
           exit $exit_code
 
-      - name: Set up Tessl CLI
-        if: env.TESSL_TOKEN != ''
-        uses: tesslio/setup-tessl@v2
-        with:
-          token: ${{ env.TESSL_TOKEN }}
-
-      - name: Lint tile
-        if: env.TESSL_TOKEN != ''
-        run: tessl tile lint
-
       - name: Review and optimize skills
-        if: env.TESSL_TOKEN != '' && github.event_name == 'pull_request'
+        if: ${{ env.TESSL_TOKEN != '' && github.event_name == 'pull_request' }}
         uses: tesslio/skill-review-and-optimize@bff9490027d60847df6494fdac7dccfb3ad82948
         with:
           optimize: true
           tessl-token: ${{ env.TESSL_TOKEN }}
+
+      - name: Lint tile
+        if: ${{ env.TESSL_TOKEN != '' }}
+        run: tessl tile lint

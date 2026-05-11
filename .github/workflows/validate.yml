@@ -7,12 +7,18 @@ on:
     paths:
       - "skills/**"
       - "tile.json"
+      - ".claude-plugin/**"
+      - ".cursor-plugin/**"
+      - ".codex-plugin/**"
   pull_request:
     branches:
       - master
     paths:
       - "skills/**"
       - "tile.json"
+      - ".claude-plugin/**"
+      - ".cursor-plugin/**"
+      - ".codex-plugin/**"
 
 permissions:
   contents: read
@@ -59,7 +65,7 @@ jobs:
 
       - name: Review and optimize skills
         if: ${{ env.TESSL_TOKEN != '' && github.event_name == 'pull_request' }}
-        uses: tesslio/skill-review-and-optimize@bff9490027d60847df6494fdac7dccfb3ad82948
+        uses: tesslio/skill-review-and-optimize@2a22a9760c3990cd1a67fb391f18939363c9d5f8
         with:
           optimize: true
           tessl-token: ${{ env.TESSL_TOKEN }}

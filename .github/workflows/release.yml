@@ -48,6 +48,7 @@ jobs:
 
   publish-tile:
     name: Publish Tessl tile
+    needs: tag-and-release
     if: startsWith(github.event.head_commit.message, 'chore: release v')
     runs-on: ubuntu-latest
     permissions:

@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm using Node.js with the bundled auto-instrumentation approach (@opentelemetry/auto-instrumentations-node via NODE_OPT",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-transaction",
+      "description": "The response contains \"transaction\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-coralogixtransactionsampler",
+      "description": "The response contains \"CoralogixTransactionSampler\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-bundled",
+      "description": "The response contains \"bundled\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-coralogix-opentelemetry",
+      "description": "The response contains \"@coralogix/opentelemetry\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-suggests-any-other-root-cause-mentio",
+      "description": "Explains that bundled auto-instrumentation is NOT supported for Coralogix transactions, and the user must switch to the individual auto-instrumentation method (custom instrumentation.js) or manual instrumentation, install the \"@coralogix/opentelemetry\" npm package, and add CoralogixTransactionSampler to the sampler chain. FAIL if it suggests any other root cause, does not mention the bundled limitation, or does not name the \"@coralogix/opentelemetry\" package.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

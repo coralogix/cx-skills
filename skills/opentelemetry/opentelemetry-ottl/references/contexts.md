@@ -26,6 +26,8 @@ attributes["key"]              # record-level attributes (log/span/datapoint-lev
 resource.attributes["key"]     # resource-level attributes (accessible from any context)
 instrumentation_scope.name     # scope name
 body                           # log body (log context only)
+time                           # log event timestamp as time.Time (log context only)
+time_unix_nano                 # log event timestamp as epoch nanoseconds (log context only)
 severity_number                # log severity number (log context only)
 name                           # span name (span context) or metric name (metric context)
 status.code                    # span status code (span context)
@@ -193,8 +195,8 @@ Guard before using a value:
 | Logical or | `attributes["env"] == "prod" or attributes["env"] == "staging"` |
 | Logical not | `not IsMatch(body, "health.*")` |
 | Pattern match | `IsMatch(attributes["url"], "^/api/v[0-9]+/.*")` |
-| Type check | `IsMap(body)` |
-| String type check | `IsString(body)` |
+| Type check | `IsMap(body)`, `IsString(attributes["retries"])`, `IsInt(attributes["retries"])` |
+| Span status enum | `status.code == STATUS_CODE_ERROR` |
 
 The full operator and literal reference is in the [OTTL grammar](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/ottl/README.md#grammar).
 

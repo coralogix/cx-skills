@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: My collector pipeline stops processing logs entirely whenever it encounters a log with a missing field. The transform pr",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-error-mode",
+      "description": "The response contains \"error_mode\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "recommends-setting-error-mode-to-ignore-or-si",
+      "description": "Recommends setting error_mode to ignore (or silent) explicitly and warns that the default propagate causes pipeline halts / data loss. Includes a YAML snippet showing the error_mode key in a processor block.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

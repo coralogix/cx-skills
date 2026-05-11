@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm using the coralogix-logger npm package to send logs from my Node.js app. How do I configure it to send to a differen",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "deprecated-end-of-life-end",
+      "description": "The response matches the pattern: (?i)deprecated|end.of.life|end of life",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-opentelemetry",
+      "description": "The response contains \"opentelemetry\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-june-30",
+      "description": "The response contains \"June 30\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-provides-region-configuration-instru",
+      "description": "Informs the user that coralogix-logger is deprecated (EOL June 30, 2026) and redirects them to OpenTelemetry Node.js SDK instrumentation instead of answering the region configuration question for the legacy package. FAIL if it provides region configuration instructions for coralogix-logger, or does not mention the deprecation.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

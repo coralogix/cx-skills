@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I want to drop all health check spans from my traces. Should I use the transform processor with a delete or set statemen",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-filter",
+      "description": "The response contains \"filter\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-suggests-implementing-the-drop-via-transfo",
+      "description": "Explains that the filter processor drops records when its condition matches (match = drop), and that transform is for mutating telemetry rather than removing it. A response that suggests implementing the drop via transform (delete statements, conditional set, error_mode tricks) is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

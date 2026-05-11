@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We want Infrastructure Explorer to populate for our K8s cluster. We've enabled kubernetesResources preset and we see log",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-x-coralogix-ingress",
+      "description": "The response contains \"x-coralogix-ingress\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-metadata-as-otlp-logs-v1",
+      "description": "The response contains \"metadata-as-otlp-logs/v1\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "coralogix-resource-catalog-separate",
+      "description": "The response matches the pattern: (?i)(coralogix/resource_catalog|separate exporter|dedicated exporter)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

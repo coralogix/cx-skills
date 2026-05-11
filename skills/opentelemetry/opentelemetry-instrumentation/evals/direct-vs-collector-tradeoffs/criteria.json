@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Should I use the OpenTelemetry Collector or send directly from my app SDK to Coralogix?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-collector",
+      "description": "The response contains \"collector\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-direct",
+      "description": "The response contains \"direct\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-recommends-one-path-without-mentioni",
+      "description": "Explains the tradeoffs: direct export is simpler and good for getting started, while via-collector adds batching, retry, enrichment (k8sattributes, resource detection), and tail sampling. Does not recommend one over the other without asking about the user's context. FAIL if it recommends one path without mentioning the tradeoff.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

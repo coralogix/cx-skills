@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: None of my logs are reaching Coralogix. I've tried adding a transform processor with set(attributes[\"forwarded\"], true) ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "receiver-exporter-pipeline",
+      "description": "The response matches the pattern: (?i)(receiver|exporter|pipeline|connectivity|DNS|wiring)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "not-ottl-transform",
+      "description": "The response matches the pattern: (?i)(not.*(OTTL|transform)|OTTL.*(not|isn't)|isn't.*(OTTL|transform))",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-response-prescribes-ottl-fixes-transform-t",
+      "description": "Declines to treat this as an OTTL problem and redirects to infrastructure troubleshooting \u2014 receiver connectivity, exporter endpoint/auth, pipeline wiring, or Coralogix endpoint configuration \u2014 before offering any OTTL YAML. If the response prescribes OTTL fixes (transform tweaks, different statements) as the primary answer, that is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

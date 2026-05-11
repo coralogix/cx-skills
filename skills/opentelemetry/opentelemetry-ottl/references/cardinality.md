@@ -79,6 +79,22 @@ processors:
           - replace_pattern(name, "/[0-9]+(/|$)", "/:id$1")
 ```
 
+### Delete span attributes by key prefix
+
+Use `delete_matching_keys` when a whole family of span attributes should be removed, such as
+captured request headers. Run it in `context: span` so `attributes` means span attributes, not
+resource or metric datapoint attributes.
+
+```yaml
+processors:
+  transform/remove-span-headers:
+    error_mode: ignore
+    trace_statements:
+      - context: span
+        statements:
+          - delete_matching_keys(attributes, "^http\\.request\\.header\\.")
+```
+
 ### Example: GraphQL resolver cardinality
 
 GraphQL spans produce names like `graphql.resolve User.profile.name`, `graphql.resolve User.posts[0]`.

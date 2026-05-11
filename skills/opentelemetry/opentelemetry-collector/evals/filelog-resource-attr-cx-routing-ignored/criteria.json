@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We set up the Coralogix Linux host integration with a filelog receiver. To route logs from different files to different ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-application-name-attributes",
+      "description": "The response contains \"application_name_attributes\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-subsystem-name-attributes",
+      "description": "The response contains \"subsystem_name_attributes\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-says-to-rename-the-operator-output-keys-or",
+      "description": "Explains that the coralogix exporter only does dynamic resource-attribute routing when application_name_attributes and subsystem_name_attributes are explicitly listed in the exporter config \u2014 and that a hardcoded application_name value takes precedence over the attribute lookup unless the attributes list is configured. The fix is to add application_name_attributes: [cx.application.name] (and the subsystem equivalent) to the exporter block. A response that says to rename the operator output keys, or that focuses only on \"set the resource attribute\" without mentioning these two exporter fields, is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

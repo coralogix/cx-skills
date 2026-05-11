@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Give me a minimum coralogix exporter block for region EU2 using the standard send-your-data env var. Respond with just t",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "yaml-domain-eu2-coralogix-com",
+      "description": "The response matches the pattern: (?ms)```yaml.*domain:\\s*[\"']?eu2\\.coralogix\\.com[\"']?.*```",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "env-coralogix-private-key",
+      "description": "The response matches the pattern: \\$\\{env:CORALOGIX_PRIVATE_KEY\\}",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-uses-an-endpoint-field-a-full-url-https-a",
+      "description": "The response is a minimal coralogix exporter block in a ```yaml fenced code block with `domain: \"eu2.coralogix.com\"` and `private_key: \"${env:CORALOGIX_PRIVATE_KEY}\"`. A response that uses an `endpoint:` field, a full URL (`https://...`), a UI hostname (`team.coralogix.com`, `coralogix.in`, `coralogixsg.com`), or the unbracketed `$CORALOGIX_PRIVATE_KEY` form is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

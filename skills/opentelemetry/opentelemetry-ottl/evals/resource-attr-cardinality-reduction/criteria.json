@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our metrics backend is being overwhelmed \u2014 we have hundreds of thousands of unique time series. The main culprits seem t",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "context-resource",
+      "description": "The response matches the pattern: context:? ?resource",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "keep-keys-delete-matching-keys-delete-key",
+      "description": "The response matches the pattern: (keep_keys|delete_matching_keys|delete_key)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

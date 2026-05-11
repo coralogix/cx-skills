@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: My Node.js service injects a traceparent header into outgoing HTTP requests, but when the request reaches our .NET Frame",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-propagat",
+      "description": "The response contains \"propagat\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-w3c",
+      "description": "The response contains \"W3C\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-addaspnetinstrumentation",
+      "description": "The response contains \"AddAspNetInstrumentation\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-identifies-the-node-js-injection-as",
+      "description": "Explains that .NET Framework does not extract incoming W3C traceparent headers automatically and requires server-side instrumentation: OpenTelemetry.Instrumentation.AspNet must be installed and AddAspNetInstrumentation() called on the TracerProvider so the server reads and continues the incoming trace context. Must NOT suggest AddHttpClientInstrumentation \u2014 that only instruments outgoing HttpClient calls and does nothing for incoming request propagation. Should also recommend confirming the upstream Node.js service sends W3C format headers (not B3/Zipkin) and that no intermediaries strip the traceparent header. FAIL if it identifies the Node.js injection as the problem, if it does not mention AddAspNetInstrumentation (or AddAspNetCoreInstrumentation for .NET Core), or if it recommends AddHttpClientInstrumentation as the fix.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

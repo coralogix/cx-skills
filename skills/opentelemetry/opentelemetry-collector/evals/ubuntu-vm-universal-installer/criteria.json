@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: I have a single Ubuntu 22.04 VM. I want to ship its system logs and hostmetrics to Coralogix with the smallest number of",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "installer-otel-curl",
+      "description": "The response matches the pattern: (?i)(installer|otel-installer|curl)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-coralogix-private-key",
+      "description": "The response contains \"CORALOGIX_PRIVATE_KEY\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-coralogix-domain",
+      "description": "The response contains \"CORALOGIX_DOMAIN\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

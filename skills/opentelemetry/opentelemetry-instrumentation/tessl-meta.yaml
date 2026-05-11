@@ -1,0 +1,67 @@
+# Tessl scenario metadata for skills/opentelemetry/opentelemetry-instrumentation
+# One entry per scenario, matching the order in scenarios.yaml.
+# name:       folder name under evals/ (short, descriptive, kebab-case)
+# capability: what skill capability this scenario exercises
+
+- name: java-agent-spring-boot-setup
+  capability: java-agent-setup
+
+- name: python-bearer-space-url-encoded-env-var
+  capability: python-env-var-headers-encoding
+
+- name: nodejs-bundled-auto-no-transactions
+  capability: nodejs-transaction-sampler
+
+- name: go-manual-tls-sampler-ap2-setup
+  capability: go-manual-tls-setup
+
+- name: python-programmatic-headers-dict-case
+  capability: python-programmatic-headers-shape
+
+- name: python-tuple-headers-bearer-percent20-bug
+  capability: python-programmatic-headers-encoding
+
+- name: python-logs-loggerprovider-setlevel
+  capability: python-logs-setup
+
+- name: python-short-lived-script-flush-timing
+  capability: python-short-lived-script
+
+- name: dotnet-manual-sdk-https-scheme-eu1
+  capability: dotnet-manual-instrumentation
+
+- name: nodejs-http-proto-missing-v1traces-path
+  capability: nodejs-http-proto-endpoint
+
+- name: direct-vs-collector-tradeoffs
+  capability: export-path-decision
+
+- name: out-of-scope-collector-config-deflection
+  capability: scope-deflection
+
+- name: java-withspan-custom-span-annotation
+  capability: java-withspan-annotation
+
+- name: go-required-env-vars-direct-eu2
+  capability: go-required-env-vars
+
+- name: dotnet-auto-endpoint-missing-https-scheme
+  capability: dotnet-auto-endpoint-https
+
+- name: nodejs-traceparent-not-propagated-to-dotnet-framework
+  capability: context-propagation-cross-language
+
+- name: go-legacy-sdk-deprecation-redirect
+  capability: legacy-sdk-deprecation
+
+- name: nodejs-coralogix-logger-deprecation-redirect
+  capability: legacy-sdk-deprecation
+
+- name: dotnet-coralogixcoresdk-deprecation-redirect
+  capability: legacy-sdk-deprecation
+
+- name: java-k8s-operator-injection
+  capability: k8s-operator-injection
+
+- name: telemetry-quality-cardinality-sensitive
+  capability: telemetry-quality-safeguards

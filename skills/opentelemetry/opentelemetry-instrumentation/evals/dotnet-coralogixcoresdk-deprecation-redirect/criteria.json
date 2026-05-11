@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: We have a .NET Core service using CoralogixCoreSDK. We want to add trace correlation to our logs. How do we do that with",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-deprecated",
+      "description": "The response contains \"deprecated\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-opentelemetry",
+      "description": "The response contains \"opentelemetry\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-june-30",
+      "description": "The response contains \"June 30\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-provides-any-coralogixcoresdk-config",
+      "description": "Recognizes that CoralogixCoreSDK is a deprecated Coralogix .NET SDK (EOL June 30, 2026) and redirects the user to OpenTelemetry .NET instrumentation rather than explaining how to add trace correlation within the legacy SDK. FAIL if it provides any CoralogixCoreSDK configuration guidance without immediately flagging the deprecation and redirecting to OTel.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

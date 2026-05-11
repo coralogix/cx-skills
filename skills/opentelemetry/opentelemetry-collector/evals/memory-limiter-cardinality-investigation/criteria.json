@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: memory_limiter has been firing on our gateway continuously for the last two weeks. We already tripled limit_mib and it's",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "cardinalit-high",
+      "description": "The response matches the pattern: (?i)(cardinalit|high[- ]cardinalit)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "spanmetrics-tail-sampling",
+      "description": "The response matches the pattern: (?i)(spanmetrics|tail[_ -]?sampling|dimension|upstream|volume)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

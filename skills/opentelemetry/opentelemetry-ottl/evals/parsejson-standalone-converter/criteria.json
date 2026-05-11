@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I added ParseJSON(body) as a standalone statement in my transform processor. It loads without errors but nothing happens",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-converter",
+      "description": "The response contains \"converter\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "merge-maps-set",
+      "description": "The response matches the pattern: (merge_maps|set\\()",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

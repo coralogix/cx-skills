@@ -1,0 +1,103 @@
+# Tessl scenario metadata for skills/opentelemetry/opentelemetry-collector
+# One entry per scenario, matching the order in scenarios.yaml.
+# name:       folder name under evals/ (short, descriptive, kebab-case)
+# capability: what skill capability this scenario exercises
+
+- name: coralogix-exporter-domain-env-var-syntax
+  capability: coralogix-exporter-config
+
+- name: processor-order-memory-limiter-batch
+  capability: processor-pipeline-ordering
+
+- name: deprecated-otel-agent-chart-redirect
+  capability: helm-chart-selection
+
+- name: gke-autopilot-warden-hostpath
+  capability: gke-autopilot-deployment
+
+- name: ecs-ec2-daemonset-localhost-network
+  capability: ecs-ec2-deployment
+
+- name: ecs-ec2-daemonset-ecs-detector-remove
+  capability: ecs-ec2-deployment
+
+- name: ecs-fargate-sidecar-depends-on-healthcheck
+  capability: ecs-fargate-deployment
+
+- name: linux-wizard-telemetry-sdk-stripped
+  capability: linux-standalone-deployment
+
+- name: windows-high-cpu-defender-exclusion
+  capability: windows-deployment
+
+- name: ubuntu-vm-universal-installer
+  capability: linux-standalone-deployment
+
+- name: no-traces-not-ottl-deflection
+  capability: scope-deflection
+
+- name: resource-catalog-cluster-collector-only
+  capability: k8s-topology
+
+- name: tail-sampling-daemonset-gateway-placement
+  capability: tail-sampling-placement
+
+- name: spanmetrics-before-tail-sampling-agent
+  capability: spanmetrics-placement
+
+- name: infra-explorer-resource-catalog-exporter
+  capability: infra-explorer-setup
+
+- name: k8sattributes-passthrough-mode
+  capability: k8s-api-rate-limiting
+
+- name: eks-fargate-stale-manifest-update
+  capability: eks-fargate-deployment
+
+- name: memory-limiter-page-cache-not-leak
+  capability: memory-management
+
+- name: memory-limiter-cardinality-investigation
+  capability: memory-management
+
+- name: fleet-manager-supervisor-precedence
+  capability: fleet-management
+
+- name: opamp-supervisor-endpoint-format
+  capability: opamp-fleet-management
+
+- name: windows-opamp-image-version
+  capability: opamp-fleet-management
+
+- name: env-var-bracket-syntax-upgrade
+  capability: coralogix-exporter-config
+
+- name: span-name-replace-yaml-envprovider-escape
+  capability: ottl-escaping
+
+- name: tail-sampling-dropped-too-early-replicas
+  capability: tail-sampling-scaling
+
+- name: ecs-fargate-sidecar-ecs-detector-enable
+  capability: ecs-fargate-deployment
+
+- name: coralogix-exporter-minimum-yaml-output
+  capability: coralogix-exporter-config
+
+- name: gateway-spanmetrics-tail-sampling-walkthrough
+  capability: spanmetrics-placement
+
+- name: target-allocator-debug-port-forward
+  capability: prometheus-target-allocator
+
+- name: filelog-resource-attr-cx-routing-ignored
+  capability: coralogix-exporter-config
+
+- name: filelog-multiline-stacktrace-cri-logtag
+  capability: k8s-log-collection
+
+- name: http-protocol-profiles-signal-upgrade
+  capability: coralogix-exporter-config
+
+- name: spanmetrics-daemonset-gateway-apm-empty
+  capability: spanmetrics-placement

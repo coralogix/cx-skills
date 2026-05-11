@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: exporters:\n  coralogix:\n    domain: \"$CORALOGIX_DOMAIN\"\n    private_key: \"$PRIVATE_KEY\"\n\nThis was working on otel-contri",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "env-z",
+      "description": "The response matches the pattern: \\$\\{env:|\\$\\{[A-Z_]+\\}",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "bracket-brace-curly",
+      "description": "The response matches the pattern: (?i)(bracket|brace|curly|\\$\\{)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-recent-collector-coralogix-expo",
+      "description": "Explains that recent collector / coralogix-exporter versions (\u2265 v0.76) stopped expanding the unbracketed `$VAR` form silently \u2014 the bracketed `${env:VAR}` form is now required. Points at both `domain:` and `private_key:` needing the fix.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I want to delete attributes where the key starts with \"http.request.header.\" from spans before export. What's the OTTL w",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-delete-matching-keys",
+      "description": "The response contains \"delete_matching_keys\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "context-span",
+      "description": "The response matches the pattern: context:? ?span",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

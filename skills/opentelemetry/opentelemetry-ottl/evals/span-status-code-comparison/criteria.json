@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: I tried set(attributes[\"is_error\"], status.code == 2) on spans, but my condition behaves strangely. How should I check s",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-status-code-error",
+      "description": "The response contains \"STATUS_CODE_ERROR\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "status-code",
+      "description": "The response matches the pattern: status\\.code",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "context-span",
+      "description": "The response matches the pattern: context:? ?span",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

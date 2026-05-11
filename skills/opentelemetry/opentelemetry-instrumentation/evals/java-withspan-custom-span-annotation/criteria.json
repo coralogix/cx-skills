@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: My Java app sends traces fine but I want to add a custom span to a specific method. How do I do it without changing the ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-withspan",
+      "description": "The response contains \"@WithSpan\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-opentelemetry-instrumentation-annotations",
+      "description": "The response contains \"opentelemetry-instrumentation-annotations\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-suggests-rewriting-the-exporter-setu",
+      "description": "Describes the @WithSpan annotation approach \u2014 noting that the opentelemetry-instrumentation-annotations dependency is required without listing installation commands, and annotating the target method. Mentions that the Java agent must already be running for @WithSpan to work. FAIL if it suggests rewriting the exporter setup or adding manual SDK init code.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

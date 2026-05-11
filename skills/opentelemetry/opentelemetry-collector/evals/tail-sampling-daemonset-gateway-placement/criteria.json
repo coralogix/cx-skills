@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: We have tail_sampling configured in our daemonset otel-agent. We're seeing that many of our traces come through incomple",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-gateway",
+      "description": "The response contains \"gateway\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "loadbalanc-load-balanc",
+      "description": "The response matches the pattern: (?i)(loadbalanc|load.balanc)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "trace-id-consistent",
+      "description": "The response matches the pattern: (?i)(trace[_ ]?id|consistent[_ -]?hash)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-tail-sampling-cannot-live-on-da",
+      "description": "Explains that tail sampling cannot live on daemonset agents because each agent only sees spans from its own node \u2014 a single trace is split across agents and the sampler makes decisions on partial data. Recommends moving tail_sampling to a central gateway tier, fed via a `loadbalancing` exporter that routes by `trace_id` so all spans for a trace land on the same gateway replica.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

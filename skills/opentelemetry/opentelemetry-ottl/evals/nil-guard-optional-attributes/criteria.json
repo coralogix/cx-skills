@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: My transform works fine in dev but in production it crashes on certain spans with errors about invalid path segments. Th",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "nil-null-not",
+      "description": "The response matches the pattern: (!= nil|!= null|not nil|where.*nil|nil.*guard)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "prescribes-a-concrete-guard-pattern-where-att",
+      "description": "Prescribes a concrete guard pattern \u2014 where attributes[...] != nil, IsMap, IsString, or an equivalent \u2014 rather than generic advice like \"handle errors appropriately\" or \"add validation\". Must show or describe the guard as part of the OTTL statement itself.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

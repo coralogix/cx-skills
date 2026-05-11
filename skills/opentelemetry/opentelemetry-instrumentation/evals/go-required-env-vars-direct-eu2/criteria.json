@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for: Give me the required direct-export environment variables for sending OpenTelemetry traces from a Go service to Coralogix",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-otel-exporter-otlp-endpoint",
+      "description": "The response contains \"OTEL_EXPORTER_OTLP_ENDPOINT\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-ingress-eu2-coralogix-com-443",
+      "description": "The response contains \"ingress.eu2.coralogix.com:443\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-exporter-otlp-headers",
+      "description": "The response contains \"OTEL_EXPORTER_OTLP_HEADERS\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-service-name",
+      "description": "The response contains \"OTEL_SERVICE_NAME\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-resource-attributes",
+      "description": "The response contains \"OTEL_RESOURCE_ATTRIBUTES\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-uses-eu2-coralogix-com-443-without-t",
+      "description": "Shows all required env vars: OTEL_EXPORTER_OTLP_ENDPOINT using the gRPC endpoint ingress.eu2.coralogix.com:443, OTEL_EXPORTER_OTLP_HEADERS with Authorization=Bearer, OTEL_SERVICE_NAME, and OTEL_RESOURCE_ATTRIBUTES containing cx.application.name and cx.subsystem.name. FAIL if it uses eu2.coralogix.com:443 without the ingress prefix.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

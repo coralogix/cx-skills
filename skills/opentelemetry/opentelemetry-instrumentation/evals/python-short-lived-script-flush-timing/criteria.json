@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: I wrote a Python script that records some spans and a counter metric, then exits. The script finishes in about half a se",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-simplespanprocessor",
+      "description": "The response contains \"SimpleSpanProcessor\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-batchspanprocessor",
+      "description": "The response contains \"BatchSpanProcessor\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-periodicexporting",
+      "description": "The response contains \"PeriodicExporting\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-only-identifies-one-issue-or-if-it-m",
+      "description": "Identifies TWO root causes specific to short-lived scripts: (1) BatchSpanProcessor queues spans and may not flush before the process exits \u2014 for scripts use SimpleSpanProcessor which exports synchronously on span.end(); (2) PeriodicExportingMetricReader only exports on its timed interval \u2014 a script that exits before the interval fires exports zero metrics; fix by sleeping longer than the export interval or calling force_flush() on the reader before shutdown(). FAIL if it only identifies one issue, or if it does not mention both the span processor and the metric reader export timing problem.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

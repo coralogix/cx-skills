@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We've deployed the ECS EC2 CDOT daemonset. Our applications in other tasks are trying to send OTLP to localhost:4317 but",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "node-ip-host",
+      "description": "The response matches the pattern: (?i)(node[ -]ip|host[ -]ip|instance[ -]ip|169\\.254\\.169\\.254|ec2 metadata|private ip)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "host-network-hostnetwork",
+      "description": "The response matches the pattern: (?i)(host[ -]?network|hostNetwork|not localhost|network namespace|different container)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-ecs-tasks-each-get-their-own-ne",
+      "description": "Explains that ECS tasks each get their own network namespace, so an app in one task cannot reach the daemonset over `localhost` \u2014 apps must target the EC2 host IP (obtainable from the instance metadata service at 169.254.169.254, or the task-level environment), and the CDOT daemonset must run with `networkMode: host` / `hostNetwork`.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

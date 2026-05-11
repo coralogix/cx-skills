@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We route logs to a Coralogix subsystem using the coralogix exporter with subsystem_name_attributes: [\"subsystem\"]. Our a",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-resource-attributes",
+      "description": "The response contains \"resource.attributes\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-set",
+      "description": "The response contains \"set(\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-tell-the-customer-to-rename-the-field-in-t",
+      "description": "Identifies the root cause: the coralogix exporter reads application_name_attributes / subsystem_name_attributes from the RESOURCE attributes, but the customer's field lives on the log-record attributes. Proposes an OTTL transform that copies the value into resource.attributes (e.g. set(resource.attributes[\"subsystem\"], attributes[\"log.file.subsystem\"])) inside context: log. Does NOT tell the customer to rename the field in their application or to change the exporter configuration.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

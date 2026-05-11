@@ -1,0 +1,9 @@
+{
+  "name": "cx-skills",
+  "dependencies": {
+    "cx-skills/cx-opentelemetry": {
+      "version": "0.1.0",
+      "source": "file:."
+    }
+  }
+}

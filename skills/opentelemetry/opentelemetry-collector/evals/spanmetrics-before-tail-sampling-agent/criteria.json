@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our APM dashboards show traces arriving but zero errors and no p99 latencies. The spanmetrics connector is enabled and w",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-agent",
+      "description": "The response contains \"agent\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "before-upstream-of",
+      "description": "The response matches the pattern: (?i)(before|upstream of|prior to|ahead of).*(sampling|tail)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-recommends-raising-the-sample-rate-samplin",
+      "description": "Identifies that `spanmetrics` on the gateway only sees the sampled subset of traces (after tail_sampling), so error rates and latency percentiles are computed over a biased sample. Recommends moving `spanmetrics` to the AGENT pipeline, upstream of any sampling. A response that recommends raising the sample rate, sampling 100%, or reworking the sampling policy as the fix is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

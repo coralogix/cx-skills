@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm trying to copy the k8s namespace name from the resource down into each log record as an attribute so I can filter on",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-resource-attributes",
+      "description": "The response contains \"resource.attributes\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-under-context-log-the-bare-attr",
+      "description": "Explains that under context: log the bare attributes[...] refers to the log-record attributes, not the resource attributes, and that the fix is to use resource.attributes[...] \u2014 i.e. diagnoses the wrong-context cause, not just prescribes a path rewrite.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

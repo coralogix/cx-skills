@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our K8s API server has been hitting rate limits since we deployed our agents. Looking at the configs we have full k8satt",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-passthrough",
+      "description": "The response contains \"passthrough\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-removes-k8sattributes-from-daemonset-clust",
+      "description": "Recommends keeping full `extract.metadata` in exactly one role (typically the gateway) and setting `passthrough: true` on the other roles so they forward pod UID/name without issuing their own API-server lookups. A response that removes k8sattributes from daemonset/cluster-collector entirely (instead of using passthrough) or that says to add caching rather than reduce extraction roles is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

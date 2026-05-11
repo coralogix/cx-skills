@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: No traces are reaching Coralogix. I've added a transform processor with set(attributes[\"forwarded\"], true) to make sure ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "receiver-exporter-connectivity",
+      "description": "The response matches the pattern: (?i)(receiver|exporter|connectivity|DNS|domain|egress|endpoint|private_key|credentials|network)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-suggests-another-ottl-statement-as-the-fix",
+      "description": "Says clearly that \"no data reaching Coralogix\" is almost never an OTTL problem \u2014 it's upstream (receiver/exporter connectivity, DNS, TLS, proxy, private key, region/domain). Must tell the user to stop trying transform/OTTL statements and check the exporter and network path instead. A response that suggests another OTTL statement as the fix is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

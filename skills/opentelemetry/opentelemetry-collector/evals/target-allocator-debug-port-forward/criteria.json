@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We enabled opentelemetry-agent.targetAllocator.enabled in the otel-integration chart and have an existing ServiceMonitor",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-port-forward",
+      "description": "The response contains \"port-forward\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "jobs-scrape-configs",
+      "description": "The response matches the pattern: /jobs|/scrape_configs",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-stays-on-the-agent-collector-side-receiver",
+      "description": "Directs the user to port-forward the `coralogix-opentelemetry-targetallocator` service on 8080 and inspect `/jobs` (discovered CRs) and `/scrape_configs` (rendered scrape config) to see what TA thinks it's allocating. Covers at least one of the likely root causes: missing RBAC on the CR API group, a `serviceMonitorSelector` that excludes the CR's namespace/labels, or the CR living in a namespace TA isn't watching. A response that stays on the agent collector side (receivers, exporters, pipeline wiring) without checking TA's own state is a FAIL \u2014 that's treating a TA-integration problem as a generic \"metrics not flowing\" problem.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

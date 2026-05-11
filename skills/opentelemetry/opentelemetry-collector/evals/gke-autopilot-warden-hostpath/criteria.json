@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Helm install of otel-integration fails with \"admission webhook warden-validating.common-webhooks.networking.gke.io denie",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-autopilot",
+      "description": "The response contains \"autopilot\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "storecheckpoints-hostpath-write",
+      "description": "The response matches the pattern: (?i)(storeCheckpoints|hostPath|write mode)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-says-the-cluster-is-misconfigured-or-that",
+      "description": "Explains that GKE Autopilot's Warden admission webhook blocks writable hostPath mounts, and points the user at the Autopilot-specific values file or at disabling the offending writable hostPath option (e.g. `storeCheckpoints`). A response that says the cluster is misconfigured or that the user should switch away from Autopilot is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

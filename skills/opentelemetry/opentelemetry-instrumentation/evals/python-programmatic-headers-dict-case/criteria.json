@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm reviewing my Python programmatic instrumentation. Here's my exporter setup:\n  headers = {\n      'Authorization': 'Be",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-sequence",
+      "description": "The response contains \"sequence\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-dict",
+      "description": "The response contains \"dict\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-lowercase",
+      "description": "The response contains \"lowercase\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-subsystem-name",
+      "description": "The response contains \"cx.subsystem.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-misses-both-the-dict-shape-and-the-k",
+      "description": "Identifies at least two of these three issues (all three is ideal): (1) headers is a dict \u2014 must be a sequence of (key, value) tuples; (2) gRPC/HTTP2 requires lowercase header keys \u2014 CX-Application-Name is rejected with \"Illegal header key\"; recommend resource attributes cx.application.name and cx.subsystem.name instead; (3) cx.subsystem.name is missing (may be bundled into issue 2 as an acceptable combined fix \u2014 that counts). FAIL if it misses both the dict shape AND the key-case issue, or if it says the \"Bearer myKey\" value is wrong (a literal space is correct for programmatic tuple headers \u2014 %20 encoding only applies to the OTEL_EXPORTER_OTLP_HEADERS env var).",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

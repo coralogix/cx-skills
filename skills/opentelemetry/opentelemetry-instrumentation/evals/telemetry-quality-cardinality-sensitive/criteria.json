@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm adding custom metrics and logs to my Coralogix-monitored service. I want to add user.id and tenant.id as attributes ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-cardinality",
+      "description": "The response contains \"cardinality\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-sensitive",
+      "description": "The response contains \"sensitive\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-approves-user-id-or-tenant-id-as-met",
+      "description": "Warns that unbounded identifiers like user.id and tenant.id as metric attributes cause cardinality explosion \u2014 one metric series per unique value \u2014 which inflates Coralogix ingestion volume and may trigger TCO policy throttling. For per-tenant observability in Coralogix, cx.application.name and cx.subsystem.name are the correct mechanism for data routing and grouping \u2014 these are bounded resource attributes, not per-request metric labels. Warns that full request/response bodies in logs risk logging PII, credentials, or sensitive data. Recommends bounded metric attributes and explicitly selected safe structured log fields instead. FAIL if it approves user.id or tenant.id as metric label attributes, or if it approves logging full request/response bodies without filtering.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: We're currently using go-coralogix-sdk to send logs from our Go service to Coralogix. Is this still supported and should",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-deprecated",
+      "description": "The response contains \"deprecated\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-opentelemetry",
+      "description": "The response contains \"opentelemetry\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-june-30",
+      "description": "The response contains \"June 30\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-explains-how-to-continue-using-go-co",
+      "description": "Informs the user that go-coralogix-sdk is deprecated with an end-of-life date of June 30, 2026, and directs them to use the OpenTelemetry Go SDK instead. FAIL if it explains how to continue using go-coralogix-sdk, omits the deprecation, or does not redirect to OpenTelemetry.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

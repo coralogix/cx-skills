@@ -1,0 +1,12 @@
+{
+  "context": "Evaluating a Coralogix support response for: How do I configure the OpenTelemetry Collector to batch spans before sending to Coralogix?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "no-if-it-attempts-to-answer-the-collector-con",
+      "description": "Redirects the user to the opentelemetry-collector skill \u2014 this is a collector configuration question, not an SDK instrumentation question. FAIL if it attempts to answer the collector config question directly without noting the scope boundary.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

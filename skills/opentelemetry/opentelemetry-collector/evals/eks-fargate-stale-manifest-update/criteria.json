@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: We deployed the otel-eks-fargate integration from a copy of the manifest we saved about a year ago. Pod metrics and rela",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-k8sattributes",
+      "description": "The response contains \"k8sattributes\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "re-pull-latest",
+      "description": "The response matches the pattern: (?i)(re-?pull|latest|newer|current|update|upstream)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

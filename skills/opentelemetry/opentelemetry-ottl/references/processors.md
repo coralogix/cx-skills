@@ -84,7 +84,10 @@ For the full, always-current list see [ottlfuncs README](https://github.com/open
 | `ExtractPatterns(value, regex)` | Extract named capture groups, returns a map |
 | `SHA256(value)` | SHA-256 hash of a string (useful for pseudonymizing PII) |
 | `Int(value)` | Convert to integer |
+| `Double(value)` | Convert to floating-point number |
 | `String(value)` | Convert to string |
+| `Time(value, format, [location], [locale])` | Parse a string into a timestamp |
+| `IsInt(value)` / `IsDouble(value)` / `IsString(value)` | Guard type-specific comparisons and conversions |
 
 ---
 

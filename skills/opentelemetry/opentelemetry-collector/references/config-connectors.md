@@ -7,6 +7,7 @@ This reference covers the `spanmetrics` and `tail_sampling` components. Proper p
 - **`spanmetrics` connector belongs on the agent.** Span metrics must be generated from **100% of spans** before any sampling decision. If sampling precedes spanmetrics, APM dashboards undercount error rates and percentiles.
 - **`tail_sampling` processor belongs on the gateway.** Tail sampling requires the full trace in memory to evaluate a policy. Daemonset agents only see their node's spans, so a tail sampler on the agent drops traces partially.
 - **`transactions` processor must run before `spanmetrics`.** `transactions` enriches spans with `cgx.transaction.*` tags. `spanmetrics` must consume those tags to emit per-transaction metric dimensions.
+- **All instrumented services must route spans through the agent daemonset.** If an application sends OTLP directly to the gateway or cluster-collector (bypassing the agent), the agent's `spanmetrics` connector never sees those spans. No span metrics are generated, APM Service Catalog stays empty, and `calls_total`/`duration_ms_bucket` metrics are absent — even though traces appear in Explore. Verify the OTLP exporter endpoint in each service points to the agent (typically `http://<node-ip>:4317`) and not directly to the gateway.
 
 ## Agent Configuration (spanmetrics)
 

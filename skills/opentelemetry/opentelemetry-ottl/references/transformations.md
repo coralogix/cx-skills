@@ -202,6 +202,48 @@ log_statements:
 
 ---
 
+## Parsing and setting log timestamps
+
+OTTL can set a log record's event timestamp from `context: log`. The destination is `time`
+for a `time.Time` value or `time_unix_nano` for an epoch-nanosecond integer. Do not use a
+made-up `timestamp` path.
+
+```yaml
+processors:
+  transform/log-time:
+    error_mode: ignore
+    log_statements:
+      - context: log
+        statements:
+          - set(time, Time(attributes["event_time"], "%Y-%m-%dT%H:%M:%S%z")) where IsString(attributes["event_time"])
+```
+
+`Time(value, format, optional_location, optional_locale)` parses a string using the format
+you provide. Guard with `IsString`, set `error_mode: ignore` or `silent`, and make the
+format/time zone explicit. A mismatch between the incoming timestamp string and the format,
+missing time-zone data, or invalid input values will produce transform errors.
+
+---
+
+## Type-safe numeric comparisons
+
+Attribute values can arrive as strings, integers, or doubles depending on the receiver and
+source library. Do not compare `attributes["retries"] > 3` until you know the value is numeric
+or have converted it.
+
+```yaml
+trace_statements:
+  - context: span
+    statements:
+      - set(attributes["retry_bucket"], "high") where IsInt(attributes["retries"]) and attributes["retries"] > 3
+      - set(attributes["retry_bucket"], "high") where IsString(attributes["retries"]) and Int(attributes["retries"]) > 3
+```
+
+Use `Double(...)` instead of `Int(...)` for decimal values, and keep `error_mode: ignore`
+or a stricter `where` guard around conversions when malformed strings are possible.
+
+---
+
 ## Building dynamic values with Concat and Split
 
 ```yaml
@@ -233,12 +275,14 @@ trace_statements:
   - context: span
     statements:
       # Mark as error if HTTP status >= 400
-      - set(status.code, 2) where attributes["otel.status_code"] == nil and attributes["http.response.status_code"] != nil and attributes["http.response.status_code"] > 399
+      - set(status.code, STATUS_CODE_ERROR) where attributes["otel.status_code"] == nil and attributes["http.response.status_code"] != nil and attributes["http.response.status_code"] > 399
       # Mark as ok if status < 400
-      - set(status.code, 1) where attributes["otel.status_code"] == nil and attributes["http.response.status_code"] != nil and attributes["http.response.status_code"] < 400
+      - set(status.code, STATUS_CODE_OK) where attributes["otel.status_code"] == nil and attributes["http.response.status_code"] != nil and attributes["http.response.status_code"] < 400
 ```
 
-Status code values: `0` = UNSET, `1` = OK, `2` = ERROR.
+Prefer the span-context enum constants `STATUS_CODE_UNSET`, `STATUS_CODE_OK`, and
+`STATUS_CODE_ERROR` over raw numbers. For checks, write conditions like
+`status.code == STATUS_CODE_ERROR` in `context: span`.
 
 ---
 

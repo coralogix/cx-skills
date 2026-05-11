@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We're deploying the coralogix/opentelemetry-coralogix Helm chart (the otel-agent chart) for a new EKS cluster. Any reaso",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-deprecated",
+      "description": "The response contains \"deprecated\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-integration",
+      "description": "The response contains \"otel-integration\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-reassures-the-user-the-deprecated-chart-is",
+      "description": "Says clearly that `opentelemetry-coralogix` / `otel-agent` is deprecated and that new deployments should use the `otel-integration` chart. A response that reassures the user the deprecated chart is fine, still supported, safe to use, or a good choice for a new deployment is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

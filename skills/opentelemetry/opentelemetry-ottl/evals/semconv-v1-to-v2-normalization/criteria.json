@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our fleet has a mix of old and new OpenTelemetry instrumentation libraries. Some spans come in with http.method and http",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-http-request-method",
+      "description": "The response contains \"http.request.method\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-set",
+      "description": "The response contains \"set(\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-copies-v1-into-v2-unconditionally-or-that",
+      "description": "Guards each set() with a where clause that checks the v2 destination is nil \u2014 e.g. where attributes[\"http.request.method\"] == nil \u2014 so spans that already have v2 attributes are not overwritten. A response that copies v1 into v2 unconditionally, or that only guards on the v1 source being present without also checking the v2 destination is empty, is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: My Node.js app uses OTLPTraceExporter (HTTP/proto) with url set to 'https://ingress.eu2.coralogix.com:443'. Traces are n",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-v1-traces",
+      "description": "The response contains \"/v1/traces\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-https-ingress-eu2-coralogix-com-443-v1-traces",
+      "description": "The response contains \"https://ingress.eu2.coralogix.com:443/v1/traces\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-only-response-recommends-a-url-without-v1",
+      "description": "Identifies that OTLPTraceExporter (HTTP/proto) requires the /v1/traces path suffix \u2014 the correct url is \"https://ingress.eu2.coralogix.com:443/v1/traces\". Explains that the base URL without the path sends to the wrong endpoint and gets no error because the server returns a non-export response that the SDK ignores. The critical distinction is that HTTP/proto exporters require the signal path suffix (/v1/traces) while gRPC exporters do not. The user's current URL \"https://ingress.eu2.coralogix.com:443\" is correctly cited as the WRONG URL \u2014 do not FAIL for mentioning it as the broken config. FAIL only if the response RECOMMENDS a URL without /v1/traces as the correct HTTP/proto endpoint, or if it does not mention the /v1/traces path suffix at all.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I set up Python auto-instrumentation with opentelemetry-instrument for my Flask app and I'm sending to Coralogix (us1 re",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-bearer-20",
+      "description": "The response contains \"Bearer%20\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-identifies-the-endpoint-scheme-as-th",
+      "description": "Identifies that OTEL_EXPORTER_OTLP_HEADERS contains a literal space between \"Bearer\" and the key \u2014 the Python SDK env var parser requires the space to be percent-encoded as \"Bearer%20mySecretKey123\". FAIL if it does not identify the Bearer encoding as the root cause. Do NOT flag https://ingress.us1.coralogix.com:443 as a bug \u2014 the Python gRPC exporter accepts both https:// and bare host:port forms; the https:// scheme is valid and is not the cause of the missing traces. FAIL if it identifies the endpoint scheme as the root cause instead of the missing %20 encoding.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

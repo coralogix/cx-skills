@@ -67,7 +67,7 @@ jobs:
         if: ${{ env.TESSL_TOKEN != '' && github.event_name == 'pull_request' }}
         uses: tesslio/skill-review-and-optimize@2a22a9760c3990cd1a67fb391f18939363c9d5f8
         with:
-          optimize: true
+          optimize: false
           tessl-token: ${{ env.TESSL_TOKEN }}
 
       - name: Lint tile

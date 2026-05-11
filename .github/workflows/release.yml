@@ -50,9 +50,27 @@ jobs:
     name: Publish Tessl tile
     if: startsWith(github.event.head_commit.message, 'chore: release v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
     steps:
       - uses: actions/checkout@v5
-      - uses: tesslio/setup-tessl@v2
+
+      - name: Set up Tessl CLI
+        if: env.TESSL_TOKEN != ''
+        uses: tesslio/setup-tessl@v2
         with:
-          token: ${{ secrets.TESSL_TOKEN }}
-      - run: tessl tile publish
+          token: ${{ env.TESSL_TOKEN }}
+
+      - name: Lint tile
+        if: env.TESSL_TOKEN != ''
+        run: tessl tile lint
+
+      - name: Publish tile
+        if: env.TESSL_TOKEN != ''
+        run: tessl tile publish
+        
+      - name: Skip publish when token is missing
+        if: env.TESSL_TOKEN == ''
+        run: echo "TESSL_TOKEN is not configured; skipping Tessl tile publish."

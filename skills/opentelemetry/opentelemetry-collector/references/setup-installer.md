@@ -30,7 +30,7 @@ Repo: `telemetry-shippers/otel-installer/`. Releases: `telemetry-shippers` GitHu
 ```bash
 curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
   -o "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
-# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/standalone/coralogix-otel-collector.sh
+less "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"   # inspect before running
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
   bash "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
@@ -43,7 +43,7 @@ Deep coverage of the resulting systemd deployment: `setup-linux-standalone.md`.
 ```bash
 curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
   -o "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
-# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/standalone/coralogix-otel-collector.sh
+less "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"   # inspect before running
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
   bash "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
@@ -56,7 +56,7 @@ Same script as Linux. Detects macOS and switches to launchd + install prefix `/o
 ```bash
 curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/docker-install.sh \
   -o "${TMPDIR:-/tmp}/docker-install.sh"
-# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/docker/docker-install.sh
+less "${TMPDIR:-/tmp}/docker-install.sh"             # inspect before running
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
   bash "${TMPDIR:-/tmp}/docker-install.sh" -- --config /path/to/config.yaml

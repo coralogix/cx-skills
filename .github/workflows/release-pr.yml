@@ -122,9 +122,9 @@ jobs:
           generate_entry() {
             echo "## ${TAG} ($(date +%Y-%m-%d))"
             echo ""
-            [ -n "$FEATS" ] && { echo "### Added"; echo ""; echo -e "$FEATS"; }
-            [ -n "$FIXES" ] && { echo "### Fixed"; echo ""; echo -e "$FIXES"; }
-            [ -n "$OTHER" ] && { echo "### Changed"; echo ""; echo -e "$OTHER"; }
+            [ -n "$FEATS" ] && { echo "### Added"; echo ""; echo -e "$FEATS"; } || true
+            [ -n "$FIXES" ] && { echo "### Fixed"; echo ""; echo -e "$FIXES"; } || true
+            [ -n "$OTHER" ] && { echo "### Changed"; echo ""; echo -e "$OTHER"; } || true
           }
 
           if [ -f CHANGELOG.md ]; then

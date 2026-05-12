@@ -71,7 +71,7 @@ jobs:
       - name: Publish tile
         if: env.TESSL_TOKEN != ''
         run: tessl tile publish
-        
+
       - name: Skip publish when token is missing
         if: env.TESSL_TOKEN == ''
         run: echo "TESSL_TOKEN is not configured; skipping Tessl tile publish."

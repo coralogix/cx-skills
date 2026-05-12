@@ -49,10 +49,9 @@ Go OTel signal stability:
 ## Required environment variables
 
 ```bash
-export CX_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
-export CX_API_KEY="<CORALOGIX_API_KEY>"
 export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
+export CORALOGIX_API_KEY="your-send-your-data-key"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```
@@ -89,13 +88,10 @@ type OtelSetup struct {
 
 func Configure() (*OtelSetup, error) {
     endpoint := os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT") // e.g. ingress.eu2.coralogix.com:443
-    token := os.Getenv("CX_API_KEY")
-    if token == "" {
-        token = os.Getenv("CORALOGIX_API_KEY")
-    }
+    token := os.Getenv("CORALOGIX_API_KEY")
 
     if endpoint == "" || token == "" {
-        return nil, errors.New("OTEL_EXPORTER_OTLP_ENDPOINT and CX_API_KEY or CORALOGIX_API_KEY must be set")
+        return nil, errors.New("OTEL_EXPORTER_OTLP_ENDPOINT and CORALOGIX_API_KEY must be set")
     }
 
     res, err := resource.Merge(
@@ -336,7 +332,7 @@ attributes, not exception semantic convention fields.
 | Mistake | Symptom | Fix |
 |---|---|---|
 | Missing TLS credentials | TLS handshake failure | Use `credentials.NewTLS(nil)` on all exporters |
-| `CX_OTLP_ENDPOINT` includes `https://` | Dial error | Use bare host:port `ingress.<region>.coralogix.com:443`; keep the required `:443` port |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` includes `https://` | Dial error | Use bare host:port `ingress.<region>.coralogix.com:443`; keep the required `:443` port |
 | Semconv version mismatches installed SDK | `panic: conflicting Schema URL` at startup | Import `semconv/vX.Y.Z` that matches your `go.opentelemetry.io/otel` version; do not add semconv as a separate `go.mod` require entry |
 | Missing `CoralogixSampler` (Go sampler) | No Transactions in APM | Wrap sampler: `sampler.NewCoralogixSampler(sdktrace.AlwaysSample())` |
 | No `tp.Shutdown()` deferred | Last spans dropped | Always defer `Shutdown` with a timeout context |

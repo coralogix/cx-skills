@@ -46,7 +46,7 @@ Coralogix (`coralogix-opentelemetry`) in the same dependency management flow.
 
 ```bash
 # URL-encoded — %20 is required between "Bearer" and the key
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20<CORALOGIX_API_KEY>"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20$CORALOGIX_API_KEY"
 
 export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
@@ -109,7 +109,7 @@ from coralogix_opentelemetry.trace.samplers import CoralogixTransactionSampler
 # Prefer resource attributes for cx.application.name / cx.subsystem.name —
 # they propagate to all signals; header-based values only reach that one exporter.
 headers = (
-    ("authorization", f'Bearer {os.environ["CX_TOKEN"]}'),
+    ("authorization", f'Bearer {os.environ["CORALOGIX_API_KEY"]}'),
 )
 
 tracer_provider = TracerProvider(
@@ -161,7 +161,7 @@ from coralogix_opentelemetry.trace.samplers import CoralogixTransactionSampler
 
 # Literal space in value — NOT %20 (that form is only for the env var parser)
 headers = (
-    ("authorization", f'Bearer {os.environ["CX_TOKEN"]}'),
+    ("authorization", f'Bearer {os.environ["CORALOGIX_API_KEY"]}'),
 )
 
 tracer_provider = TracerProvider(
@@ -208,7 +208,7 @@ from opentelemetry.sdk.resources import Resource, SERVICE_NAME
 import os, time
 
 headers = (
-    ("authorization", f'Bearer {os.environ["CX_TOKEN"]}'),
+    ("authorization", f'Bearer {os.environ["CORALOGIX_API_KEY"]}'),
 )
 
 resource = Resource.create({
@@ -324,7 +324,7 @@ provider.shutdown()
 
 | Variable | Value |
 |---|---|
-| `CX_TOKEN` or `CORALOGIX_API_KEY` | Your Send-Your-Data API key |
+| `CORALOGIX_API_KEY` | Your Send-Your-Data API key |
 | `CX_ENDPOINT` or `OTEL_EXPORTER_OTLP_ENDPOINT` | `ingress.<region>.coralogix.com:443` |
 | `OTEL_EXPORTER_OTLP_HEADERS` | URL-encoded headers (auto-instr only) |
 | `OTEL_TRACES_EXPORTER` | `otlp_proto_grpc` (auto-instr) |

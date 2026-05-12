@@ -116,7 +116,7 @@ nc -zv ingress.<CORALOGIX_REGION>.coralogix.com 443
 
 # Or with curl (HTTP/proto)
 curl -v https://ingress.<CORALOGIX_REGION>.coralogix.com:443/v1/traces \
-  -H "Authorization: Bearer <CORALOGIX_API_KEY>" \
+  -H "Authorization: Bearer $CORALOGIX_API_KEY" \
   -H "Content-Type: application/x-protobuf" \
   -d "" 2>&1 | head -20
 ```

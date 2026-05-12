@@ -101,7 +101,7 @@ Before generating any code or config, confirm these are known (or use placeholde
 | Variable | Placeholder |
 |---|---|
 | Coralogix region / domain | `<CORALOGIX_REGION>` (e.g. `eu1`, `eu2`, `us1`, `us2`, `ap1`, `ap2`, `ap3`) |
-| Send-Your-Data API key | `<CORALOGIX_API_KEY>` |
+| Send-Your-Data API key | `CORALOGIX_API_KEY` env var |
 | Service name | `<SERVICE_NAME>` |
 | Application name (Coralogix) | `<CX_APPLICATION_NAME>` |
 | Subsystem name (Coralogix) | `<CX_SUBSYSTEM_NAME>` |

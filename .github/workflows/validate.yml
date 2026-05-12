@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - "skills/**"
-      - "tile.json"
+      - "skills/**/tile.json"
       - ".claude-plugin/**"
       - ".cursor-plugin/**"
       - ".codex-plugin/**"
@@ -15,7 +15,7 @@ on:
       - master
     paths:
       - "skills/**"
-      - "tile.json"
+      - "skills/**/tile.json"
       - ".claude-plugin/**"
       - ".cursor-plugin/**"
       - ".codex-plugin/**"

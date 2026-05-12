@@ -1,0 +1,10 @@
+{
+  "name": "coralogix/opentelemetry-instrumentation",
+  "version": "0.1.1",
+  "summary": "Instruments Java, Python, Node.js, .NET, and Go applications with OpenTelemetry SDKs to send traces, metrics, and logs to Coralogix — SDK setup, OTLP exporter config, APM transactions, and troubleshooting.",
+  "skills": {
+    "opentelemetry-instrumentation": {
+      "path": "SKILL.md"
+    }
+  }
+}

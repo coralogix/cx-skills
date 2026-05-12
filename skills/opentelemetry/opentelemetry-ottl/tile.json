@@ -1,0 +1,10 @@
+{
+  "name": "coralogix/opentelemetry-ottl",
+  "version": "0.1.1",
+  "summary": "OpenTelemetry Transformation Language (OTTL) for OTel Collector pipelines — transform and filter processor statements, routing connector, cardinality reduction, PII redaction, and JSON body handling.",
+  "skills": {
+    "opentelemetry-ottl": {
+      "path": "SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "coralogix/opentelemetry-collector",
+  "version": "0.1.1",
+  "summary": "OpenTelemetry Collector deployment, configuration, and troubleshooting for Coralogix — coralogix exporter config, Helm chart selection, Kubernetes topology, ECS/EKS/GKE deployments, and pipeline setup.",
+  "skills": {
+    "opentelemetry-collector": {
+      "path": "SKILL.md"
+    }
+  }
+}

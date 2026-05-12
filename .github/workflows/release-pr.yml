@@ -96,8 +96,10 @@ jobs:
             jq ".version = \"${TAG#v}\"" "${manifest}" > "${manifest}.tmp"
             mv "${manifest}.tmp" "${manifest}"
           done
-          jq ".version = \"${TAG#v}\"" tile.json > tile.json.tmp
-          mv tile.json.tmp tile.json
+          while IFS= read -r tile_file; do
+            jq ".version = \"${TAG#v}\"" "${tile_file}" > "${tile_file}.tmp"
+            mv "${tile_file}.tmp" "${tile_file}"
+          done < <(find skills -name "tile.json")
 
       - name: Update CHANGELOG.md
         env:
@@ -158,12 +160,15 @@ jobs:
           CURSOR_PLUGIN=$(base64 -w0 .cursor-plugin/plugin.json)
           CODEX_PLUGIN=$(base64 -w0 .codex-plugin/plugin.json)
           CHANGELOG=$(base64 -w0 CHANGELOG.md)
-          TILE=$(base64 -w0 tile.json)
+          TILE_COLLECTOR=$(base64 -w0 skills/opentelemetry/opentelemetry-collector/tile.json)
+          TILE_INSTRUMENTATION=$(base64 -w0 skills/opentelemetry/opentelemetry-instrumentation/tile.json)
+          TILE_OTTL=$(base64 -w0 skills/opentelemetry/opentelemetry-ottl/tile.json)
 
           # shellcheck disable=SC2016
           gh api graphql -f query='
             mutation($repo: String!, $branch: String!, $oid: GitObjectID!,
-                     $headline: String!, $cp: Base64String!, $crp: Base64String!, $cxp: Base64String!, $cl: Base64String!, $tj: Base64String!) {
+                     $headline: String!, $cp: Base64String!, $crp: Base64String!, $cxp: Base64String!, $cl: Base64String!,
+                     $tc: Base64String!, $ti: Base64String!, $to: Base64String!) {
               createCommitOnBranch(input: {
                 branch: { repositoryNameWithOwner: $repo, branchName: $branch },
                 message: { headline: $headline },
@@ -174,7 +179,9 @@ jobs:
                     { path: ".cursor-plugin/plugin.json", contents: $crp },
                     { path: ".codex-plugin/plugin.json", contents: $cxp },
                     { path: "CHANGELOG.md", contents: $cl },
-                    { path: "tile.json", contents: $tj }
+                    { path: "skills/opentelemetry/opentelemetry-collector/tile.json", contents: $tc },
+                    { path: "skills/opentelemetry/opentelemetry-instrumentation/tile.json", contents: $ti },
+                    { path: "skills/opentelemetry/opentelemetry-ottl/tile.json", contents: $to }
                   ]
                 }
               }) { commit { url } }
@@ -187,7 +194,9 @@ jobs:
             -f crp="${CURSOR_PLUGIN}" \
             -f cxp="${CODEX_PLUGIN}" \
             -f cl="${CHANGELOG}" \
-            -f tj="${TILE}"
+            -f tc="${TILE_COLLECTOR}" \
+            -f ti="${TILE_INSTRUMENTATION}" \
+            -f to="${TILE_OTTL}"
 
       - name: Open release PR
         env:
@@ -200,9 +209,9 @@ jobs:
 
           **Changes include:**
           - Updated plugin manifests to \`${TAG#v}\`
-          - Updated tile.json to \`${TAG#v}\`
+          - Updated all skill tile.json versions to \`${TAG#v}\`
           - Updated CHANGELOG.md
 
-          Merging this PR will create the git tag, GitHub release, and publish the Tessl tile." \
+          Merging this PR will create the git tag, GitHub release, and publish all Tessl tiles." \
             --base master \
             --head "release/${TAG}"

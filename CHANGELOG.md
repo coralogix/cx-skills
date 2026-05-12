@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.1.1 (2026-05-12)
+
+### Added
+
+- enhance skill quality and add eval + tessl config (#6)
+
+### Fixed
+
+- release PR version (#7)
+
+
 ## v0.1.0 (2026-05-08)
 
 ### Added

@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm configuring the OpAMP supervisor for Fleet Management. Our region is eu2. My coralogix exporter is using domain: eu2",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-ingress",
+      "description": "The response contains \"ingress\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "https-ingress-eu2-coralogix-com",
+      "description": "The response matches the pattern: https://ingress\\.eu2\\.coralogix\\.com",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-opamp",
+      "description": "The response contains \"opamp\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-the-opamp-supervisor-uses-a-dif",
+      "description": "Explains that the OpAMP supervisor uses a DIFFERENT endpoint from the coralogix data exporter \u2014 it needs the full URL with scheme, `https://ingress.<region>.coralogix.com`, not the bare hostname that goes in the exporter's `domain:` field.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

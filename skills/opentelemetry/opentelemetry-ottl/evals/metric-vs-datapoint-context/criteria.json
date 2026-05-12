@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm trying to rename a metric and also change one of its per-series label values at the same time. I put both statements",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "context-datapoint",
+      "description": "The response matches the pattern: (?i)(context:? ?datapoint|datapoint context)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-generic-try-a-different-context-advice-wit",
+      "description": "Diagnoses the root cause: metric-level edits (name, description, unit) belong in context: metric, but per-series label/attribute edits belong in context: datapoint \u2014 and putting a datapoint-level edit in a metric block causes it to silently no-op (no error). The fix is a second block with context: datapoint for the label change. Generic \"try a different context\" advice without naming metric vs datapoint explicitly is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for: How do I send Python application logs to Coralogix using OpenTelemetry? We're on the eu2 region.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-loggerprovider",
+      "description": "The response contains \"LoggerProvider\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-logginghandler",
+      "description": "The response contains \"LoggingHandler\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-setlevel",
+      "description": "The response contains \"setLevel\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otlplogexporter",
+      "description": "The response contains \"OTLPLogExporter\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-ingress-eu2-coralogix-com-443",
+      "description": "The response contains \"ingress.eu2.coralogix.com:443\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-says-https-is-invalid-for-the-python",
+      "description": "Covers: LoggerProvider with OTLPLogExporter pointing to the Coralogix eu2 ingress endpoint using the standard Coralogix gRPC format \"ingress.eu2.coralogix.com:443\" (bare host:port; https://ingress.eu2.coralogix.com:443 is also valid for Python gRPC and must not be treated as the root cause), with Authorization Bearer header. LoggingHandler bridging stdlib logging to the OTel provider, and the critical note that the root logger level must be set explicitly (e.g. setLevel(logging.INFO)) BEFORE adding the OTel handler \u2014 if level is not set, INFO records are filtered by the root logger before they reach any handler. FAIL if it says https:// is invalid for the Python gRPC endpoint, omits the logger-level-setting requirement, or omits the Coralogix endpoint and auth header.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

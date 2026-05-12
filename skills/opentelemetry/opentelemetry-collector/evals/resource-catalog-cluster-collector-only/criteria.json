@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Collector fails to start with: \"cannot start pipelines: failed to start resourcedetection/resource_catalog processor: ca",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "cluster-collector-cluster-collector",
+      "description": "The response matches the pattern: (?i)(cluster[- ]collector|cluster.collector|deployment)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "only-instead-move",
+      "description": "The response matches the pattern: (?i)(only|instead|move|remove|incorrect|wrong|not (a |on |on the )?daemonset|should (not |run on)|misplac|belongs (on|to))",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-resourcedetection-resource-cata",
+      "description": "Explains that `resourcedetection/resource_catalog` (and Resource Catalog plumbing in general) belongs on the cluster-collector Deployment, not the per-node daemonset \u2014 the daemonset pod can't get node-name / K8s-instance-metadata injection. Recommends moving or removing it from the daemonset configuration.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

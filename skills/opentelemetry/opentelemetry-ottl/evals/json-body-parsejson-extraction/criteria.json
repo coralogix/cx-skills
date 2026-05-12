@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: My logs come in as JSON strings in the body field. I want to extract a field out of that JSON and promote it to a log at",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-parsejson",
+      "description": "The response contains \"ParseJSON\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-shows-a-bare-parsejson-body-line-without-a",
+      "description": "Wraps ParseJSON inside an Editor function \u2014 specifically set or merge_maps. A response that shows a bare ParseJSON(body) line without an enclosing Editor is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

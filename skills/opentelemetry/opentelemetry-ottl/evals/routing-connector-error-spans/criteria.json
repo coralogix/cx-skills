@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I need to send error spans and slow spans to a high-priority pipeline with more aggressive sampling, and send everything",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-routing",
+      "description": "The response contains \"routing\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-response-tells-the-user-to-achieve-the-spl",
+      "description": "Names the routing connector (not the transform or filter processor, and not a second receiver) as the component that splits telemetry across pipelines based on an OTTL condition. Describes the routing mechanism concretely \u2014 either via a table: of statements keyed by OTTL condition (route() statements, or context + condition + pipelines entries) or an equivalent OTTL-conditioned split. Mentioning an explicit route() call or a table: block both pass. FAIL if the response tells the user to achieve the split with the transform processor, filter processor, tail_sampling processor, or by forking receivers.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

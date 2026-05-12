@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our Java services on Kubernetes produce stack traces that arrive in Coralogix as dozens of separate log records \u2014 one pe",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "firstentryregex-is-first-entry-recombine",
+      "description": "The response matches the pattern: (?i)(firstEntryRegex|is_first_entry|recombine)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "cri-logtag-partial",
+      "description": "The response matches the pattern: (?i)(CRI|logtag|partial)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-says-line-start-pattern-or-line-end-patter",
+      "description": "Explains that in CRI format every log line is tagged F (variously described as \"Full\", \"final\", or \"complete line\") \u2014 so the standard P\u2192F partial/final recombine never triggers because it only groups sequences starting with P. Recommends using firstEntryRegex (or is_first_entry) on the filelog recombine operator to detect the start of a new logical log entry by matching the timestamp pattern. A response that says line_start_pattern or line_end_pattern under multiline: will fix this without addressing why the standard recombine fails is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

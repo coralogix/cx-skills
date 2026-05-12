@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I need to drop only datapoints where attributes[\"tenant\"] is missing, but keep the metric itself when other datapoints a",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "context-datapoint",
+      "description": "The response matches the pattern: (?i)(context:? ?datapoint|datapoint context)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-per-series-per-point-filtering",
+      "description": "Explains that per-series/per-point filtering belongs in datapoint context, not metric context, and avoids dropping the entire metric unintentionally.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: In what order should I configure memory_limiter, batch, resourcedetection, and k8sattributes in a pipeline's processors ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-memory-limiter",
+      "description": "The response contains \"memory_limiter\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-batch",
+      "description": "The response contains \"batch\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "first-before-memory-limiter",
+      "description": "The response matches the pattern: (?i)first|before|memory_limiter.*resource|memory_limiter.*k8sattributes",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-claims-processor-order-doesn-t-matter-or-p",
+      "description": "States that `memory_limiter` must be FIRST in the processor list (so it sheds load before upstream processors do work) and `batch` LAST (so it batches fully-enriched records just before export). A response that claims processor order doesn't matter, or puts batch before enrichment, is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I have spanMetrics: enabled: true in our otel-integration Helm values, and the generated ConfigMap shows the spanmetrics",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "agent-daemonset",
+      "description": "The response matches the pattern: (?i)(agent|daemonset)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-only-rechecks-connector-yaml-or-helm-value",
+      "description": "Identifies that the spanmetrics connector must run on the agent pipeline (where all traces first arrive), and that if instrumented services bypass the agent and send OTLP directly to the gateway or cluster-collector, spanmetrics never sees those traces and no span metrics are generated. A response that only rechecks connector YAML or Helm values without identifying the agent-placement requirement or the possibility that the app is not routing through the agent is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

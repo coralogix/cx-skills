@@ -1,0 +1,12 @@
+{
+  "context": "Evaluating a Coralogix support response for: I added a transform processor with keep_keys(body, [\"message\", \"level\"]) in context: log, but the collector is now loggi",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-ismap",
+      "description": "The response contains \"IsMap\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

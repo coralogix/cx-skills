@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: My coralogix exporter config has endpoint: https://ingress.eu2.coralogix.com and I've set private_key: $CORALOGIX_PRIVAT",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-domain",
+      "description": "The response contains \"domain\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-eu2-coralogix-com",
+      "description": "The response contains \"eu2.coralogix.com\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "env-coralogix-private-key",
+      "description": "The response matches the pattern: \\$\\{env:CORALOGIX_PRIVATE_KEY\\}|\\$\\{env:",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-recommends-swapping-domain-to-a-coralogix",
+      "description": "Identifies that the coralogix exporter uses `domain:` (a bare hostname) rather than `endpoint:` with a URL, AND that the private_key must use the bracketed `${env:CORALOGIX_PRIVATE_KEY}` form. A response that recommends swapping `domain:` to a Coralogix UI hostname (`team.coralogix.com`, `coralogix.in`, `coralogixsg.com`, etc.) is a FAIL \u2014 the UI host is not the data-ingestion host.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

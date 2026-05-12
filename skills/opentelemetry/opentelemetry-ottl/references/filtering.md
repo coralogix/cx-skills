@@ -82,7 +82,15 @@ filter:
     datapoint:
       # Drop datapoints with no service.name (unidentifiable, noisy)
       - resource.attributes["service.name"] == nil
+
+      # Drop only datapoints missing a per-series label; keep the metric and
+      # any sibling datapoints that still match the backend contract.
+      - attributes["tenant"] == nil
 ```
+
+Use `metrics.datapoint` for per-series/per-point filtering. A `metrics.metric`
+condition evaluates the whole metric and can remove every datapoint under that
+metric, which is not what you want when only some datapoints are invalid.
 
 ---
 

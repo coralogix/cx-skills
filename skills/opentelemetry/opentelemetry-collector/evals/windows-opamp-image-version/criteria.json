@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our Windows host in K8s is running coralogixrepo/opentelemetry-collector-contrib-windows:0.92.0 (from the otel-integrati",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "bump-upgrade-newer",
+      "description": "The response matches the pattern: (?i)(bump|upgrade|newer|v?0\\.13[0-9]|older|version|image (tag|pin))",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "supervisor-wrapper-binary",
+      "description": "The response matches the pattern: (?i)(-Supervisor|supervisor (wrapper|binary|service)|opampsupervisor)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-claims-windows-doesn-t-support-opamp-at-al",
+      "description": "Says the pinned 0.92.0 Windows image is too old for the `opamp` extension and recommends either bumping the image to a current Windows build that includes `opamp`, OR using the `-Supervisor` wrapper (opampsupervisor as a separate Windows service). A response that claims Windows doesn't support OpAMP at all is a FAIL \u2014 modern Windows builds do support it.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

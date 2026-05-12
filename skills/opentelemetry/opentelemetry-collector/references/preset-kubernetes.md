@@ -39,6 +39,25 @@ opentelemetry-agent:
 
 **Failure Mode**: The `resourcedetection/resource_catalog` processor crashes on a daemonset with `can't get K8s Instance Metadata; node name is empty`. Do not enable `kubernetesResources` on the agent; it must run on the cluster-collector.
 
+## Multi-line Logs (Stack Traces)
+
+The `logsCollection` preset uses a `filelog` receiver on `/var/log/pods`. Kubernetes writes logs in
+CRI format where every line — including individual stack trace lines — is tagged `F` (final). The
+standard partial/final recombine never triggers because it only groups `P → F` sequences.
+
+To recombine multi-line entries (Java stack traces, Python tracebacks), use `firstEntryRegex` to
+detect the start of a new logical log entry:
+
+```yaml
+opentelemetry-agent:
+  presets:
+    logsCollection:
+      multiline:
+        firstEntryRegex: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+```
+
+See [Coralogix multi-line log configuration](https://github.com/coralogix/telemetry-shippers/tree/master/otel-integration/k8s-helm#multi-line-log-configuration).
+
 ## Anti-Pattern: Wholesale Pipeline Overrides
 
 Manual overrides of `service.pipelines` inside the `otel-integration` values file strip the default receivers and processors that populate Coralogix dashboards and Infra Explorer.

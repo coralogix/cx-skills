@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: We deployed the Coralogix Linux host integration through the UI wizard. Logs and metrics are flowing but in APM our Node",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "telemetry-sdk",
+      "description": "The response matches the pattern: telemetry\\.sdk",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "transform-stripped-missing",
+      "description": "The response matches the pattern: (?i)(transform|stripped|missing|removed)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

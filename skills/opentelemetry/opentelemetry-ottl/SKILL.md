@@ -77,6 +77,7 @@ debugging OTTL statements in the transform processor, filter processor, or routi
 | Copy a resource field down to spans or logs | `transform` with the correct context |
 | Route telemetry to different pipelines | `routing` connector |
 | Reduce metric or trace cardinality | `transform` with `keep_keys` / `delete_matching_keys` → [references/cardinality.md](references/cardinality.md) |
+| Extract histogram _sum/_count into standalone metrics, then drop the histogram | `transform` with `extract_sum_metric` / `extract_count_metric` in `context: metric`, then `filter` to drop the original |
 | Redact or pseudonymize PII | `transform` with `SHA256` / `replace_all_patterns` → [references/redaction.md](references/redaction.md) |
 | Debug no data, DNS, receiver/exporter issues, or pipeline wiring | Not an OTTL problem — say so before going further |
 
@@ -95,6 +96,11 @@ Reference material for each topic lives under [`references/`](references/) and i
 | metrics | `resource`, `scope`, `metric`, `datapoint` |
 
 Metric-level edits (name, description, unit) belong in `context: metric`; per-series label/attribute edits belong in `context: datapoint`. Mixing the two in one block means one of them silently no-ops. → [references/contexts.md](references/contexts.md)
+
+Log event timestamps can be changed in `context: log` by setting `time` with `Time(...)`
+or `time_unix_nano` with an integer nanosecond value. Span status checks belong in
+`context: span`; prefer `STATUS_CODE_ERROR`, `STATUS_CODE_OK`, and `STATUS_CODE_UNSET`
+over raw numeric comparisons. → [references/transformations.md](references/transformations.md)
 
 ### Error modes
 
@@ -130,7 +136,7 @@ Map the Collector message to a root cause before proposing a fix:
 | `... cannot be indexed` | Indexing a non-map value — string or empty body | Add `IsMap(body)` guard before body indexing |
 | `segment "..." is not a valid path` | Wrong context or field not available in the chosen context | Switch to the correct context; check path reference |
 | `one or more paths were modified to include their context prefix` | Bare `attributes[...]` where explicit prefixes are required | Rewrite with `resource.attributes`, `datapoint.attributes`, etc. |
-| `statement has invalid syntax: ... invalid quoted string` | YAML + OTTL quoting collision — the string was consumed by the YAML parser before reaching OTTL | Use YAML single quotes outside and OTTL double quotes inside → [references/processors.md](references/processors.md#yaml--ottl-quoting-collision) |
+| `statement has invalid syntax: ... invalid quoted string` | YAML + OTTL quoting collision — the string was consumed by the YAML parser before reaching OTTL | Use YAML single quotes outside and OTTL double quotes inside → [references/processors.md](references/processors.md#yaml-ottl-quoting-collision) |
 | Statement loads but has no visible effect | Condition never matches, wrong signal block, or processor in the wrong pipeline stage | Surface debug attributes to prove matching; verify pipeline placement |
 
 ### Canonical pipeline shape
@@ -198,7 +204,31 @@ application and don't change the exporter config.
 Full pattern (both attribute pairs, `error_mode`, and pipeline ordering) is in
 → [references/contexts.md](references/contexts.md#exporters-that-read-from-resource-attributes).
 
-### 5. Redact PII across attributes
+### 5. Extract histogram aggregations and drop the source metric
+
+To keep `_sum` and `_count` for average latency calculations while dropping raw bucket data:
+
+```yaml
+processors:
+  transform:
+    error_mode: ignore
+    metric_statements:
+      - context: metric
+        conditions:
+          - type == METRIC_DATA_TYPE_HISTOGRAM
+        statements:
+          - extract_sum_metric(true)    # creates <name>_sum as a new Sum metric; true = monotonic
+          - extract_count_metric(true)  # creates <name>_count as a new Counter metric
+  filter:
+    error_mode: ignore
+    metrics:
+      metric:
+        - 'type == METRIC_DATA_TYPE_HISTOGRAM and name == "http.server.request.duration"'
+```
+
+`extract_sum_metric(monotonic)` and `extract_count_metric(monotonic)` are OTTL Editor functions that run in `context: metric` and append new standalone metrics to the pipeline output — the original histogram is still present until the `filter` processor drops it. **The `transform` processor must come before `filter` in the pipeline** so the new metrics exist before the histogram is removed. Pass `true` for cumulative/monotonic counters, `false` for delta.
+
+### 6. Redact PII across attributes
 
 ```yaml
 - context: log
@@ -223,7 +253,10 @@ Full pattern (both attribute pairs, `error_mode`, and pipeline ordering) is in
    before string operations, `where attributes["x"] != nil` before reading
    optional fields. An unguarded indexing into the wrong type raises
    `INVALID_ARGUMENT` and (with the default `error_mode`) halts the pipeline.
-2. **`conditions:` is OR, not AND.** For strict AND, combine into one boolean
+2. **Convert numeric-looking strings before comparing.** If an attribute can be
+   `"5"` or `5`, branch with `IsString` / `IsInt` and use `Int(...)` or
+   `Double(...)` before `>` / `<` comparisons.
+3. **`conditions:` is OR, not AND.** For strict AND, combine into one boolean
    (`a and b`) or add `where` on each statement.
 
 ### Authoring style

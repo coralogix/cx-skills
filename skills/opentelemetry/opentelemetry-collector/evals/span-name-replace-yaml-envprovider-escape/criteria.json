@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our otel-integration values.yaml has spanNameReplacePattern under opentelemetry-agent.presets.spanMetrics to reduce span",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "matches-pattern-1",
+      "description": "The response matches the pattern: \\$\\$1|\\$\\$[0-9]",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "single-quote",
+      "description": "The response matches the pattern: (?i)single[- ]quote",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "helm-template",
+      "description": "The response matches the pattern: (?i)helm template",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-fixes-only-the-yaml-quoting-without-the-es",
+      "description": "Identifies TWO INDEPENDENT escape layers, not one: (a) YAML parsing \u2014 single-quote the regex string (or use a block scalar) so backslashes aren't consumed by YAML's double-quoted-string parser; and (b) the OpenTelemetry Collector's envprovider \u2014 regex backreferences `$1` / `$2` must be written `$$1` / `$$2` in values.yaml because at collector startup the envprovider expands `$...` references, and `$$` is the literal-`$` escape. Correct attribution matters: Helm's template engine passes `$` through unchanged, so an answer that blames Helm for the `$$` rule is incorrect even if its fix (`$$1`) is right. Recommends running `helm template ... -f values.yaml` before `helm upgrade` to verify the rendered OTTL. A response that fixes only the YAML quoting without the `$$` escape, that blames the regex as syntactically invalid, that attributes the `$$` rule to Helm rather than the collector's envprovider, or that tells the user to rewrite the regex without backreferences, is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

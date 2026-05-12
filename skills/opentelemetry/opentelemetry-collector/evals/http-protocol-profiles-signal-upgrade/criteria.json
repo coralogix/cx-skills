@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: After upgrading opentelemetry-collector-contrib from 0.140 to 0.144, our collector fails to start with: \"Error: exporter",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-profiles",
+      "description": "The response contains \"profiles\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "grpc-remove-protocol",
+      "description": "The response matches the pattern: (?i)(grpc|remove.*protocol|protocol.*grpc|drop.*http)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-says-to-add-a-profiles-pipeline-or-that-sa",
+      "description": "Explains that v0.144 added profiles support to the coralogix exporter, and the exporter now validates HTTP compatibility for ALL signals at startup \u2014 not just signals in active pipelines \u2014 so protocol: http fails even with no profiles pipeline. The fix is to remove protocol: http (gRPC is the default and the only supported transport for profiles). A response that says to add a profiles pipeline, or that says to downgrade the collector version, is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

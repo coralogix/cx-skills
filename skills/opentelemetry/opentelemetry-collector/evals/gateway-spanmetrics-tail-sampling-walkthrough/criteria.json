@@ -1,0 +1,12 @@
+{
+  "context": "Evaluating a Coralogix support response for: In our otel-integration setup with a central gateway, APM shows traces but no error rates and no p99 latencies. The agen",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "no-recommend-running-spanmetrics-on-both-agen",
+      "description": "The response MUST meet every one of these points to be CORRECT: 1. Identifies that `spanmetrics` on the gateway only sees sampled\n   traces \u2014 so APM metrics undercount errors and latencies.\n2. Recommends moving `spanmetrics` to the AGENT pipeline, upstream of\n   any sampling (either as a connector on the agent, or emitting into\n   a dedicated spanmetrics metrics pipeline exported direct to\n   Coralogix from the agent).\n3. Mentions that the `transactions` / `groupbytrace/transactions`\n   processor must run BEFORE `spanmetrics` so the cgx.transaction\n   dimensions are populated on the metrics.\n4. Does NOT recommend increasing the sample rate as a workaround. 5. Does NOT recommend running spanmetrics on both agent AND gateway\n   (that causes double-counting).",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

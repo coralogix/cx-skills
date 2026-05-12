@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: We're scraping Prometheus metrics and every counter comes into our backend with a _total suffix on the name (http_reques",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-replace-pattern",
+      "description": "The response contains \"replace_pattern\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "context-metric",
+      "description": "The response matches the pattern: context:? ?metric",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: Our ECS Fargate sidecar is configured with the app container essential: true and the otel-collector sidecar essential: f",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-healthcheck",
+      "description": "The response contains \"healthcheck\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "dependson-depends-on",
+      "description": "The response matches the pattern: (?i)(dependsOn|dependson|depends_on)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "healthy",
+      "description": "The response matches the pattern: (?i)(healthy|HEALTHY)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

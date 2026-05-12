@@ -4,14 +4,32 @@ on:
   push:
     branches:
       - master
+    paths:
+      - "skills/**"
+      - "tile.json"
+      - ".claude-plugin/**"
+      - ".cursor-plugin/**"
+      - ".codex-plugin/**"
   pull_request:
     branches:
       - master
+    paths:
+      - "skills/**"
+      - "tile.json"
+      - ".claude-plugin/**"
+      - ".cursor-plugin/**"
+      - ".codex-plugin/**"
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   validate:
     name: Check skill spec compliance
     runs-on: ubuntu-latest
+    env:
+      TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -44,3 +62,11 @@ jobs:
             fi
           done < <(find skills -name "SKILL.md")
           exit $exit_code
+
+      - name: Review and optimize skills
+        if: ${{ env.TESSL_TOKEN != '' && github.event_name == 'pull_request' }}
+        uses: tesslio/skill-review-and-optimize@2a22a9760c3990cd1a67fb391f18939363c9d5f8
+        with:
+          optimize: false
+          tessl-token: ${{ env.TESSL_TOKEN }}
+

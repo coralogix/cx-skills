@@ -15,16 +15,10 @@ license: Apache-2.0
 metadata:
   version: "0.1.0"
   integration: otel-collector
-  signals:
-    - logs
-    - metrics
-    - traces
-  deployment:
-    - kubernetes
-    - helm
-    - docker
-    - ecs
-    - aws
+  signals: "logs, metrics, traces"
+  deployment: "kubernetes, helm, docker, ecs, aws"
+  docs: https://coralogix.com/docs/opentelemetry/
+  repo: https://github.com/coralogix/telemetry-shippers
   triggers:
     description: >
       Load when the user is deploying, configuring, or troubleshooting an OpenTelemetry
@@ -71,8 +65,6 @@ metadata:
       - sidecar
       - cluster-collector
       - gateway
-  docs: https://coralogix.com/docs/opentelemetry/
-  repo: https://github.com/coralogix/telemetry-shippers
 ---
 
 # OpenTelemetry Collector
@@ -85,68 +77,64 @@ Coralogix-specific defaults that vanilla OpenTelemetry docs don't cover.
 
 ## When to Use This Skill
 
-| Use case | What to do |
+| Use case | Reference |
 |---|---|
-| Configure the `coralogix` exporter (domain, private key, app/subsystem names) | `domain:` (bare hostname, not URL), `${env:CORALOGIX_PRIVATE_KEY}` bracketed → [references/config-exporters.md](references/config-exporters.md) and [references/config-processors.md](references/config-processors.md) |
-| Enable Infrastructure Explorer / Resource Catalog | Dedicated `coralogix/resource_catalog` exporter + `x-coralogix-ingress` header + `kubernetesResources` preset → [references/preset-kubernetes.md](references/preset-kubernetes.md) |
-| Pick a deployment mode | Master table of all `telemetry-shippers` modes → [references/setup-index.md](references/setup-index.md) |
-| Deploy on Kubernetes (EKS/GKE/AKS/OpenShift, Autopilot, EKS Fargate) | `otel-integration` Helm chart + presets + Warden/securityContext notes → [references/setup-kubernetes.md](references/setup-kubernetes.md) |
-| Deploy via OpenTelemetry Operator | Operator CRDs and auto-instrumentation → [references/setup-opentelemetry-operator.md](references/setup-opentelemetry-operator.md). For `otel-integration` chart Target Allocator, use [references/setup-kubernetes.md](references/setup-kubernetes.md). |
-| Deploy on ECS EC2 (Linux) | CDOT daemonset, host network, AWS metadata IP, `ecs` detector pitfall → [references/setup-ecs-ec2.md](references/setup-ecs-ec2.md) |
-| Deploy on ECS Fargate | Sidecar + essential-container race + `dependsOn: HEALTHY` → [references/setup-ecs-fargate.md](references/setup-ecs-fargate.md) |
-| Deploy on Linux/macOS standalone | systemd/launchd, env-file perms, journald vs filelog, UI-wizard `telemetry.sdk.*` bug → [references/setup-linux-standalone.md](references/setup-linux-standalone.md) |
-| Deploy on Windows standalone | PowerShell MSI, `windowseventlog`/`iis`, Defender-vs-IIS high CPU → [references/setup-windows-standalone.md](references/setup-windows-standalone.md) |
-| Bootstrap any host with the universal installer | One-liners per OS + flags table → [references/setup-installer.md](references/setup-installer.md) |
-| Place `spanmetrics`, `tail_sampling`, `k8sattributes` correctly in K8s | Agent vs gateway placement rules → [references/config-connectors.md](references/config-connectors.md) |
-| Diagnose memory issues — `memory_limiter` firing, RSS vs Go heap | `memory_limiter` semantics + kernel page cache + `sending_queue`/`file_storage` → [references/ops-memory-performance.md](references/ops-memory-performance.md) |
-| Troubleshoot a symptom ("no data", "no traces", "Resource Catalog empty") | Symptom → root-cause table + debug workflow → [references/ops-troubleshooting.md](references/ops-troubleshooting.md) |
-| OpAMP supervisor / Fleet Manager config precedence | Minimum overlap with collector config → [references/preset-fleet-management.md](references/preset-fleet-management.md). Deep OpAMP / supervisor-binary / CDOT coverage is out of scope. |
-| Write OTTL statements (`transform` / `filter` / `routing`) | Not in scope — use the `opentelemetry-ottl` skill |
-| Instrumentation-library problems inside the app SDK | Not in scope — SDK issue, not a collector issue |
-
-Reference material for each topic lives under [`references/`](references/) and is listed
-in the [References](#references) footer at the bottom of this file.
-
-## Key Concepts
-
-- **Exporter routing is Coralogix-specific.** Use `domain:` with a bare regional
-  hostname and bracketed env vars like `${env:CORALOGIX_PRIVATE_KEY}`; never use
-  `endpoint:` or a UI hostname. Details and snippets:
-  [references/config-exporters.md](references/config-exporters.md).
-- **Kubernetes role placement matters.** `spanmetrics`, `tail_sampling`, and full
-  `k8sattributes` extraction belong in different collector roles. Placement rules:
-  [references/config-connectors.md](references/config-connectors.md) and
-  [references/config-processors.md](references/config-processors.md).
-- **Processor order is part of correctness.** Keep `memory_limiter` first and
-  `batch` last before export; chart metadata processors should not be removed by
-  wholesale pipeline overrides. See [references/config-processors.md](references/config-processors.md)
-  and [references/setup-kubernetes.md](references/setup-kubernetes.md).
-- **Troubleshoot from the boundary first.** "No data" is usually exporter
-  config, key scope, DNS/TLS/proxy, or egress before it is a pipeline problem.
-  Symptom table and debug workflow: [references/ops-troubleshooting.md](references/ops-troubleshooting.md).
-- **Memory symptoms need self-telemetry.** Distinguish Go heap, container RSS,
-  page cache, throttling, and OOM before changing limits. See
-  [references/ops-memory-performance.md](references/ops-memory-performance.md).
+| Configure the `coralogix` exporter (domain, private key, app/subsystem) | [config-exporters.md](references/config-exporters.md) · [config-processors.md](references/config-processors.md) |
+| Infrastructure Explorer / Resource Catalog | [preset-kubernetes.md](references/preset-kubernetes.md) |
+| Pick a deployment mode | [setup-index.md](references/setup-index.md) |
+| Kubernetes — `otel-integration` Helm chart (EKS/GKE/AKS/OpenShift/Autopilot/EKS Fargate) | [setup-kubernetes.md](references/setup-kubernetes.md) |
+| OpenTelemetry Operator / Target Allocator | [setup-opentelemetry-operator.md](references/setup-opentelemetry-operator.md) |
+| ECS EC2 (Linux daemonset) | [setup-ecs-ec2.md](references/setup-ecs-ec2.md) |
+| ECS Fargate (sidecar) | [setup-ecs-fargate.md](references/setup-ecs-fargate.md) |
+| Linux / macOS standalone | [setup-linux-standalone.md](references/setup-linux-standalone.md) |
+| Windows standalone | [setup-windows-standalone.md](references/setup-windows-standalone.md) |
+| Universal installer (all OS) | [setup-installer.md](references/setup-installer.md) |
+| `spanmetrics`, `tail_sampling`, `k8sattributes` placement | [config-connectors.md](references/config-connectors.md) |
+| Memory — `memory_limiter` firing, RSS vs Go heap | [ops-memory-performance.md](references/ops-memory-performance.md) |
+| Troubleshoot "no data", "no traces", "Resource Catalog empty" | [ops-troubleshooting.md](references/ops-troubleshooting.md) |
+| OpAMP supervisor / Fleet Manager config overlap | [preset-fleet-management.md](references/preset-fleet-management.md) |
 
 ## High-Signal Answer Rules
 
-For these recurring cases, include the exact corrective detail in the final answer:
+For these recurring cases, include the exact corrective detail in the final answer. These
+are also the authoritative statements of Coralogix-specific defaults — do not contradict
+them elsewhere in the answer.
 
-- **GKE Autopilot Warden:** say Warden blocks writable `hostPath` mounts; in the values
-  override set `logsCollection.storeCheckpoints: false`, disable `coralogix-ebpf-profiler`,
-  `hostMetrics`, and `resourceDetection` on the agent (Autopilot blocks `/proc`/`/sys`
-  mounts and `/etc/machine-id` — so `hostEntityEvents` must also be disabled since it
-  requires hostMetrics); also disable `resourceDetection` on the cluster-collector (it
-  reads `/etc/machine-id` too). Use `gke-autopilot-values.yaml` as the canonical reference.
-- **ECS EC2 daemonset localhost:** say ECS tasks have separate network namespaces;
-  apps must not use `localhost`, must target the EC2 host IP from metadata, and the
-  daemonset must run with `networkMode: host`.
-- **ECS Fargate startup loss:** say add a collector sidecar `healthCheck` and make
-  the app depend on `dependsOn: [{containerName: otel-collector, condition: HEALTHY}]`.
-- **Standalone installer:** recommend `otel-installer`/one-liner with both
-  `CORALOGIX_PRIVATE_KEY` and `CORALOGIX_DOMAIN`.
+### Exporter and routing
+
+- **`domain:` is a bare hostname, not a URL.** `eu2.coralogix.com` — not `https://ingress.eu2.coralogix.com`, not a UI hostname.
+- **Bracket env vars.** `${env:CORALOGIX_PRIVATE_KEY}`, not `$CORALOGIX_PRIVATE_KEY` — unbracketed form silently fails in v0.76+.
+- **Use a dedicated `coralogix/resource_catalog` exporter for Infrastructure Explorer**
+  with the `x-coralogix-ingress: metadata-as-otlp-logs/v1` header. The default
+  `coralogix` exporter won't light up the entity views.
 - **No data + transform/OTTL:** clearly say to stop trying OTTL; check receiver/exporter
-  connectivity, DNS/TLS/proxy/egress, private key, and region/domain.
+  connectivity, DNS/TLS/proxy/egress, private key, and region/domain first.
+
+**Minimal working exporter config:**
+
+```yaml
+exporters:
+  coralogix:
+    domain: "coralogix.com" # Replace with your specific Coralogix domain (e.g., coralogix.us, coralogix.in)
+    private_key: "${env:CORALOGIX_PRIVATE_KEY}"
+    application_name: "your_application_name"
+    subsystem_name: "your_subsystem_name"
+```
+
+### Pipeline placement (Kubernetes)
+
+- **`memory_limiter` first, `batch` last.**
+- **One role owns full `k8sattributes` extraction** — typically gateway; agents use `passthrough: true`.
+- **`spanmetrics` on agent (before sampling), `tail_sampling` on gateway.** Run `transactions`/`groupbytrace/transactions` before `spanmetrics`; never on both agent and gateway.
+- **Don't replace `service.pipelines` wholesale** — use `extraProcessors`/`extraReceivers` hooks; wholesale overrides silently break `resource/metadata` (`cx.agent.type`) and chart upgrades.
+
+### Platform-specific rules
+
+- **GKE Autopilot Warden:** Set `logsCollection.storeCheckpoints: false`; disable `coralogix-ebpf-profiler`, `hostMetrics`, `hostEntityEvents`, `resourceDetection` on agent; disable `resourceDetection` on cluster-collector. Use `gke-autopilot-values.yaml`.
+- **ECS EC2 daemonset localhost:** Apps must target the EC2 host IP (not `localhost`); daemonset needs `networkMode: host`. Remove `ecs` from `resourcedetection.detectors` — it stamps the collector's own container ID.
+- **ECS Fargate startup loss:** Add sidecar `healthCheck` + `dependsOn: [{containerName: otel-collector, condition: HEALTHY}]` on the app. Use the CDOT image.
+- **Standalone installer:** Recommend `otel-installer`/one-liner with both
+  `CORALOGIX_PRIVATE_KEY` and `CORALOGIX_DOMAIN`.
 - **Infrastructure Explorer (Kubernetes):** `kubernetesResources` and `hostEntityEvents`
   are **enabled by default** in the chart — do not disable them. `kubernetesResources`
   must stay on the `opentelemetry-cluster-collector` only (enabling it on the agent
@@ -154,21 +142,17 @@ For these recurring cases, include the exact corrective detail in the final answ
   `coralogix/resource_catalog` exporter with `x-coralogix-ingress: metadata-as-otlp-logs/v1`.
 - **Resource Catalog daemonset crash:** `resourcedetection/resource_catalog` belongs on
   the `opentelemetry-cluster-collector` Deployment only; remove it from daemonset agents.
-- **Spanmetrics with tail sampling:** gateway `spanmetrics` sees only sampled traces,
-  so errors/p99 undercount. Move `spanmetrics` to the agent, upstream of sampling; run
-  `transactions`/`groupbytrace/transactions` before `spanmetrics`; do not run it on
-  both agent and gateway.
-- **Full `k8sattributes`:** exactly one role should do full extraction; set
+- **Full `k8sattributes`:** Exactly one role should do full extraction; set
   `passthrough: true` on the others.
-- **OpAMP supervisor endpoint:** it is different from exporter `domain:` and needs the
+- **OpAMP supervisor endpoint:** It is different from exporter `domain:` and needs the
   full URL, e.g. `https://ingress.eu2.coralogix.com/opamp/v1`.
 - **Java multiline stack traces not merging (Kubernetes):** CRI tags every log line as
   `F` (full/final) — the standard `P→F` recombine never triggers. Use `firstEntryRegex`
   on the filelog `recombine` operator to detect new entries by timestamp pattern.
-- **`spanNameReplacePattern` escaping:** there are two layers: single-quote or block
+- **`spanNameReplacePattern` escaping:** There are two layers: single-quote or block
   scalar for YAML/OTTL backslashes, and write backreferences as `$$1`/`$$2` because the
   collector envprovider expands `$...`; verify with `helm template`.
-- **Target Allocator debugging:** port-forward
+- **Target Allocator debugging:** Port-forward
   `svc/coralogix-opentelemetry-targetallocator` on `8080`; inspect `/jobs` and
   `/scrape_configs`; then check RBAC, selectors, and watched namespaces.
 
@@ -176,9 +160,52 @@ For these recurring cases, include the exact corrective detail in the final answ
 
 ### 1. Triage a "no data reaching Coralogix" report
 
-Use the symptom table and self-telemetry workflow in
-[references/ops-troubleshooting.md](references/ops-troubleshooting.md). Start with exporter
-domain/key/egress, then inspect pipeline wiring only after export is healthy.
+Work through these steps in order before touching any pipeline configuration:
+
+**Step 1 — Prove the collector is running and exporting**
+```bash
+# Kubernetes: check exporter metrics
+kubectl exec -n <namespace> <collector-pod> -- wget -qO- http://localhost:8888/metrics \
+  | grep -E 'otelcol_exporter_(sent|send_failed|enqueue_failed|queue)'
+# Success: otelcol_exporter_sent_* > 0 and climbing
+# Failure indicator: otelcol_exporter_send_failed_* > 0 — proceed to Step 2
+```
+
+**Step 2 — Verify DNS and TLS reach the ingestion endpoint**
+```bash
+# From inside the collector pod / host
+nslookup ingress.<domain>          # e.g. ingress.coralogix.com
+curl -v https://ingress.<domain>   # expect 400/401, NOT a TLS or connection error
+```
+If DNS fails → network/VPC/proxy issue, not a collector config issue.
+If TLS fails → certificate bundle or proxy MITM — check `NO_PROXY` / `HTTPS_PROXY` env vars.
+
+**Step 3 — Confirm the private key is expanded correctly**
+```bash
+# Kubernetes: inspect the live env
+kubectl exec -n <namespace> <collector-pod> -- env | grep CORALOGIX
+# The key must appear as a 36-char UUID-like string, not the literal "${env:...}" text
+# Literal text → bracket syntax wrong, or Secret not mounted
+```
+
+**Step 4 — Check the exporter `domain:` value**
+
+In the running config (`/etc/otelcol-contrib/config.yaml` or `kubectl get cm`), verify:
+- `domain:` is a bare hostname such as `eu2.coralogix.com` — no `https://` prefix, no UI hostname (`app.coralogix.com` is wrong)
+- `private_key:` resolved to the actual key (Step 3)
+
+**Step 5 — Enable debug logging for one minute**
+```yaml
+service:
+  telemetry:
+    logs:
+      level: debug
+```
+Look for `Exporting failed` or `grpc status` lines. A `StatusUnauthenticated` confirms a key/region mismatch. A `context deadline exceeded` suggests egress/proxy or ingress-side latency — also check `coralogix.timeout` (default 5s; increase to 30s).
+
+**Step 6 — Inspect pipeline wiring only after Steps 1–5 pass**
+
+If export is healthy but data is missing in the Coralogix UI: check receiver connectivity, processor filters (`filter` processor dropping everything), and that the pipeline is wired in `service.pipelines`. Full symptom → root-cause table: [references/ops-troubleshooting.md](references/ops-troubleshooting.md).
 
 ### 2. Bring up a new Kubernetes cluster with `otel-integration`
 
@@ -198,110 +225,16 @@ detector enabled only for sidecar mode.
 Use [references/ops-memory-performance.md](references/ops-memory-performance.md). Compare
 Go heap metrics to RSS before changing pod limits or `memory_limiter` settings.
 
-## Best Practices
-
-### Exporter and routing
-
-1. **`domain:` is a bare hostname, not a URL.** `eu2.coralogix.com` — not
-   `https://ingress.eu2.coralogix.com`, and never a Coralogix UI hostname. The UI and
-   the data-ingestion endpoint are different hosts; see `core` for regions
-   and the UI-vs-ingestion rule.
-2. **Bracket env vars.** `${env:CORALOGIX_PRIVATE_KEY}`, not `$CORALOGIX_PRIVATE_KEY`.
-   The old unbracketed form silently stopped expanding in OTel Collector v0.76+ (a
-   confmap/envprovider change upstream, not specific to the coralogix exporter).
-3. **Use a dedicated `coralogix/resource_catalog` exporter for Infrastructure Explorer**
-   with the `x-coralogix-ingress: metadata-as-otlp-logs/v1` header. The default
-   `coralogix` exporter won't light up the entity views.
-
-### Pipeline placement (Kubernetes)
-
-1. **`memory_limiter` first, `batch` last.** Every other order sheds load after work
-   has been done, or fails to batch enriched records.
-2. **One role owns full `k8sattributes` extraction.** Typically gateway. Daemonset
-   agents stay on `passthrough: true`. Triple-duplication of full extraction hammers the
-   Kubernetes API server.
-3. **`spanmetrics` on agent, `tail_sampling` on gateway.** Span metrics must see all
-   spans before sampling; tail sampling must see all spans of a trace, which only works
-   at a central role.
-4. **Don't replace `service.pipelines` wholesale** in Helm values — prefer the chart's
-   `extraProcessors` / `extraReceivers` hooks. Wholesale overrides break the
-   `resource/metadata` processor that sets `cx.agent.type` and silently break chart
-   upgrades.
-
-### ECS
-
-1. **ECS EC2 daemonset: remove `ecs` from `resourcedetection.detectors`.** It stamps
-   the collector's own container ID onto every record.
-2. **ECS EC2 apps must target the host IP, not `localhost`.** ECS tasks each get their
-   own network namespace; `localhost` on the app task is not `localhost` on the
-   daemonset. Use the EC2 metadata IP (`169.254.169.254` → `local-ipv4`).
-3. **ECS Fargate: use the CDOT image and wire `dependsOn: HEALTHY`.** Without it,
-   sidecar teardown throws away buffered telemetry when the app container exits.
-
-### Troubleshooting discipline
-
-1. **Prove the collector is the problem first.** "No data" is usually DNS / TLS / proxy
-   / API key, not a pipeline mistake. If a `transform` processor was added to "force
-   data through" and it made no difference, the root cause is upstream.
-2. **Enable self-telemetry before editing pipelines.** The collector's own metrics
-   (`otelcol_*`, `process.runtime.go.mem.*`) are the ground truth for memory, queue
-   depth, and export failures.
-
 ## Limitations
 
-This skill does not cover:
-
-- **OTTL authoring** (`transform`, `filter`, `routing` statements, contexts, path
-  expressions, `error_mode`). Use the `opentelemetry-ottl` skill.
-- **OpAMP protocol internals, supervisor-binary flags, Fleet Manager UI, remote-config
-  rendering, CDOT distribution details.** The `preset-fleet-management.md` reference only
-  covers the overlap with Helm/standalone configs (endpoint shape, values-vs-UI
-  precedence, the Windows image pitfall). Deep OpAMP and supervisor work lives in the
-  Fleet Manager / CDOT documentation, not here.
-- **Application SDK instrumentation problems.** The collector can only work with what
-  the SDK sends; missing trace IDs, wrong span kinds, or unconfigured propagators are
-  SDK issues.
-- **Infrastructure problems upstream of the collector.** DNS, TLS termination, proxies,
-  IAM / IRSA, NAT gateways, VPC endpoints, Kubernetes admission webhooks (beyond the
-  known GKE Autopilot Warden case). Diagnose to the boundary, then escalate.
+- **OTTL authoring** — use the `opentelemetry-ottl` skill.
+- **OpAMP / Fleet Manager internals** — `preset-fleet-management.md` covers only the collector-config overlap (endpoint shape, values-vs-UI precedence, Windows image pitfall); deep supervisor/CDOT work is out of scope.
+- **SDK instrumentation problems** — use the `opentelemetry-instrumentation` skill.
+- **Upstream infrastructure** (DNS, TLS, proxies, IAM/IRSA, NAT, VPC endpoints) — diagnose to the boundary, then escalate.
 
 ## References
 
-- **[references/config-exporters.md](references/config-exporters.md) and [references/config-processors.md](references/config-processors.md)** — the `coralogix`
-  exporter config (`domain:` shape, bracketed env vars, `*_name_attributes`),
-  Infrastructure Explorer exporter, universal processor chain,
-  agent/cluster-collector/gateway topology.
-- **[references/ops-troubleshooting.md](references/ops-troubleshooting.md)** — symptom →
-  root-cause table, the self-telemetry-first debugging workflow, "is this even a
-  collector problem?" framing.
-- **[references/setup-index.md](references/setup-index.md)** — master table
-  of every `telemetry-shippers` mode (primary + secondary) and which reference file
-  covers it.
-- **[references/setup-opentelemetry-operator.md](references/setup-opentelemetry-operator.md)** — OpenTelemetry Operator CRDs and auto-instrumentation.
-- **[references/setup-kubernetes.md](references/setup-kubernetes.md)** — the
-  `otel-integration` Helm chart: presets, per-variant `values-<>.yaml` files
-  (EKS/GKE/AKS/OpenShift/EKS-Fargate/GKE-Autopilot), Warden, ArgoCD meta-chart trap.
-- **[references/setup-ecs-ec2.md](references/setup-ecs-ec2.md)** — CDOT daemonset, host
-  network, AWS metadata IP discovery, the `ecs` detector pitfall.
-- **[references/setup-ecs-fargate.md](references/setup-ecs-fargate.md)** — sidecar
-  mode, essential-container race, CDOT `healthCheck`, `dependsOn: HEALTHY`.
-- **[references/setup-linux-standalone.md](references/setup-linux-standalone.md)** —
-  systemd, env-file permissions, journald vs filelog, DB service discovery, the
-  UI-wizard `telemetry.sdk.*` bug (macOS launchd note at the end).
-- **[references/setup-windows-standalone.md](references/setup-windows-standalone.md)** —
-  PowerShell MSI, `windowseventlog` / `iis` receivers, IIS high-CPU-is-usually-Defender.
-- **[references/setup-installer.md](references/setup-installer.md)** — the universal
-  installer (Bash/PowerShell/Docker) one-liners per OS, flags table.
-- **[references/preset-kubernetes.md](references/preset-kubernetes.md)** — Coralogix Helm presets, Infrastructure Explorer prerequisites.
-  prerequisite chain.
-- **[references/ops-memory-performance.md](references/ops-memory-performance.md)** —
-  `memory_limiter` semantics, Go heap vs RSS / kernel page cache, `sending_queue` +
-  `file_storage` back-pressure.
-- **[references/preset-fleet-management.md](references/preset-fleet-management.md)** — the OpAMP /
-  supervisor overlap with collector config: endpoint shape, values-vs-UI precedence,
-  Windows image pitfall. Deep OpAMP / CDOT internals are out of scope.
-
-Upstream:
+Upstream links:
 - [Coralogix OpenTelemetry docs](https://coralogix.com/docs/opentelemetry/)
 - [`telemetry-shippers` (Helm charts, ECS task defs, installer)](https://github.com/coralogix/telemetry-shippers)
 - [`integration-definitions` (UI wizards)](https://github.com/coralogix/integration-definitions)

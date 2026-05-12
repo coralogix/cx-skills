@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I have three gateway replicas with tail_sampling. We keep seeing otelcol_processor_tail_sampling_sampling_trace_dropped_",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "num-traces-decision-wait-replica",
+      "description": "The response matches the pattern: (?i)(num_traces|decision_wait|replica|buffer|scale)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "loadbalanc-load-balanc",
+      "description": "The response matches the pattern: (?i)(loadbalanc|load.?balanc|consistent[_ -]?hash)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

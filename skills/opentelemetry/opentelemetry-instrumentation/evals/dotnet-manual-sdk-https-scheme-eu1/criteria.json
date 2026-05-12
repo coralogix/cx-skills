@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: I've set up .NET OpenTelemetry manual instrumentation for my eu1 service. My OTLP exporter reports 200 OK responses, so ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-cx-application-name",
+      "description": "The response contains \"cx.application.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-subsystem-name",
+      "description": "The response contains \"cx.subsystem.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-service-name",
+      "description": "The response contains \"service.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-suggests-the-issue-is-in-the-endpoin",
+      "description": "Identifies that missing resource attributes are the cause: all three of service.name, (required for APM Service Catalog entry and transaction grouping), cx.application.name (required for data routing to the correct Coralogix team), and cx.subsystem.name (required for TCO policy and APM grouping) must be set. Data arrives (200 OK) but is not visible in APM or routed correctly when any of these are missing. FAIL if it suggests the issue is in the endpoint format or authentication, or if it omits any of the three required attributes.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

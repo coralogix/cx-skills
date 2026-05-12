@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for: How do I instrument a Go application to send metrics and traces to Coralogix ap2 region?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-ingress-ap2-coralogix-com-443",
+      "description": "The response contains \"ingress.ap2.coralogix.com:443\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-credentials-newtls-nil",
+      "description": "The response contains \"credentials.NewTLS(nil)\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-application-name",
+      "description": "The response contains \"cx.application.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-api-key",
+      "description": "The response contains \"CX_API_KEY\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-recommends-go-auto-instrumentation-o",
+      "description": "Covers Go manual instrumentation (code or detailed prose both acceptable) with: TLS credentials (credentials.NewTLS(nil)) on all exporters, an Authorization header map (\"Bearer \" + token \u2014 note literal space), the coralogix-opentelemetry-go sampler for APM transactions, and the endpoint ingress.ap2.coralogix.com:443 without an https:// scheme in the gRPC dial options. FAIL if it recommends Go auto-instrumentation, omits credentials.NewTLS(nil), or uses https:// in the gRPC endpoint.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

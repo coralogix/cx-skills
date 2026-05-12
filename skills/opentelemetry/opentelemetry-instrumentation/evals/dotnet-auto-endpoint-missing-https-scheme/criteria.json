@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: My .NET auto-instrumented service has these env vars set but no traces appear:\n  OTEL_EXPORTER_OTLP_ENDPOINT=ingress.eu1",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-https",
+      "description": "The response contains \"https://\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-only-response-identifies-otel-traces-expor",
+      "description": "Identifies that OTEL_EXPORTER_OTLP_ENDPOINT is missing the https:// URI scheme \u2014 the .NET OTLP exporter requires a full URI, so the correct value is https://ingress.eu1.coralogix.com:443, not the bare host:port accepted by Python, Node.js, and Go (Java also requires https://, so do not cite Java as an example of bare host:port being valid). OTEL_TRACES_EXPORTER defaults to \"otlp\" in .NET auto-instrumentation and is NOT a root cause. FAIL only if the response identifies OTEL_TRACES_EXPORTER as the PRIMARY or SOLE root cause and does not mention the missing https:// scheme \u2014 mentioning OTEL_TRACES_EXPORTER as a secondary note is acceptable as long as the missing https:// scheme is clearly identified as the fix.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

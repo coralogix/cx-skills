@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm confused about when to use the \"where\" clause on individual statements versus the \"conditions:\" block on a context. ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-conditions",
+      "description": "The response contains \"conditions\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-where",
+      "description": "The response contains \"where\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-says-the-two-are-interchangeable-or-that-f",
+      "description": "Differentiates the two: conditions: applies at the block level and gates every statement under the context, while where applies per individual statement. A response that says the two are interchangeable, or that fails to note that multiple entries under conditions: are OR'd (so strict AND requires combining into a single boolean or using per-statement where), is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

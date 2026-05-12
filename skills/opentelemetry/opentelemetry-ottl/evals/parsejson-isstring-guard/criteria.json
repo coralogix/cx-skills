@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: My logs arrive as raw JSON strings in the body \u2014 IsMap(body) returns false. I need to extract the \"user_id\" and \"request",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-parsejson",
+      "description": "The response contains \"ParseJSON\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-isstring",
+      "description": "The response contains \"IsString\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

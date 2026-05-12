@@ -1,4 +1,4 @@
-name: Tag and Release
+name: Release
 
 on:
   push:
@@ -45,3 +45,33 @@ jobs:
           gh release create "${TAG}" \
             --title "${TAG}" \
             --generate-notes
+
+  publish-tile:
+    name: Publish Tessl tile
+    needs: tag-and-release
+    if: "${{ startsWith(github.event.head_commit.message, 'chore: release v') }}"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Tessl CLI
+        if: env.TESSL_TOKEN != ''
+        uses: tesslio/setup-tessl@v2
+        with:
+          token: ${{ env.TESSL_TOKEN }}
+
+      - name: Lint tile
+        if: env.TESSL_TOKEN != ''
+        run: tessl tile lint
+
+      - name: Publish tile
+        if: env.TESSL_TOKEN != ''
+        run: tessl tile publish
+
+      - name: Skip publish when token is missing
+        if: env.TESSL_TOKEN == ''
+        run: echo "TESSL_TOKEN is not configured; skipping Tessl tile publish."

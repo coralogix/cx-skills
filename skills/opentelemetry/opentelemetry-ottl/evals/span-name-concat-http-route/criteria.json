@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: All my spans from our API service come in with a generic name like \"http.request\" regardless of which endpoint was calle",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-concat",
+      "description": "The response contains \"Concat\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-only-if-concat-is-in-the-wrong-context-or",
+      "description": "PASS if the response uses context: span AND sets name via Concat([...], ...) built from the HTTP method and route attributes \u2014 either http.request.method + http.route (v2 semconv) or the v1 fallback http.method + http.route. The attributes are assumed to be populated by the upstream instrumentation; do NOT penalize the response for not explaining how to derive http.route from other fields, for not handling missing-route fallbacks, or for not stripping query strings. FAIL only if Concat is in the wrong context, or the method+route attribute pair is replaced with unrelated fields (e.g. http.url without any route attribute).",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: My Python app is sending traces to Coralogix using OTLPSpanExporter with these programmatic headers:\n  headers = (\n     ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-literal",
+      "description": "The response contains \"literal\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-env-var",
+      "description": "The response contains \"env var\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-only-says-use-a-space-without-explai",
+      "description": "Identifies that Bearer%20 is wrong in programmatic gRPC tuple headers AND explains the asymmetry: %20 is only needed in the OTEL_EXPORTER_OTLP_HEADERS env var because the Python SDK parses that string as a comma-separated list where a literal space acts as a delimiter. In programmatic tuple headers the value is passed directly to gRPC without parsing, so a literal space must be used: (\"authorization\", f\"Bearer {token}\"). FAIL if it only says \"use a space\" without explaining why %20 is correct in env vars but wrong in tuples, or if it does not distinguish the two contexts.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

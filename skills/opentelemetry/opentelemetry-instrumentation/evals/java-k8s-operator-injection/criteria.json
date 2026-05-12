@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for: I'm running a Java service in Kubernetes and want to use the OpenTelemetry Operator to auto-instrument it without changi",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-instrumentation",
+      "description": "The response contains \"Instrumentation\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-inject-java",
+      "description": "The response contains \"inject-java\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-application-name",
+      "description": "The response contains \"cx.application.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-subsystem-name",
+      "description": "The response contains \"cx.subsystem.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-omits-the-instrumentation-crd-omits",
+      "description": "Explains the OpenTelemetry Operator injection flow: create an Instrumentation CRD that specifies the exporter endpoint and resource attributes including cx.application.name, cx.subsystem.name, and service.name; then add the instrumentation.opentelemetry.io/inject-java: \"true\" annotation to the pod or deployment. The endpoint may point to a local OTel Collector or directly to the Coralogix ingress \u2014 both are valid; auth headers can be set in Instrumentation.spec.exporter.headers when going direct. Must NOT instruct the user to set JAVA_TOOL_OPTIONS or download the JAR manually \u2014 those are bypassed by the Operator. FAIL if it omits the Instrumentation CRD, omits the pod annotation, or instructs manual JAR setup.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

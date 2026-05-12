@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for: I want to instrument my Java Spring Boot application to send traces to Coralogix. We're on the eu2 region. How do I set ",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-opentelemetry-javaagent-jar",
+      "description": "The response contains \"opentelemetry-javaagent.jar\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-ingress-eu2-coralogix-com-443",
+      "description": "The response contains \"ingress.eu2.coralogix.com:443\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-exporter-otlp-headers",
+      "description": "The response contains \"OTEL_EXPORTER_OTLP_HEADERS\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-application-name",
+      "description": "The response contains \"cx.application.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-subsystem-name",
+      "description": "The response contains \"cx.subsystem.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-if-it-uses-bare-ingress-eu2-coralogix-com",
+      "description": "Provides a complete Java agent setup: links to the official OpenTelemetry Java getting-started docs for installation, sets JAVA_TOOL_OPTIONS with -javaagent, sets OTEL_EXPORTER_OTLP_ENDPOINT to https://ingress.eu2.coralogix.com:443 (full URI with https:// scheme \u2014 required because the Java OTLP exporter performs URI parsing and rejects bare host:port), and sets OTEL_EXPORTER_OTLP_HEADERS with Authorization=Bearer. Uses a placeholder for the API key. FAIL if it uses bare ingress.eu2.coralogix.com:443 without the https:// scheme, or if it omits cx.application.name/cx.subsystem.name.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

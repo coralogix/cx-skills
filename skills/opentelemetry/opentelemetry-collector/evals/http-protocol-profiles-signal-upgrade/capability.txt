@@ -1,0 +1,1 @@
+coralogix-exporter-config

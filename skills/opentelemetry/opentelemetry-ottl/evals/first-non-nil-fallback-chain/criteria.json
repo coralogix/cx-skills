@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: I want to set attributes[\"db.namespace\"] to whichever of db.name, server.address, or net.peer.name is populated on the s",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-set",
+      "description": "The response contains \"set(\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "nil-null",
+      "description": "The response matches the pattern: (!= nil|!= null)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

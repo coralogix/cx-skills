@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We need to mask PII in our logs before they leave the collector. We want to hash user IDs so we can still correlate with",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-sha256",
+      "description": "The response contains \"SHA256\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-replace-pattern",
+      "description": "The response contains \"replace_pattern\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-suggest-deleting-the-fields-outright-when",
+      "description": "Maps each PII requirement to the right OTTL primitive: SHA256 for the user ID (correlation-preserving hashing), replace_pattern or replace_all_patterns for card numbers in the body, and replace_pattern for the Authorization header value in span attributes. Does not suggest deleting the fields outright when the user asked for masking/hashing.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -88,7 +88,7 @@ jobs:
           echo "tag=v${MAJOR}.${MINOR}.${PATCH}" >> "$GITHUB_OUTPUT"
           echo "last_tag=$LAST_TAG" >> "$GITHUB_OUTPUT"
 
-      - name: Update plugin manifests
+      - name: Update plugin manifests and tile version
         env:
           TAG: ${{ steps.version.outputs.tag }}
         run: |
@@ -96,6 +96,8 @@ jobs:
             jq ".version = \"${TAG#v}\"" "${manifest}" > "${manifest}.tmp"
             mv "${manifest}.tmp" "${manifest}"
           done
+          jq ".version = \"${TAG#v}\"" tile.json > tile.json.tmp
+          mv tile.json.tmp tile.json
 
       - name: Update CHANGELOG.md
         env:
@@ -156,11 +158,12 @@ jobs:
           CURSOR_PLUGIN=$(base64 -w0 .cursor-plugin/plugin.json)
           CODEX_PLUGIN=$(base64 -w0 .codex-plugin/plugin.json)
           CHANGELOG=$(base64 -w0 CHANGELOG.md)
+          TILE=$(base64 -w0 tile.json)
 
           # shellcheck disable=SC2016
           gh api graphql -f query='
             mutation($repo: String!, $branch: String!, $oid: GitObjectID!,
-                     $headline: String!, $cp: Base64String!, $crp: Base64String!, $cxp: Base64String!, $cl: Base64String!) {
+                     $headline: String!, $cp: Base64String!, $crp: Base64String!, $cxp: Base64String!, $cl: Base64String!, $tj: Base64String!) {
               createCommitOnBranch(input: {
                 branch: { repositoryNameWithOwner: $repo, branchName: $branch },
                 message: { headline: $headline },
@@ -170,7 +173,8 @@ jobs:
                     { path: ".claude-plugin/plugin.json", contents: $cp },
                     { path: ".cursor-plugin/plugin.json", contents: $crp },
                     { path: ".codex-plugin/plugin.json", contents: $cxp },
-                    { path: "CHANGELOG.md", contents: $cl }
+                    { path: "CHANGELOG.md", contents: $cl },
+                    { path: "tile.json", contents: $tj }
                   ]
                 }
               }) { commit { url } }
@@ -182,7 +186,8 @@ jobs:
             -f cp="${CLAUDE_PLUGIN}" \
             -f crp="${CURSOR_PLUGIN}" \
             -f cxp="${CODEX_PLUGIN}" \
-            -f cl="${CHANGELOG}"
+            -f cl="${CHANGELOG}" \
+            -f tj="${TILE}"
 
       - name: Open release PR
         env:
@@ -195,8 +200,9 @@ jobs:
 
           **Changes include:**
           - Updated plugin manifests to \`${TAG#v}\`
+          - Updated tile.json to \`${TAG#v}\`
           - Updated CHANGELOG.md
 
-          Merging this PR will trigger the \`release-tag\` workflow to create the git tag and GitHub release." \
+          Merging this PR will create the git tag, GitHub release, and publish the Tessl tile." \
             --base master \
             --head "release/${TAG}"

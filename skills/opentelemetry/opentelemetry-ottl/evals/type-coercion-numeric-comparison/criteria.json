@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for: My OTTL comparison attributes[\"retries\"] > 3 fails because retries is sometimes a string like \"5\". How do I safely compa",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "convert-int-double",
+      "description": "The response matches the pattern: (?i)(convert|int|double|string|IsString|IsInt|IsDouble)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "recommends-type-guards-or-conversion-before-c",
+      "description": "Recommends type guards or conversion before comparison and avoids assuming all attribute values are already numeric.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

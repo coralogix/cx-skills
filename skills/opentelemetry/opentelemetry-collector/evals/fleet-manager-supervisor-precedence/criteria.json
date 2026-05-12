@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for: We're running otel-integration with the Fleet Management supervisor enabled. I helm-upgraded with new processor settings",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-supervisor",
+      "description": "The response contains \"supervisor\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "override-ing-overriden",
+      "description": "The response matches the pattern: (?i)(override(s|ing|n)?|overriden|precedence|beats|wins|takes over|takes precedence|UI (config|settings)|fleet (manager|management).*config|remote[- ]?config|Fleet Manager)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-with-presets-fleetmanagement-su",
+      "description": "Explains that with `presets.fleetManagement.supervisor.enabled: true` the supervisor owns the runtime config \u2014 Fleet Manager UI settings take precedence over values.yaml, and helm-upgrading the chart has no effect on processor config. Recommends either editing the config in the Fleet Manager UI or disabling the supervisor to let Helm values take effect again.",
+      "max_score": 2,
+      "category": "DESIGN"
+    }
+  ]
+}

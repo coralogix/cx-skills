@@ -86,11 +86,6 @@ metadata:
 
 # OpenTelemetry SDK Instrumentation for Coralogix
 
-Help users instrument Java, Python, Node.js, .NET, and Go applications with OpenTelemetry
-SDKs and send traces, metrics, and logs to Coralogix. Use this skill when someone is adding
-SDK instrumentation to their app — not when they are deploying or configuring the collector
-(use `opentelemetry-collector` for that).
-
 ## When to Use This Skill
 
 | Use case | What to do |
@@ -100,68 +95,40 @@ SDK instrumentation to their app — not when they are deploying or configuring 
 | Configure OTLP endpoint, region, or authentication | Load `coralogix-endpoints.md` — covers regional domains, OTLP host:port, auth header format |
 | Generate a complete user-facing answer | Load `output-templates.md` — checklist structure with assumptions, code, validation steps |
 | Diagnose missing traces, metrics, or logs from the SDK | Load `troubleshooting.md` — symptom → root-cause table for SDK-side failures |
-| User wants to deploy or configure the OTel Collector | Not in scope — use the `opentelemetry-collector` skill |
-| User wants to write OTTL transform/filter statements | Not in scope — use the `opentelemetry-ottl` skill |
 
-## Progressive Loading Rule
+Load order: `language-selector.md` → language ref → `coralogix-endpoints.md` → `output-templates.md` (always last). Load `troubleshooting.md` only for debugging.
 
-1. Load `language-selector.md` first to determine language, signal, mode, and export path.
-2. Load the specific language reference once that is known.
-3. Load `coralogix-endpoints.md` whenever generating endpoint or region configuration.
-4. Load `troubleshooting.md` only for debugging / missing telemetry requests.
-5. Load `output-templates.md` whenever generating a final user-facing instrumentation answer.
-
-## Key Concepts
-
-### Auth, endpoint, and required attributes
-
-Direct OTLP export to Coralogix requires `Authorization=Bearer <key>` (Send-Your-Data type)
-as an OTLP header, plus `cx.application.name`, `cx.subsystem.name`, and `service.name` as
-resource attributes. The HTTP/protobuf traces endpoint is
-`https://ingress.<region>.coralogix.com:443/v1/traces`; logs use `/v1/logs`. For gRPC the
-required format depends on the language: **Java and .NET** require the full `https://` URI
-scheme (`https://ingress.<region>.coralogix.com:443`) because their OTLP exporters perform
-URI parsing on the endpoint value. **Python and Node.js** examples should prefer bare
-`host:port` (`ingress.<region>.coralogix.com:443`), but both SDKs also accept
-`https://host:port`; do not flag that as incorrect in a user's config. **Go `WithEndpoint`**
-uses bare `host:port` only. When exporting via a collector, the SDK sends unauthed to the
-collector; the collector holds the key. Full region table and per-language formats:
-[references/coralogix-endpoints.md](references/coralogix-endpoints.md).
-
-### Resource attributes and Coralogix feature requirements
-
-All three of `service.name`, `cx.application.name`, and `cx.subsystem.name` are required for
-full APM functionality. Missing any one causes silent degradation — traces arrive but APM
-features are incomplete or empty.
-
-| Attribute | Required for |
-|---|---|
-| `service.name` | APM Service Catalog entry, service map, APM transaction grouping |
-| `cx.application.name` + `cx.subsystem.name` | Data routing to team, TCO policy, APM grouping |
-| `telemetry.sdk.language` | Language icon in APM — set automatically by the OTel SDK; do not strip it |
-| `k8s.pod.name`, `k8s.namespace.name` | Infrastructure Explorer pod/namespace linking |
-| `host.name` | Infrastructure Explorer host view |
-
-### Coralogix transactions (APM)
-
-APM Transactions require `CoralogixTransactionSampler` in the SDK sampler chain — available
-for Python, Node.js, and Go (see each language reference file). **Node.js caveat:** bundled
-auto-instrumentation (`@opentelemetry/auto-instrumentations-node` via `NODE_OPTIONS`) does
-NOT support Coralogix transactions — use individual instrumentation or manual instead.
-
-## High-Signal Answer Rules
+## Answer Rules
 
 Always include in generated answers:
 
-- **`cx.application.name` + `cx.subsystem.name` + `service.name`.** All three are required;
-  missing any one silently degrades APM features.
-- **Required direct-export env vars.** Show `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS`, `OTEL_SERVICE_NAME`, and `OTEL_RESOURCE_ATTRIBUTES` in every setup answer. For HTTP/protobuf traces use `https://ingress.<region>.coralogix.com:443/v1/traces`; for gRPC use `https://ingress.<region>.coralogix.com:443` (Java/.NET) or the standard Coralogix bare form `ingress.<region>.coralogix.com:443` (Python/Node.js/Go). Python and Node.js also accept `https://host:port`; Go `WithEndpoint` does not.
-- **Telemetry quality checks.** Keep span names low-cardinality, avoid sensitive data in all telemetry, keep metric attributes bounded, use structured single-line logs with trace/span correlation, and include validation steps for the configured signal.
-- **Official install references.** For new setup answers, link to `https://opentelemetry.io/docs/languages/<lang>/getting-started/` instead of writing install commands. Still name required package artifacts when they affect correctness.
-- **Validation paths.** Traces → Coralogix UI **Explore → Tracing**. Metrics → **Grafana → Explore → Metric Browser**. Logs → **Logs**.
-- **Language-specific fragile rules.** Load the relevant language reference before answering; it contains required package artifacts and runtime-specific caveats for Java, Python, Node.js, .NET, and Go.
-- **Direct vs collector: present tradeoffs, never recommend.** When asked whether to send directly from the SDK or via an OTel Collector, ALWAYS present both as valid options — never make a final recommendation. Direct is simpler and good for getting started; via-collector adds enrichment, retry, and tail sampling. Present the tradeoff table and ask about the user's context. Do not say "I recommend X" or imply one path is better without knowing their scale, infra, or sampling needs.
-- **Collector configuration questions are out of scope.** If asked about OTel Collector setup, batch processors, pipelines, or component config, redirect immediately to the `opentelemetry-collector` skill. Do not answer collector configuration questions even partially — this skill covers SDK instrumentation only, ending at the exporter.
+- **Required env vars** (direct export, HTTP/protobuf — works for all languages):
+  ```bash
+  export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<region>.coralogix.com:443"
+  export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
+  export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <Send-Your-Data key>"
+  export OTEL_SERVICE_NAME="my-service"
+  export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=my-app,cx.subsystem.name=my-subsystem"
+  ```
+  gRPC: Java/.NET → `https://host:443`; Python/Node.js → `host:port`; Go → `host:port` only. Full table: [coralogix-endpoints.md](references/coralogix-endpoints.md).
+
+- **Required resource attributes** — all three; missing any silently degrades APM:
+
+  | Attribute | Required for |
+  |---|---|
+  | `service.name` | APM catalog, service map, transactions |
+  | `cx.application.name` + `cx.subsystem.name` | Routing, TCO, APM grouping |
+  | `telemetry.sdk.language` | APM language icon — auto-set; do not strip |
+  | `k8s.pod.name`, `k8s.namespace.name` | Infra Explorer pod/namespace |
+  | `host.name` | Infra Explorer host view |
+
+- **Coralogix transactions.** Require `CoralogixTransactionSampler` (Python, Node.js, Go). Node.js bundled auto-instr via `NODE_OPTIONS` does NOT support transactions — use individual or manual.
+- **Telemetry quality.** Low-cardinality span names, no sensitive data, bounded metric attributes, structured single-line logs with trace/span IDs, validation steps for the signal. Never approve user-scoped values (`user_id`, `tenant_id`, `request_id`, `session_id`) as metric labels — they cause unbounded cardinality and will explode metric storage.
+- **Install references.** Link to `https://opentelemetry.io/docs/languages/<lang>/getting-started/`; name required packages only when they affect correctness.
+- **Validation paths.** Traces → **Explore → Tracing**. Metrics → **Grafana → Explore → Metric Browser**. Logs → **Logs**.
+- **Language fragile rules.** Load the language ref before answering — required packages and runtime caveats are there.
+- **Direct vs collector: present tradeoffs, never recommend.** Show both; use the tradeoff table in `language-selector.md` and ask about scale, infra, and sampling needs.
+- **Collector config is out of scope.** Redirect to `opentelemetry-collector` — do not partially answer pipeline or processor questions.
 
 ## Workflow
 
@@ -171,23 +138,25 @@ Always include in generated answers:
 
 ## Limitations
 
-This skill does not cover:
+- **OTel Collector / OTTL** — use `opentelemetry-collector` or `opentelemetry-ottl`.
+- **Lambda / serverless** — use Coralogix Lambda layer docs; `Payload Too Large` OTLP errors are Lambda-layer concerns, not SDK.
+- **PHP, eBPF auto-instrumentation** — not covered.
+- **Coralogix platform internals** (data routing, index policies, APM UI config) — platform topics.
 
-- **OpenTelemetry Collector deployment, configuration, or OTTL.** SDK instrumentation ends
-  at the exporter — what happens inside the collector is `opentelemetry-collector`.
-- **Lambda / serverless OTel auto-instrumentation layers.** Use Coralogix Lambda telemetry
-  exporter or language-specific Lambda layers — these have separate packaging and env-var
-  conventions. For Node.js Lambda: `Payload Too Large` OTLP errors and response streaming
-  limitations are handled at the Lambda layer level, not by the OTel SDK. Refer customers
-  to the Coralogix Lambda layer documentation.
-- **PHP instrumentation.** A separate docs page exists but is not covered here.
-- **eBPF auto-instrumentation.** Coverage of eBPF-based zero-code instrumentation is out
-  of scope for this skill.
-- **Coralogix platform internals.** Data routing, index policies, APM config in the
-  Coralogix UI — those are platform topics.
+## Deprecated native SDKs
+
+All native Coralogix SDKs are EOL **June 30, 2026** — redirect users to OTel instrumentation. Do not provide configuration help for these packages.
+
+| SDK | Deprecated package |
+|---|---|
+| Java | `coralogix-sdk` · [Log4j](https://coralogix.com/docs/integrations/sdks/log4j/) |
+| Python | `coralogix_logger` · [Python SDK](https://coralogix.com/docs/integrations/sdks/python-sdk/) |
+| Node.js | `coralogix-logger` · [Node.js SDK](https://coralogix.com/docs/integrations/sdks/nodejs/) · Winston · Bunyan |
+| .NET | `CoralogixCoreSDK` · [NLog](https://coralogix.com/docs/integrations/sdks/nlog/) · [Log4net](https://coralogix.com/docs/integrations/sdks/log4net/) · [Serilog](https://coralogix.com/docs/integrations/sdks/serilog/) |
+| Go | `go-coralogix-sdk` · [Go SDK](https://coralogix.com/docs/integrations/sdks/go/) |
 
 ## Upstream references
-- [Coralogix OTel instrumentation docs](https://coralogix.com/docs/opentelemetry/)
-- [OpenTelemetry official docs](https://opentelemetry.io/docs/)
-- [`coralogix-opentelemetry-js`](https://github.com/coralogix/coralogix-opentelemetry-js)
-- [`coralogix-opentelemetry-go`](https://github.com/coralogix/coralogix-opentelemetry-go)
+
+Coralogix OTel instrumentation: [Java](https://coralogix.com/docs/opentelemetry/instrumentation-options/java-opentelemetry-instrumentation/) · [Python](https://coralogix.com/docs/opentelemetry/instrumentation-options/python-opentelemetry-instrumentation/) · [Node.js](https://coralogix.com/docs/opentelemetry/instrumentation-options/nodejs-opentelemetry-instrumentation/) · [.NET](https://coralogix.com/docs/opentelemetry/instrumentation-options/dotnet-opentelemetry-instrumentation/) · [Go](https://coralogix.com/docs/opentelemetry/instrumentation-options/golang-opentelemetry-instrumentation/)
+
+[Coralogix OTel docs](https://coralogix.com/docs/opentelemetry/) · [OpenTelemetry official docs](https://opentelemetry.io/docs/)

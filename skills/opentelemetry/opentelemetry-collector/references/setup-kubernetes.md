@@ -162,10 +162,6 @@ Agents feed the gateway via a `loadbalancing` exporter with `consistent_hashing`
 
 ## Known gotchas
 
-### Java multiline stack traces not merging (CRI format)
-
-CRI tags every log line as `F` (full/final), so the standard `P→F` recombine operator never triggers. Use `firstEntryRegex` on the filelog `recombine` operator to detect the start of a new entry by matching the timestamp pattern instead.
-
 ### securityContext override conflicts with `collectorCRD.generate` + `storeCheckpoints`
 
 When both `opentelemetry-agent.collectorCRD.generate: true` and `opentelemetry-agent.presets.logsCollection.storeCheckpoints: true` are set, the chart hardcodes a `privileged: true` security context. Any custom `securityContext` in values.yaml then conflicts with it and the chart fails with a YAML parse / admission error.

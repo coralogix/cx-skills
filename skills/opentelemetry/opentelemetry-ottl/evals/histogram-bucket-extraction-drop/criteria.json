@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for: We have a high-volume histogram metric http.server.request.duration with many bucket boundaries. We want to keep the _su",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-extract-sum-metric",
+      "description": "The response contains \"extract_sum_metric\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-extract-count-metric",
+      "description": "The response contains \"extract_count_metric\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-says-ottl-cannot-do-this-at-all-without-of",
+      "description": "Describes a two-step approach: first extract the aggregated series (_sum and _count) from the histogram into standalone metrics using extract_sum_metric and extract_count_metric in context: metric, then drop the original histogram metric with the filter processor. The extraction step must produce new metrics before the histogram is deleted \u2014 suggesting to drop the histogram first and then extract is a FAIL. A response that tries to use keep_keys or delete_key to selectively strip bucket series from within the histogram datapoints (rather than extracting to new metrics) is a FAIL. A response that says OTTL cannot do this at all, without offering any collector-side approach, is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    },
+    {
+      "name": "filter-drop-metric",
+      "description": "The response matches the pattern: (?i)(filter|drop.*metric|delete.*metric)",
+      "max_score": 3,
+      "category": "INTENT"
+    }
+  ]
+}

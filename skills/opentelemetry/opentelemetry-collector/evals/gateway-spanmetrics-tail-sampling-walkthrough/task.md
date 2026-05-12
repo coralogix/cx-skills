@@ -1,4 +1,4 @@
-# Task
+# gateway-spanmetrics-tail-sampling-walkthrough
 
 You are a Coralogix support expert. A user has asked the following question:
 

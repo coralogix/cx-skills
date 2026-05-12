@@ -1,4 +1,4 @@
-# Task
+# semconv-v1-to-v2-normalization
 
 You are a Coralogix support expert. A user has asked the following question:
 

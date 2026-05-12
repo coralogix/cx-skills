@@ -1,4 +1,4 @@
-# Task
+# java-agent-spring-boot-setup
 
 You are a Coralogix support expert. A user has asked the following question:
 

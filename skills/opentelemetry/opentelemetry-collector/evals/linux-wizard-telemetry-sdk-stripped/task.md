@@ -1,4 +1,4 @@
-# Task
+# linux-wizard-telemetry-sdk-stripped
 
 You are a Coralogix support expert. A user has asked the following question:
 

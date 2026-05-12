@@ -64,6 +64,27 @@ jobs:
         with:
           token: ${{ env.TESSL_TOKEN }}
 
+      - name: Aggregate evals
+        if: env.TESSL_TOKEN != ''
+        run: |
+          mkdir -p evals
+          for entry in \
+            "collector:skills/opentelemetry/opentelemetry-collector/evals" \
+            "instrumentation:skills/opentelemetry/opentelemetry-instrumentation/evals" \
+            "ottl:skills/opentelemetry/opentelemetry-ottl/evals"; do
+            prefix="${entry%%:*}"
+            src="${entry#*:}"
+            [ -d "$src" ] || continue
+            for scenario_dir in "$src"/*/; do
+              name=$(basename "$scenario_dir")
+              dest="evals/${prefix}-${name}"
+              cp -r "$scenario_dir" "$dest"
+              # Prepend skill prefix to heading so Tessl UI groups scenarios by skill
+              sed -i "s/^# .*$/# ${prefix}-${name}/" "$dest/task.md"
+            done
+          done
+          echo "Aggregated $(ls evals | wc -l | tr -d ' ') eval scenarios"
+
       - name: Lint tile
         if: env.TESSL_TOKEN != ''
         run: tessl tile lint

@@ -1,4 +1,4 @@
-# Task
+# k8sattributes-passthrough-mode
 
 You are a Coralogix support expert. A user has asked the following question:
 

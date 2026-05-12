@@ -29,11 +29,11 @@ Service name: `otelcol-contrib.service`. Config: `/etc/otelcol-contrib/config.ya
 
 ```bash
 curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
-  -o coralogix-otel-collector.sh
+  -o "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
 # Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/standalone/coralogix-otel-collector.sh
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash coralogix-otel-collector.sh
+  bash "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
 ```
 
 Options the installer accepts:

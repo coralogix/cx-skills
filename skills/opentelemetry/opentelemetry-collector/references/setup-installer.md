@@ -29,11 +29,11 @@ Repo: `telemetry-shippers/otel-installer/`. Releases: `telemetry-shippers` GitHu
 
 ```bash
 curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
-  -o coralogix-otel-collector.sh
+  -o "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
 # Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/standalone/coralogix-otel-collector.sh
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash coralogix-otel-collector.sh
+  bash "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
 ```
 
 Deep coverage of the resulting systemd deployment: `setup-linux-standalone.md`.
@@ -42,11 +42,11 @@ Deep coverage of the resulting systemd deployment: `setup-linux-standalone.md`.
 
 ```bash
 curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
-  -o coralogix-otel-collector.sh
+  -o "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
 # Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/standalone/coralogix-otel-collector.sh
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash coralogix-otel-collector.sh
+  bash "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
 ```
 
 Same script as Linux. Detects macOS and switches to launchd + install prefix `/opt/otelcol`. See the macOS note at the end of `setup-linux-standalone.md`.
@@ -55,11 +55,11 @@ Same script as Linux. Detects macOS and switches to launchd + install prefix `/o
 
 ```bash
 curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/docker-install.sh \
-  -o docker-install.sh
+  -o "${TMPDIR:-/tmp}/docker-install.sh"
 # Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/docker/docker-install.sh
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash docker-install.sh -- --config /path/to/config.yaml
+  bash "${TMPDIR:-/tmp}/docker-install.sh" -- --config /path/to/config.yaml
 ```
 
 Runs the collector in a container (`otel/opentelemetry-collector-contrib` by default, or `coralogixrepo/otel-supervised-collector` with `--supervisor`) with ports `4317` (gRPC), `4318` (HTTP), `13133` (health) exposed.

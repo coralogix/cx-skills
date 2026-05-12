@@ -70,7 +70,7 @@ Runs the collector in a container (`otel/opentelemetry-collector-contrib` by def
 $u = 'https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.ps1'
 $f = Join-Path $env:TEMP 'coralogix-otel-collector.ps1'
 Invoke-WebRequest -Uri $u -OutFile $f -UseBasicParsing
-# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/windows/coralogix-otel-collector.ps1
+Get-Content $f | more  # inspect before running
 $env:CORALOGIX_PRIVATE_KEY = '<key>'
 $env:CORALOGIX_DOMAIN = '<cx-region>.coralogix.com'
 & $f -Config 'C:/path/to/config.yaml'

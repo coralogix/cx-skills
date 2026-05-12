@@ -28,9 +28,12 @@ Repo: `telemetry-shippers/otel-installer/`. Releases: `telemetry-shippers` GitHu
 ### Linux (systemd)
 
 ```bash
+curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
+  -o coralogix-otel-collector.sh
+# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/standalone/coralogix-otel-collector.sh
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh)"
+  bash coralogix-otel-collector.sh
 ```
 
 Deep coverage of the resulting systemd deployment: `setup-linux-standalone.md`.
@@ -38,9 +41,12 @@ Deep coverage of the resulting systemd deployment: `setup-linux-standalone.md`.
 ### macOS (launchd)
 
 ```bash
+curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
+  -o coralogix-otel-collector.sh
+# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/standalone/coralogix-otel-collector.sh
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh)"
+  bash coralogix-otel-collector.sh
 ```
 
 Same script as Linux. Detects macOS and switches to launchd + install prefix `/opt/otelcol`. See the macOS note at the end of `setup-linux-standalone.md`.
@@ -48,10 +54,12 @@ Same script as Linux. Detects macOS and switches to launchd + install prefix `/o
 ### Docker (any OS)
 
 ```bash
+curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/docker-install.sh \
+  -o docker-install.sh
+# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/docker/docker-install.sh
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/docker-install.sh)" \
-  -- --config /path/to/config.yaml
+  bash docker-install.sh -- --config /path/to/config.yaml
 ```
 
 Runs the collector in a container (`otel/opentelemetry-collector-contrib` by default, or `coralogixrepo/otel-supervised-collector` with `--supervisor`) with ports `4317` (gRPC), `4318` (HTTP), `13133` (health) exposed.
@@ -62,6 +70,7 @@ Runs the collector in a container (`otel/opentelemetry-collector-contrib` by def
 $u = 'https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.ps1'
 $f = Join-Path $env:TEMP 'coralogix-otel-collector.ps1'
 Invoke-WebRequest -Uri $u -OutFile $f -UseBasicParsing
+# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/windows/coralogix-otel-collector.ps1
 $env:CORALOGIX_PRIVATE_KEY = '<key>'
 $env:CORALOGIX_DOMAIN = '<cx-region>.coralogix.com'
 & $f -Config 'C:/path/to/config.yaml'

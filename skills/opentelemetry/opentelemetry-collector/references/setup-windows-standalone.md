@@ -29,6 +29,7 @@ Supported: Windows 10/11, Windows Server 2016+, x64/ARM64. Service name: `OpenTe
 $u = 'https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.ps1'
 $f = Join-Path $env:TEMP 'coralogix-otel-collector.ps1'
 Invoke-WebRequest -Uri $u -OutFile $f -UseBasicParsing
+# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/windows/coralogix-otel-collector.ps1
 $env:CORALOGIX_PRIVATE_KEY = '<send-your-data-api-key>'
 $env:CORALOGIX_DOMAIN = '<cx-region>.coralogix.com'
 & $f -Config 'C:/path/to/config.yaml'
@@ -44,6 +45,7 @@ Needs `CORALOGIX_DOMAIN` in addition to the API key. The chart has `opentelemetr
 $u = 'https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.ps1'
 $f = Join-Path $env:TEMP 'coralogix-otel-collector.ps1'
 Invoke-WebRequest -Uri $u -OutFile $f -UseBasicParsing
+# Review before running: https://github.com/coralogix/telemetry-shippers/blob/master/otel-installer/windows/coralogix-otel-collector.ps1
 $env:CORALOGIX_DOMAIN = '<cx-region>.coralogix.com'
 $env:CORALOGIX_PRIVATE_KEY = '<send-your-data-api-key>'
 & $f -Supervisor

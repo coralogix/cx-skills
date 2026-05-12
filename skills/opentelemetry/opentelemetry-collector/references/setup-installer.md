@@ -28,12 +28,9 @@ Repo: `telemetry-shippers/otel-installer/`. Releases: `telemetry-shippers` GitHu
 ### Linux (systemd)
 
 ```bash
-curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
-  -o "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
-less "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"   # inspect before running
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
+  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh)"
 ```
 
 Deep coverage of the resulting systemd deployment: `setup-linux-standalone.md`.
@@ -41,12 +38,9 @@ Deep coverage of the resulting systemd deployment: `setup-linux-standalone.md`.
 ### macOS (launchd)
 
 ```bash
-curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
-  -o "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
-less "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"   # inspect before running
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash "${TMPDIR:-/tmp}/coralogix-otel-collector.sh"
+  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh)"
 ```
 
 Same script as Linux. Detects macOS and switches to launchd + install prefix `/opt/otelcol`. See the macOS note at the end of `setup-linux-standalone.md`.
@@ -54,12 +48,10 @@ Same script as Linux. Detects macOS and switches to launchd + install prefix `/o
 ### Docker (any OS)
 
 ```bash
-curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/docker-install.sh \
-  -o "${TMPDIR:-/tmp}/docker-install.sh"
-less "${TMPDIR:-/tmp}/docker-install.sh"             # inspect before running
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash "${TMPDIR:-/tmp}/docker-install.sh" -- --config /path/to/config.yaml
+  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/docker-install.sh)" \
+  -- --config /path/to/config.yaml
 ```
 
 Runs the collector in a container (`otel/opentelemetry-collector-contrib` by default, or `coralogixrepo/otel-supervised-collector` with `--supervisor`) with ports `4317` (gRPC), `4318` (HTTP), `13133` (health) exposed.
@@ -70,7 +62,6 @@ Runs the collector in a container (`otel/opentelemetry-collector-contrib` by def
 $u = 'https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.ps1'
 $f = Join-Path $env:TEMP 'coralogix-otel-collector.ps1'
 Invoke-WebRequest -Uri $u -OutFile $f -UseBasicParsing
-Get-Content $f | more  # inspect before running
 $env:CORALOGIX_PRIVATE_KEY = '<key>'
 $env:CORALOGIX_DOMAIN = '<cx-region>.coralogix.com'
 & $f -Config 'C:/path/to/config.yaml'
@@ -120,6 +111,7 @@ Practical advice: always set `CORALOGIX_DOMAIN` explicitly. Auto-detect is best-
 
 ## Gotchas
 
+- **Inspect before running.** If a user wants to review the script before executing it, they can `curl -sSL <url> -o installer.sh`, read it, then `bash installer.sh`. The one-liners above are safe for trusted environments; suggest the download-first pattern when a user expresses concern.
 - **Version drift on re-run.** Running the installer without `--version` will pull `latest` on every run — a user who re-runs to "fix" something can accidentally upgrade to a breaking minor. Pin versions in repeatable scripts.
 - **`--foreground` is for debugging only.** It bypasses service registration, so there's no restart on boot. Don't use it for production.
 - **Docker variant exposes ports `4317/4318/13133` on the host.** If the host already uses these, pass `--p <host>:<container>` equivalents via the underlying docker command (the installer surfaces this through env: `OTLP_GRPC_PORT`, `OTLP_HTTP_PORT`, `HEALTH_CHECK_PORT`).

@@ -25,12 +25,15 @@ Service name: `otelcol-contrib.service`. Config: `/etc/otelcol-contrib/config.ya
 - macOS launchd notes
 - Operational notes and key facts
 
-## Install (end-user one-liner)
+## Install
 
 ```bash
+# Download the installer (optionally run: less /tmp/coralogix-otel-collector.sh to inspect first)
+curl -fsSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
+  -o /tmp/coralogix-otel-collector.sh && \
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh)"
+  bash /tmp/coralogix-otel-collector.sh
 ```
 
 Options the installer accepts:

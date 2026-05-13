@@ -13,11 +13,7 @@ APIs, naming conventions, collector behavior, SDK instrumentation, and pipeline 
 | `opentelemetry-instrumentation` | Instrument Java, Python, Node.js, .NET, and Go applications with OpenTelemetry SDKs — OTLP exporter setup, Coralogix auth headers, APM transactions, Kubernetes Operator injection, and missing-telemetry debugging. | [`skills/opentelemetry/opentelemetry-instrumentation/SKILL.md`](skills/opentelemetry/opentelemetry-instrumentation/SKILL.md) |
 | `opentelemetry-ottl` | OpenTelemetry Transformation Language for transform, filter, and routing questions across logs, metrics, and traces. | [`skills/opentelemetry/opentelemetry-ottl/SKILL.md`](skills/opentelemetry/opentelemetry-ottl/SKILL.md) |
 
-Every skill in this repo is continuously evaluated against all three major LLM providers to ensure consistent cross-model reliability:
-
-- `anthropic/claude-haiku-4-5-20251001`
-- `google/gemini-3-flash-preview`
-- `openai/gpt-5.4-mini`
+Every skill in this repo is continuously evaluated against all three major LLM providers Anthropic, OpenAI & Google to ensure consistent cross-model reliability
 
 ## Installation
 
@@ -58,13 +54,20 @@ Or clone directly into Cursor's global skills directory:
 git clone https://github.com/coralogix/cx-skills ~/.cursor/skills/cx-skills
 ```
 
-## Local development
+### Tessl CLI
 
-Spec conformance (no API keys, ~5s):
+Install from the [Tessl Registry](https://tessl.io/registry/coralogix/opentelemetry-skills) (workspace: `coralogix`):
 
 ```bash
-pip install skills-ref
-agentskills validate skills/<skill_name>
+npx tessl i coralogix/opentelemetry-skills
+```
+
+## Skill review
+
+Validate a skill against the Tessl spec (no API keys required)
+
+```bash
+npx tessl skill review skills/<skill_name>
 ```
 
 ## License

@@ -111,7 +111,6 @@ Practical advice: always set `CORALOGIX_DOMAIN` explicitly. Auto-detect is best-
 
 ## Gotchas
 
-- **Inspect before running.** If a user wants to review the script before executing it, they can `curl -sSL <url> -o installer.sh`, read it, then `bash installer.sh`. The one-liners above are safe for trusted environments; suggest the download-first pattern when a user expresses concern.
 - **Version drift on re-run.** Running the installer without `--version` will pull `latest` on every run — a user who re-runs to "fix" something can accidentally upgrade to a breaking minor. Pin versions in repeatable scripts.
 - **`--foreground` is for debugging only.** It bypasses service registration, so there's no restart on boot. Don't use it for production.
 - **Docker variant exposes ports `4317/4318/13133` on the host.** If the host already uses these, pass `--p <host>:<container>` equivalents via the underlying docker command (the installer surfaces this through env: `OTLP_GRPC_PORT`, `OTLP_HTTP_PORT`, `HEALTH_CHECK_PORT`).

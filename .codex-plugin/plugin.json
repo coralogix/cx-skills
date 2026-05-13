@@ -1,6 +1,6 @@
 {
   "name": "cx-skills",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Coralogix observability skills — OpenTelemetry Collector deployment, OTTL pipeline authoring, and SDK instrumentation.",
   "author": {
     "name": "Coralogix",

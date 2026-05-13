@@ -1,4 +1,4 @@
-# Task
+# ubuntu-vm-universal-installer
 
 You are a Coralogix support expert. A user has asked the following question:
 

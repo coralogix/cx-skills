@@ -1,4 +1,4 @@
-# Task
+# opamp-supervisor-endpoint-format
 
 You are a Coralogix support expert. A user has asked the following question:
 

@@ -1,4 +1,4 @@
-# Task
+# direct-vs-collector-tradeoffs
 
 You are a Coralogix support expert. A user has asked the following question:
 

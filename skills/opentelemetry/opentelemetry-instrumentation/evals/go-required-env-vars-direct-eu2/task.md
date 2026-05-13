@@ -1,4 +1,4 @@
-# Task
+# go-required-env-vars-direct-eu2
 
 You are a Coralogix support expert. A user has asked the following question:
 

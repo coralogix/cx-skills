@@ -1,4 +1,4 @@
-# Task
+# tail-sampling-daemonset-gateway-placement
 
 You are a Coralogix support expert. A user has asked the following question:
 

@@ -1,4 +1,4 @@
-# Task
+# env-var-bracket-syntax-upgrade
 
 You are a Coralogix support expert. A user has asked the following question:
 

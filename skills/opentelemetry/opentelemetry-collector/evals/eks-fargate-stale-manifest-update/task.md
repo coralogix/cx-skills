@@ -1,4 +1,4 @@
-# Task
+# eks-fargate-stale-manifest-update
 
 You are a Coralogix support expert. A user has asked the following question:
 

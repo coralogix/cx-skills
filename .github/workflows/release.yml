@@ -64,6 +64,23 @@ jobs:
         with:
           token: ${{ env.TESSL_TOKEN }}
 
+      - name: Aggregate evals
+        if: env.TESSL_TOKEN != ''
+        run: |
+          mkdir -p evals
+          while IFS= read -r evals_dir; do
+            prefix=$(basename "$(dirname "$evals_dir")")
+            for scenario_dir in "$evals_dir"/*/; do
+              [ -d "$scenario_dir" ] || continue
+              name=$(basename "$scenario_dir")
+              dest="evals/${prefix}-${name}"
+              cp -r "$scenario_dir" "$dest"
+              # Prepend skill prefix to heading so Tessl UI groups scenarios by skill
+              sed -i "s/^# .*$/# ${prefix}-${name}/" "$dest/task.md"
+            done
+          done < <(find skills/opentelemetry -type d -name "evals")
+          echo "Aggregated $(ls evals | wc -l | tr -d ' ') eval scenarios"
+
       - name: Lint tile
         if: env.TESSL_TOKEN != ''
         run: tessl tile lint

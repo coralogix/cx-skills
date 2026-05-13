@@ -1,4 +1,4 @@
-# Task
+# telemetry-quality-cardinality-sensitive
 
 You are a Coralogix support expert. A user has asked the following question:
 

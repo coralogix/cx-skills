@@ -1,4 +1,4 @@
-# Task
+# ecs-fargate-sidecar-depends-on-healthcheck
 
 You are a Coralogix support expert. A user has asked the following question:
 

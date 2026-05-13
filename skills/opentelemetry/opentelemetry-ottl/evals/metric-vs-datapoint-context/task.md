@@ -1,4 +1,4 @@
-# Task
+# metric-vs-datapoint-context
 
 You are a Coralogix support expert. A user has asked the following question:
 

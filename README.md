@@ -1,6 +1,6 @@
 # Coralogix Skills
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) ![Status](https://img.shields.io/badge/status-experimental-yellow)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE) [![tessl](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.tessl.io%2Fv1%2Fbadges%2Fcoralogix%2Fopentelemetry-skills)](https://tessl.io/registry/coralogix/opentelemetry-skills)
 
 Agent Skills that provide domain-specific context for Coralogix and OpenTelemetry —
 APIs, naming conventions, collector behavior, SDK instrumentation, and pipeline patterns.
@@ -62,7 +62,7 @@ Install from the [Tessl Registry](https://tessl.io/registry/coralogix/openteleme
 npx tessl i coralogix/opentelemetry-skills
 ```
 
-## Skill review
+### Skill review
 
 Validate a skill against the Tessl spec (no API keys required)
 

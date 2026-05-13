@@ -50,8 +50,7 @@ Go OTel signal stability:
 
 ```bash
 export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
-export CORALOGIX_API_KEY="your-send-your-data-key"
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```

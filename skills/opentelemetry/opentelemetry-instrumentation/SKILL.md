@@ -60,7 +60,7 @@ Always include in generated answers:
   ```bash
   export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<region>.coralogix.com:443"
   export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
-  export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
+  export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
   export OTEL_SERVICE_NAME="my-service"
   export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=my-app,cx.subsystem.name=my-subsystem"
   ```

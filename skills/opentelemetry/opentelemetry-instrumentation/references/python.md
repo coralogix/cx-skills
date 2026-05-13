@@ -46,7 +46,7 @@ Coralogix (`coralogix-opentelemetry`) in the same dependency management flow.
 
 ```bash
 # URL-encoded — %20 is required between "Bearer" and the key
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20$CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20<CORALOGIX_API_KEY>"
 
 export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"

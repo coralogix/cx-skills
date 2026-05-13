@@ -49,7 +49,7 @@ Every generated direct-export setup must show these required environment variabl
 
 ```bash
 export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443/v1/traces"
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```
@@ -80,7 +80,7 @@ All direct OTLP export to Coralogix requires a **Send-Your-Data API key** passed
 OTLP header:
 
 ```
-Authorization=Bearer $CORALOGIX_API_KEY
+Authorization=Bearer <CORALOGIX_API_KEY>
 ```
 
 The key is found in the Coralogix platform under **Settings → Users and Teams → API Keys**.
@@ -90,14 +90,14 @@ Only **Send-Your-Data** keys work for telemetry ingestion. Team keys and persona
 
 **Environment variable (Java, Node.js, Go, most gRPC SDK env config):**
 ```bash
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```
 
 **Python — URL encoding required in env vars:**
 ```bash
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20$CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20<CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```
@@ -106,9 +106,9 @@ Note: `%20` = space between `Bearer` and the key value.
 **Java — env var or JVM system property:**
 ```bash
 # env var
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 # or JVM property
--Dotel.exporter.otlp.headers="Authorization=Bearer $CORALOGIX_API_KEY"
+-Dotel.exporter.otlp.headers="Authorization=Bearer <CORALOGIX_API_KEY>"
 ```
 
 **Go — programmatic (headers map):**

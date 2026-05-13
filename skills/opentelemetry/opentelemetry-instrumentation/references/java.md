@@ -42,7 +42,7 @@ export OTEL_METRICS_EXPORTER="none"         # set to "otlp" to enable metrics
 export OTEL_LOGS_EXPORTER="none"            # set to "otlp" to enable logs
 export OTEL_EXPORTER_OTLP_TRACES_PROTOCOL="grpc"
 export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443"
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 
@@ -58,7 +58,7 @@ java -javaagent:/path/to/opentelemetry-javaagent.jar \
     -Dotel.logs.exporter=none \
     -Dotel.exporter.otlp.traces.protocol=grpc \
     -Dotel.exporter.otlp.traces.endpoint="https://ingress.<CORALOGIX_REGION>.coralogix.com:443" \
-    -Dotel.exporter.otlp.traces.headers="Authorization=Bearer $CORALOGIX_API_KEY" \
+    -Dotel.exporter.otlp.traces.headers="Authorization=Bearer <CORALOGIX_API_KEY>" \
     -Dotel.service.name="<SERVICE_NAME>" \
     -Dotel.resource.attributes="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>" \
     -jar myapp.jar

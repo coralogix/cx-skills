@@ -37,11 +37,11 @@ Use for: "How do I instrument my X app with OpenTelemetry to send to Coralogix?"
 # All required env vars with placeholders
 # HTTP/protobuf traces endpoint
 export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443/v1/traces"
-export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer $CORALOGIX_API_KEY"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 # gRPC endpoint: standard bare form for Python/Node.js/Go; Java/.NET use https://host:port
 # export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
 # Python exception: URL-encode the space in env-var headers
-# export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20$CORALOGIX_API_KEY"
+# export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20<CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```
@@ -126,7 +126,7 @@ Load `troubleshooting.md` for the full symptom table. Quick checklist:
 - Replace `{{ endpoints.opentelemetry }}` template variables (from the docs source) with
   the actual regional endpoint: `https://ingress.<CORALOGIX_REGION>.coralogix.com:443/v1/traces` for
   HTTP/protobuf or `ingress.<CORALOGIX_REGION>.coralogix.com:443` for gRPC.
-- For the API key, reference `$CORALOGIX_API_KEY` (shell) or `os.environ["CORALOGIX_API_KEY"]` (code) — never generate example key values.
+- For the API key, reference `CORALOGIX_API_KEY` (shell) or `os.environ["CORALOGIX_API_KEY"]` (code) — never generate example key values.
 - Use inline comments in code blocks only where the line is non-obvious.
 - Include validation steps in every new instrumentation answer.
 - Keep the "security reminder" section — teams often overlook secret management.

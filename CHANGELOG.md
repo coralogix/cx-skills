@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.1.2 (2026-05-13)
+
+### Added
+
+- aggregate evals at publish time with skill prefixes for Tessl UI (#11)
+
+### Changed
+
+- add inspect-before-running guidance to agent + unify envs (#10)
+
+
 ## v0.1.1 (2026-05-12)
 
 ### Added

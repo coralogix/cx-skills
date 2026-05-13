@@ -137,7 +137,7 @@ const exporter = new OTLPTraceExporter({
   // HTTP/proto exporter requires /v1/traces path
   url: 'https://ingress.<CORALOGIX_REGION>.coralogix.com:443/v1/traces',
   headers: {
-    Authorization: 'Bearer <CORALOGIX_API_KEY>',
+    Authorization: `Bearer ${process.env.CORALOGIX_API_KEY}`,
   },
 });
 

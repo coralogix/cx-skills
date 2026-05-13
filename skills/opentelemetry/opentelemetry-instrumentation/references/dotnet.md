@@ -87,7 +87,6 @@ cd CoralogixOtelExample
 ### Step 2: Set environment variables
 
 ```bash
-export CORALOGIX_API_KEY="<CORALOGIX_API_KEY>"
 export CORALOGIX_SERVICE_NAME="<SERVICE_NAME>"
 export CORALOGIX_APP_NAME="<CX_APPLICATION_NAME>"
 export CORALOGIX_SUBSYSTEM_NAME="<CX_SUBSYSTEM_NAME>"

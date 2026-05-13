@@ -10,22 +10,16 @@ description: >
 license: Apache-2.0
 
 metadata:
-  author: coralogix
   version: "0.1.0"
-  workflow_type: advisory
   integration: otel-sdk-instrumentation
-  argument_hint: "[language or 'review my instrumentation']"
-
   signals:
     - logs
     - metrics
     - traces
-
   deployment:
     - kubernetes
     - docker
     - aws
-
   triggers:
     description: >
       Load when a user is adding or reviewing OpenTelemetry SDK instrumentation in an
@@ -41,46 +35,6 @@ metadata:
       - "**/*opentelemetry*.java"
       - "**/*opentelemetry*.cs"
       - "**/*opentelemetry*.go"
-    config_keys:
-      - "OTEL_EXPORTER_OTLP_ENDPOINT"
-      - "OTEL_EXPORTER_OTLP_HEADERS"
-      - "OTEL_EXPORTER_OTLP_PROTOCOL"
-      - "OTEL_RESOURCE_ATTRIBUTES"
-      - "OTEL_SERVICE_NAME"
-      - "OTEL_TRACES_EXPORTER"
-      - "OTEL_METRICS_EXPORTER"
-      - "OTEL_LOGS_EXPORTER"
-      - "cx.application.name"
-      - "cx.subsystem.name"
-      - "CoralogixTransactionSampler"
-      - "opentelemetry-javaagent"
-    keywords:
-      - otel sdk
-      - opentelemetry instrumentation
-      - coralogix apm
-      - opentelemetry-javaagent
-      - opentelemetry-instrument
-      - coralogix-opentelemetry
-      - "@coralogix/opentelemetry"
-      - authorization bearer
-      - cx.application.name
-      - cx.subsystem.name
-      - otlp exporter
-      - span exporter
-      - trace exporter
-      - NodeSDK
-      - BasicTracerProvider
-      - TracerProvider
-      - MeterProvider
-      - AddOtlpExporter
-      - otlptracegrpc
-      - credentials.NewTLS
-      - NODE_OPTIONS
-      - CoralogixTransactionSampler
-      - missing traces
-      - missing metrics
-      - coralogix.com
-
   docs: https://coralogix.com/docs/opentelemetry/
 ---
 
@@ -106,7 +60,7 @@ Always include in generated answers:
   ```bash
   export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<region>.coralogix.com:443"
   export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
-  export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <Send-Your-Data key>"
+  export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
   export OTEL_SERVICE_NAME="my-service"
   export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=my-app,cx.subsystem.name=my-subsystem"
   ```

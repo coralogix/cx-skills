@@ -21,8 +21,8 @@
       "category": "INTENT"
     },
     {
-      "name": "mentions-cx-api-key",
-      "description": "The response contains \"CX_API_KEY\" (case-sensitive).",
+      "name": "mentions-coralogix-api-key",
+      "description": "The response contains \"CORALOGIX_API_KEY\" (case-sensitive).",
       "max_score": 3,
       "category": "INTENT"
     },

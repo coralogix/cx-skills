@@ -62,7 +62,7 @@ curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/downlo
 # less /tmp/docker-install.sh   # review before running if desired
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash /tmp/docker-install.sh -- --config /path/to/config.yaml
+  bash /tmp/docker-install.sh --config /path/to/config.yaml
 ```
 
 Runs the collector in a container (`otel/opentelemetry-collector-contrib` by default, or `coralogixrepo/otel-supervised-collector` with `--supervisor`) with ports `4317` (gRPC), `4318` (HTTP), `13133` (health) exposed.

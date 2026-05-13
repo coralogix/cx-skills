@@ -4,7 +4,7 @@ A one-line installer that installs the `otelcol-contrib` package, registers a sy
 
 ```
 coralogix-otel-collector.sh   ─►   otelcol-contrib.service
-  curl-piped bash                   systemd-active
+  curl + download + bash             systemd-active
   .deb/.rpm install
   optional: --config <user-supplied YAML>
 ```
@@ -25,12 +25,16 @@ Service name: `otelcol-contrib.service`. Config: `/etc/otelcol-contrib/config.ya
 - macOS launchd notes
 - Operational notes and key facts
 
-## Install (end-user one-liner)
+## Install
 
 ```bash
+# Download the installer, optionally inspect, then run
+curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh \
+  -o /tmp/coralogix-otel-collector.sh
+# less /tmp/coralogix-otel-collector.sh   # review before running if desired
 CORALOGIX_PRIVATE_KEY="<key>" \
 CORALOGIX_DOMAIN="<cx-region>.coralogix.com" \
-  bash -c "$(curl -sSL https://github.com/coralogix/telemetry-shippers/releases/latest/download/coralogix-otel-collector.sh)"
+  bash /tmp/coralogix-otel-collector.sh
 ```
 
 Options the installer accepts:

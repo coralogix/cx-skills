@@ -2,7 +2,6 @@
 CHANGELOG.md
 CONTRIBUTING.md
 SECURITY.md
-TESSL.md
 
 # Source evals are organized next to each skill. The release workflow stages these
 # into a root evals/ directory because Tessl discovers tile evals there.

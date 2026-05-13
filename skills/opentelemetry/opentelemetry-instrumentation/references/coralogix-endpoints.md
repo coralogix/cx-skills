@@ -45,18 +45,40 @@ https://ingress.<region>.coralogix.com:443/v1/metrics
 https://ingress.<region>.coralogix.com:443/v1/logs
 ```
 
-Every generated direct-export setup must show these required environment variables:
+Every generated direct-export setup must show these required environment variables. Choose
+the block that matches the language and protocol:
 
+**gRPC — Java and .NET** (full URI with `https://` scheme required):
 ```bash
-export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443/v1/traces"
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443"
+export OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
 export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
 export OTEL_SERVICE_NAME="<SERVICE_NAME>"
 export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
 ```
 
-For gRPC exporters, use `https://ingress.<CORALOGIX_REGION>.coralogix.com:443` (Java/.NET) or
-the standard bare form `ingress.<CORALOGIX_REGION>.coralogix.com:443` (Python/Node.js/Go),
-and keep TLS enabled. Python and Node.js also accept the `https://host:port` URL form.
+**gRPC — Python, Node.js, and Go** (bare `host:port`; no `https://` for Go `WithEndpoint`):
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
+export OTEL_EXPORTER_OTLP_PROTOCOL="grpc"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
+export OTEL_SERVICE_NAME="<SERVICE_NAME>"
+export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
+```
+Python env var exception: `Authorization=Bearer%20<CORALOGIX_API_KEY>` (URL-encoded space).
+
+**HTTP/protobuf — all languages** (base URL only; SDK auto-appends `/v1/traces` etc.):
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<CORALOGIX_REGION>.coralogix.com:443"
+export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <CORALOGIX_API_KEY>"
+export OTEL_SERVICE_NAME="<SERVICE_NAME>"
+export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
+```
+Do NOT include `/v1/traces` in `OTEL_EXPORTER_OTLP_ENDPOINT` — the SDK appends the signal
+path automatically for HTTP/proto, so including it results in double-pathing
+(`/v1/traces/v1/traces`). Use signal-specific `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` if you
+need to set the full URL explicitly.
 
 ## Regional Domains
 
@@ -73,6 +95,18 @@ and keep TLS enabled. Python and Node.js also accept the `https://host:port` URL
 **How to find your region:** Your Coralogix platform URL shows the region — e.g.
 `https://dashboard.eu2.coralogix.com` → region is `eu2`, domain is `eu2.coralogix.com`,
 OTLP endpoint is `ingress.eu2.coralogix.com:443`.
+
+**Legacy endpoint aliases** (old shipper configs only — redirect new setups to the regional form):
+
+| Legacy endpoint | Maps to region |
+|---|---|
+| `ingress.coralogix.com` | EU1 |
+| `ingress.coralogix.us` | US1 |
+| `ingress.cx498.coralogix.com` | US2 |
+| `ingress.coralogix.in` | AP1 |
+| `ingress.coralogixsg.com` | AP2 |
+
+If a user shows one of these hostnames, identify their region and replace with `ingress.<region>.coralogix.com:443`.
 
 ## Authentication Header
 

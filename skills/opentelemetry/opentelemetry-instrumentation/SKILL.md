@@ -56,7 +56,7 @@ Load order: `language-selector.md` → language ref → `coralogix-endpoints.md`
 
 Always include in generated answers:
 
-- **Required env vars** (direct export, HTTP/protobuf — works for all languages):
+- **Required env vars** (HTTP/protobuf fallback — valid for all languages; gRPC is the Coralogix standard and uses per-language endpoint format):
   ```bash
   export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingress.<region>.coralogix.com:443"
   export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
@@ -64,24 +64,16 @@ Always include in generated answers:
   export OTEL_SERVICE_NAME="my-service"
   export OTEL_RESOURCE_ATTRIBUTES="cx.application.name=my-app,cx.subsystem.name=my-subsystem"
   ```
-  gRPC: Java/.NET → `https://host:443`; Python/Node.js → `host:port`; Go → `host:port` only. Full table: [coralogix-endpoints.md](references/coralogix-endpoints.md).
+  gRPC endpoint format is language-specific — see [coralogix-endpoints.md](references/coralogix-endpoints.md) for the full table and per-language host:port rules.
 
-- **Required resource attributes** — all three; missing any silently degrades APM:
-
-  | Attribute | Required for |
-  |---|---|
-  | `service.name` | APM catalog, service map, transactions |
-  | `cx.application.name` + `cx.subsystem.name` | Routing, TCO, APM grouping |
-  | `telemetry.sdk.language` | APM language icon — auto-set; do not strip |
-  | `k8s.pod.name`, `k8s.namespace.name` | Infra Explorer pod/namespace |
-  | `host.name` | Infra Explorer host view |
+- **Required resource attributes** — `service.name` (APM catalog/transactions), `cx.application.name` + `cx.subsystem.name` (routing, TCO, APM grouping), `telemetry.sdk.language` (auto-set; do not strip). Missing any silently degrades APM. Additional k8s/host attributes are covered in each language reference.
 
 - **Coralogix transactions.** Require `CoralogixTransactionSampler` (Python, Node.js, Go). Node.js bundled auto-instr via `NODE_OPTIONS` does NOT support transactions — use individual or manual.
 - **Telemetry quality.** Low-cardinality span names, no sensitive data, bounded metric attributes, structured single-line logs with trace/span IDs, validation steps for the signal. Never approve user-scoped values (`user_id`, `tenant_id`, `request_id`, `session_id`) as metric labels — they cause unbounded cardinality and will explode metric storage.
 - **Install references.** Link to `https://opentelemetry.io/docs/languages/<lang>/getting-started/`; name required packages only when they affect correctness.
 - **Validation paths.** Traces → **Explore → Tracing**. Metrics → **Grafana → Explore → Metric Browser**. Logs → **Logs**.
 - **Language fragile rules.** Load the language ref before answering — required packages and runtime caveats are there.
-- **Direct vs collector: present tradeoffs, never recommend.** Show both; use the tradeoff table in `language-selector.md` and ask about scale, infra, and sampling needs.
+- **Direct vs collector routing rule:** Default to **direct OTLP** for dev/test environments, simple single-service production deployments, or when no collector infrastructure exists. Default to **via-collector** for Kubernetes workloads needing pod/namespace enrichment (`k8sattributes`), tail sampling, multi-service shared key management, or buffered retry/file persistence requirements. When the deployment context is unknown, show both options using the tradeoff table in `language-selector.md`.
 - **Collector config is out of scope.** Redirect to `opentelemetry-collector` — do not partially answer pipeline or processor questions.
 
 ## Workflow

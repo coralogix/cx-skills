@@ -178,7 +178,10 @@ export OTEL_LOGS_EXPORTER="otlp"      # enables logs (requires log bridge setup)
 
 The OpenTelemetry Operator supports injection of the Java agent into pods via the
 `Instrumentation` CRD — no JAR download or `JAVA_TOOL_OPTIONS` needed in the pod spec.
+Do NOT instruct users to set `JAVA_TOOL_OPTIONS` or download the JAR manually when the
+Operator is in use — those steps are bypassed by the injector.
 
+**Option A: via OTel Collector** (recommended for Kubernetes — collector handles auth and enrichment):
 ```yaml
 apiVersion: opentelemetry.io/v1alpha1
 kind: Instrumentation
@@ -191,6 +194,26 @@ spec:
     image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:latest
 ```
 
+**Option B: direct to Coralogix** (auth headers injected via `spec.env`):
+```yaml
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: coralogix-instrumentation
+spec:
+  exporter:
+    endpoint: https://ingress.<CORALOGIX_REGION>.coralogix.com:443
+  env:
+    - name: OTEL_EXPORTER_OTLP_HEADERS
+      value: "Authorization=Bearer <CORALOGIX_API_KEY>"
+    - name: OTEL_SERVICE_NAME
+      value: "<SERVICE_NAME>"
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: "cx.application.name=<CX_APPLICATION_NAME>,cx.subsystem.name=<CX_SUBSYSTEM_NAME>"
+  java:
+    image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:latest
+```
+
 Opt in via pod annotation:
 ```yaml
 annotations:
@@ -198,4 +221,5 @@ annotations:
 ```
 
 The agent env vars (`OTEL_EXPORTER_OTLP_*`, `OTEL_RESOURCE_ATTRIBUTES`) are injected
-automatically from the `Instrumentation` CRD spec.
+automatically from the `Instrumentation` CRD spec. For Option B, use a Kubernetes Secret
+for the API key value rather than a plain-text `value:` field.

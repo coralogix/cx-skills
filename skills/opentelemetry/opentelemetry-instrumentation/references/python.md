@@ -42,10 +42,16 @@ Coralogix (`coralogix-opentelemetry`) in the same dependency management flow.
 
 ## Auto-Instrumentation
 
+> **Python auth header rule:** In `OTEL_EXPORTER_OTLP_HEADERS` the space between `Bearer`
+> and the key **must** be URL-encoded as `%20` — a literal space causes silent auth failure.
+> This applies to env vars only. In programmatic tuple headers use a literal space.
+> **Never** use `%20` in programmatic tuple headers — it is sent over the wire literally and
+> Coralogix returns `UNAUTHENTICATED`.
+
 ### Environment setup
 
 ```bash
-# URL-encoded — %20 is required between "Bearer" and the key
+# URL-encoded — %20 is required between "Bearer" and the key (env var only)
 export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20<CORALOGIX_API_KEY>"
 
 export OTEL_EXPORTER_OTLP_ENDPOINT="ingress.<CORALOGIX_REGION>.coralogix.com:443"
@@ -122,7 +128,7 @@ tracer_provider = TracerProvider(
 )
 
 exporter = OTLPSpanExporter(
-    endpoint=os.environ['CX_ENDPOINT'],  # ingress.<region>.coralogix.com:443
+    endpoint=os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'],  # ingress.<region>.coralogix.com:443
     headers=headers,
 )
 
@@ -174,7 +180,7 @@ tracer_provider = TracerProvider(
 )
 
 exporter = OTLPSpanExporter(
-    endpoint=os.environ['CX_ENDPOINT'],
+    endpoint=os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'],  # ingress.<region>.coralogix.com:443
     headers=headers,
 )
 tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
@@ -218,7 +224,7 @@ resource = Resource.create({
 })
 
 exporter = OTLPMetricExporter(
-    endpoint=os.environ['CX_ENDPOINT'],
+    endpoint=os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'],  # ingress.<region>.coralogix.com:443
     headers=headers,
 )
 
@@ -257,7 +263,7 @@ from opentelemetry.exporter.otlp.proto.grpc._log_exporter import OTLPLogExporter
 logger_provider = LoggerProvider(resource=resource)
 logger_provider.add_log_record_processor(
     SimpleLogRecordProcessor(
-        OTLPLogExporter(endpoint=os.environ['CX_ENDPOINT'], headers=headers)
+        OTLPLogExporter(endpoint=os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'], headers=headers)
     )
 )
 set_logger_provider(logger_provider)
@@ -325,9 +331,9 @@ provider.shutdown()
 | Variable | Value |
 |---|---|
 | `CORALOGIX_API_KEY` | Your Send-Your-Data API key |
-| `CX_ENDPOINT` or `OTEL_EXPORTER_OTLP_ENDPOINT` | `ingress.<region>.coralogix.com:443` |
-| `OTEL_EXPORTER_OTLP_HEADERS` | URL-encoded headers (auto-instr only) |
-| `OTEL_TRACES_EXPORTER` | `otlp_proto_grpc` (auto-instr) |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `ingress.<region>.coralogix.com:443` (gRPC) |
+| `OTEL_EXPORTER_OTLP_HEADERS` | `Authorization=Bearer%20<CORALOGIX_API_KEY>` (env var form; `%20` required) |
+| `OTEL_TRACES_EXPORTER` | `otlp_proto_grpc` (auto-instr gRPC) |
 
 ## Verification
 

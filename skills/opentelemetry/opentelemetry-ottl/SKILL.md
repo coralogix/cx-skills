@@ -136,7 +136,7 @@ Map the Collector message to a root cause before proposing a fix:
 | `... cannot be indexed` | Indexing a non-map value — string or empty body | Add `IsMap(body)` guard before body indexing |
 | `segment "..." is not a valid path` | Wrong context or field not available in the chosen context | Switch to the correct context; check path reference |
 | `one or more paths were modified to include their context prefix` | Bare `attributes[...]` where explicit prefixes are required | Rewrite with `resource.attributes`, `datapoint.attributes`, etc. |
-| `statement has invalid syntax: ... invalid quoted string` | YAML + OTTL quoting collision — the string was consumed by the YAML parser before reaching OTTL | Use YAML single quotes outside and OTTL double quotes inside → [references/processors.md](references/processors.md#yaml-ottl-quoting-collision) |
+| `statement has invalid syntax: ... invalid quoted string` | YAML + OTTL quoting collision — the string was consumed by the YAML parser before reaching OTTL | Use YAML single quotes outside and OTTL double quotes inside → [references/processors.md](references/processors.md#yaml--ottl-quoting-collision) |
 | Statement loads but has no visible effect | Condition never matches, wrong signal block, or processor in the wrong pipeline stage | Surface debug attributes to prove matching; verify pipeline placement |
 
 ### Canonical pipeline shape

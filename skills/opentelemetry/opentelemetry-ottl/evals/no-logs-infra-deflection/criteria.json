@@ -10,7 +10,7 @@
     },
     {
       "name": "not-ottl-transform",
-      "description": "The response matches the pattern: (?i)(not.*(OTTL|transform)|OTTL.*(not|isn't)|isn't.*(OTTL|transform))",
+      "description": "The response matches the pattern: (?i)(\\bnot\\b.*(OTTL|transform)|OTTL.*(\\bnot\\b|\\bisn't\\b)|\\bisn't\\b.*(OTTL|transform))",
       "max_score": 3,
       "category": "INTENT"
     },

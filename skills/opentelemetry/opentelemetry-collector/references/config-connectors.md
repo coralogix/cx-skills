@@ -9,6 +9,29 @@ This reference covers the `spanmetrics` and `tail_sampling` components. Proper p
 - **`transactions` processor must run before `spanmetrics`.** `transactions` enriches spans with `cgx.transaction.*` tags. `spanmetrics` must consume those tags to emit per-transaction metric dimensions.
 - **All instrumented services must route spans through the agent daemonset.** If an application sends OTLP directly to the gateway or cluster-collector (bypassing the agent), the agent's `spanmetrics` connector never sees those spans. No span metrics are generated, APM Service Catalog stays empty, and `calls_total`/`duration_ms_bucket` metrics are absent — even though traces appear in Explore. Verify the OTLP exporter endpoint in each service points to the agent (typically `http://<node-ip>:4317`) and not directly to the gateway.
 
+## Helm Span Metrics DB Label Transforms
+
+If `db_calls_total` has `db_namespace` but normal Span Metrics `calls_total`
+has a blank `db_namespace`, check where the Helm DB compatibility transform is
+configured.
+
+In `otel-integration` values, DB label compatibility statements that need to
+affect normal Span Metrics must live under top-level
+`spanMetrics.transformStatements`. Those statements run on spans before the
+`spanmetrics` connector consumes them, so both `calls_total` and
+`db_calls_total` see the same normalized span attributes.
+
+Do not put this bridge only under
+`spanMetrics.dbMetrics.transformStatements`. That DB-metrics-only placement can
+make `db_calls_total` look correct while `calls_total` still has blank
+`db_namespace` for the same database spans. Treat that as a values
+misconfiguration, not as a chart-default bug.
+
+The pre-spanmetrics bridge should populate `db.namespace` from the first
+available source: `db.name`, then endpoint attributes such as `server.address`,
+`network.peer.name`, or `net.peer.name`, and finally `db.system`. Use the OTTL
+skill when the user needs the exact transform statement syntax.
+
 ## Agent Configuration (spanmetrics)
 
 ```yaml

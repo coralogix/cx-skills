@@ -34,7 +34,7 @@ The `OpenTelemetryCollector` CRD defines the collector instance. The `mode` fiel
 
 ### Example: Gateway (Deployment Mode)
 ```yaml
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
   name: coralogix-gateway
@@ -42,7 +42,7 @@ metadata:
 spec:
   mode: deployment
   replicas: 3
-  config: |
+  config:
     receivers:
       otlp:
         protocols:

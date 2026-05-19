@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My Python app is sending traces to Coralogix using OTLPSpanExporter with these programmatic headers:\n  headers = (\n     ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy Python app is sending traces to Coralogix using OTLPSpanExporter with these programmatic headers:\n  headers = (\n      (\"authorization\", \"Bearer%20myApiKey123\"),\n  )\nI'm getting StatusCode.UNAUTHENTICATED from the exporter. What's wrong?",
   "type": "weighted_checklist",
   "checklist": [
     {

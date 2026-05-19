@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I want to instrument my Java Spring Boot application to send traces to Coralogix. We're on the eu2 region. How do I set ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI want to instrument my Java Spring Boot application to send traces to Coralogix. We're on the eu2 region. How do I set it up?",
   "type": "weighted_checklist",
   "checklist": [
     {

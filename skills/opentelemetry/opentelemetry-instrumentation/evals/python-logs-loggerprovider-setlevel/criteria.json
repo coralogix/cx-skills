@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: How do I send Python application logs to Coralogix using OpenTelemetry? We're on the eu2 region.",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nHow do I send Python application logs to Coralogix using OpenTelemetry? We're on the eu2 region.",
   "type": "weighted_checklist",
   "checklist": [
     {

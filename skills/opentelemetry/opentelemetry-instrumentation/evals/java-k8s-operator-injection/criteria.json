@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm running a Java service in Kubernetes and want to use the OpenTelemetry Operator to auto-instrument it without changi",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm running a Java service in Kubernetes and want to use the OpenTelemetry Operator to auto-instrument it without changing the application code. How do I configure it?",
   "type": "weighted_checklist",
   "checklist": [
     {

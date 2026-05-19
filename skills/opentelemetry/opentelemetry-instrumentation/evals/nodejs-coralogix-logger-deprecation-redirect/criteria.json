@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm using the coralogix-logger npm package to send logs from my Node.js app. How do I configure it to send to a differen",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm using the coralogix-logger npm package to send logs from my Node.js app. How do I configure it to send to a different Coralogix region?",
   "type": "weighted_checklist",
   "checklist": [
     {

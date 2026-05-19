@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I set up Python auto-instrumentation with opentelemetry-instrument for my Flask app and I'm sending to Coralogix (us1 re",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI set up Python auto-instrumentation with opentelemetry-instrument for my Flask app and I'm sending to Coralogix (us1 region). My env vars are:\n  OTEL_EXPORTER_OTLP_HEADERS=\"Authorization=Bearer mySecretKey123\"\n  OTEL_EXPORTER_OTLP_ENDPOINT=\"https://ingress.us1.coralogix.com:443\"\n  OTEL_TRACES_EXPORTER=otlp_proto_grpc\nNothing shows up in Coralogix. What's wrong?",
   "type": "weighted_checklist",
   "checklist": [
     {

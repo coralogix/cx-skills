@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We're currently using go-coralogix-sdk to send logs from our Go service to Coralogix. Is this still supported and should",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe're currently using go-coralogix-sdk to send logs from our Go service to Coralogix. Is this still supported and should we keep using it?",
   "type": "weighted_checklist",
   "checklist": [
     {

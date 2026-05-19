@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We have a .NET Core service using CoralogixCoreSDK. We want to add trace correlation to our logs. How do we do that with",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe have a .NET Core service using CoralogixCoreSDK. We want to add trace correlation to our logs. How do we do that with CoralogixCoreSDK?",
   "type": "weighted_checklist",
   "checklist": [
     {

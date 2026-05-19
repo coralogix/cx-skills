@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Should I use the OpenTelemetry Collector or send directly from my app SDK to Coralogix?",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nShould I use the OpenTelemetry Collector or send directly from my app SDK to Coralogix?",
   "type": "weighted_checklist",
   "checklist": [
     {

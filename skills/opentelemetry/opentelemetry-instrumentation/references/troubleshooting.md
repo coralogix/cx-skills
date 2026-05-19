@@ -132,6 +132,13 @@ A 400 response from Coralogix (empty body) confirms connectivity and auth work. 
 ```
 No data in Coralogix?
 │
+├─ Is this a short-lived Python script (exits in under a second)?
+│   ├─ Traces missing → BatchSpanProcessor queues spans on a background timer and silently drops
+│   │   them if the process exits before the timer fires; use SimpleSpanProcessor instead
+│   └─ Metrics missing → PeriodicExportingMetricReader only exports on its configured interval
+│       (default 60 s); a script that exits before the interval fires exports zero metrics;
+│       fix: call metric_reader.force_flush() before provider.shutdown(), or sleep past the interval
+│
 ├─ Does SDK debug log show export attempts?
 │   ├─ No → SDK not initialized or signal exporter = "none" → fix init / exporter config
 │   └─ Yes → export errors shown?

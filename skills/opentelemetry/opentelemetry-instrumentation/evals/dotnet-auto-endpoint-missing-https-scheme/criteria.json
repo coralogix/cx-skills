@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My .NET auto-instrumented service has these env vars set but no traces appear:\n  OTEL_EXPORTER_OTLP_ENDPOINT=ingress.eu1",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy .NET auto-instrumented service has these env vars set but no traces appear:\n  OTEL_EXPORTER_OTLP_ENDPOINT=ingress.eu1.coralogix.com:443\n  OTEL_EXPORTER_OTLP_HEADERS=Authorization=Bearer myKey\nWhat am I missing?",
   "type": "weighted_checklist",
   "checklist": [
     {

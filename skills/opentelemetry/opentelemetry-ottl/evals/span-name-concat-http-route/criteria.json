@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: All my spans from our API service come in with a generic name like \"http.request\" regardless of which endpoint was calle",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAll my spans from our API service come in with a generic name like \"http.request\" regardless of which endpoint was called. I want to rename them to something like \"GET /users/:id\" using the HTTP method and route attributes. How do I do this with OTTL?",
   "type": "weighted_checklist",
   "checklist": [
     {

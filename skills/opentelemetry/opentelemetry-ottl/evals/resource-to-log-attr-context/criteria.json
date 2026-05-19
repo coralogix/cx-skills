@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm trying to copy the k8s namespace name from the resource down into each log record as an attribute so I can filter on",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm trying to copy the k8s namespace name from the resource down into each log record as an attribute so I can filter on it later. I wrote this in my transform processor under context: log \u2014 set(attributes[\"namespace\"], attributes[\"k8s.namespace.name\"]) \u2014 but the attribute always comes out nil. What am I doing wrong?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -12,7 +12,7 @@
       "name": "explains-that-under-context-log-the-bare-attr",
       "description": "Explains that under context: log the bare attributes[...] refers to the log-record attributes, not the resource attributes, and that the fix is to use resource.attributes[...] \u2014 i.e. diagnoses the wrong-context cause, not just prescribes a path rewrite.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

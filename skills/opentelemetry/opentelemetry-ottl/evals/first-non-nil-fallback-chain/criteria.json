@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I want to set attributes[\"db.namespace\"] to whichever of db.name, server.address, or net.peer.name is populated on the s",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI want to set attributes[\"db.namespace\"] to whichever of db.name, server.address, or net.peer.name is populated on the span \u2014 whichever one appears first wins. I tried jamming it all into one set() with a big conditional and the statement is unreadable. How does OTTL express a first-non-nil-wins fallback chain cleanly?",
   "type": "weighted_checklist",
   "checklist": [
     {

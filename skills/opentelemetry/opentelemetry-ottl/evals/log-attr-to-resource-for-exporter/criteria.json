@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We route logs to a Coralogix subsystem using the coralogix exporter with subsystem_name_attributes: [\"subsystem\"]. Our a",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe route logs to a Coralogix subsystem using the coralogix exporter with subsystem_name_attributes: [\"subsystem\"]. Our application writes subsystem into the log-record attributes (attributes[\"log.file.subsystem\"]), but the subsystem always comes back blank \u2014 the exporter can't see it. We don't want to rename the field in the application. How do I use OTTL so the exporter picks it up?",
   "type": "weighted_checklist",
   "checklist": [
     {

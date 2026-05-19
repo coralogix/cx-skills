@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our metrics backend is being overwhelmed \u2014 we have hundreds of thousands of unique time series. The main culprits seem t",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur metrics backend is being overwhelmed \u2014 we have hundreds of thousands of unique time series. The main culprits seem to be resource attributes like process IDs, hostnames, and SDK version strings that create a unique combination per process instance. How do I use OTTL to reduce this?",
   "type": "weighted_checklist",
   "checklist": [
     {

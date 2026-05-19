@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My logs arrive as raw JSON strings in the body \u2014 IsMap(body) returns false. I need to extract the \"user_id\" and \"request",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy logs arrive as raw JSON strings in the body \u2014 IsMap(body) returns false. I need to extract the \"user_id\" and \"request_id\" fields from that JSON string and promote them to log attributes. What is the correct OTTL approach?",
   "type": "weighted_checklist",
   "checklist": [
     {

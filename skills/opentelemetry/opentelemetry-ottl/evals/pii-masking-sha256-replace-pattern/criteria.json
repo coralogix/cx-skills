@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We need to mask PII in our logs before they leave the collector. We want to hash user IDs so we can still correlate with",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe need to mask PII in our logs before they leave the collector. We want to hash user IDs so we can still correlate without exposing them, mask credit card numbers in the log message field, and redact Authorization header values in span attributes. How do I do each of these with OTTL?",
   "type": "weighted_checklist",
   "checklist": [
     {

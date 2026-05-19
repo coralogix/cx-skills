@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My collector pipeline stops processing logs entirely whenever it encounters a log with a missing field. The transform pr",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy collector pipeline stops processing logs entirely whenever it encounters a log with a missing field. The transform processor is running set() on an optional field that not every log has, and after one failure the whole pipeline goes silent. How do I make it skip errors instead of halting?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -12,7 +12,7 @@
       "name": "recommends-setting-error-mode-to-ignore-or-si",
       "description": "Recommends setting error_mode to ignore (or silent) explicitly and warns that the default propagate causes pipeline halts / data loss. Includes a YAML snippet showing the error_mode key in a processor block.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

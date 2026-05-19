@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I need to drop only datapoints where attributes[\"tenant\"] is missing, but keep the metric itself when other datapoints a",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI need to drop only datapoints where attributes[\"tenant\"] is missing, but keep the metric itself when other datapoints are valid. Should this be metric context or datapoint context?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -12,7 +12,7 @@
       "name": "explains-that-per-series-per-point-filtering",
       "description": "Explains that per-series/per-point filtering belongs in datapoint context, not metric context, and avoids dropping the entire metric unintentionally.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

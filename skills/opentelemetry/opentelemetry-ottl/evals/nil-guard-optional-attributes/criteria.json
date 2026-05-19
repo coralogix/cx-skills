@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My transform works fine in dev but in production it crashes on certain spans with errors about invalid path segments. Th",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy transform works fine in dev but in production it crashes on certain spans with errors about invalid path segments. The spans that fail are ones where some optional attributes aren't present. How do I write OTTL that is safe when optional fields might be missing?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -12,7 +12,7 @@
       "name": "prescribes-a-concrete-guard-pattern-where-att",
       "description": "Prescribes a concrete guard pattern \u2014 where attributes[...] != nil, IsMap, IsString, or an equivalent \u2014 rather than generic advice like \"handle errors appropriately\" or \"add validation\". Must show or describe the guard as part of the OTTL statement itself.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

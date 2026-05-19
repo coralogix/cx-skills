@@ -120,7 +120,7 @@ processors:
           - set(attributes["url.full"], attributes["http.url"]) where attributes["url.full"] == nil and attributes["http.url"] != nil
 
           # Auto-set span status from HTTP response code
-          - set(status.code, 2) where attributes["http.response.status_code"] != nil and attributes["http.response.status_code"] > 399
+          - set(status.code, STATUS_CODE_ERROR) where attributes["http.response.status_code"] != nil and attributes["http.response.status_code"] > 399
 ```
 
 ---

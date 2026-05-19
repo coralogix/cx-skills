@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My OTTL comparison attributes[\"retries\"] > 3 fails because retries is sometimes a string like \"5\". How do I safely compa",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy OTTL comparison attributes[\"retries\"] > 3 fails because retries is sometimes a string like \"5\". How do I safely compare numeric-looking attributes?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -12,7 +12,7 @@
       "name": "recommends-type-guards-or-conversion-before-c",
       "description": "Recommends type guards or conversion before comparison and avoids assuming all attribute values are already numeric.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We have tail_sampling configured in our daemonset otel-agent. We're seeing that many of our traces come through incomple",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe have tail_sampling configured in our daemonset otel-agent. We're seeing that many of our traces come through incomplete \u2014 spans from some services missing entirely. What's the issue?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -24,7 +24,7 @@
       "name": "explains-that-tail-sampling-cannot-live-on-da",
       "description": "Explains that tail sampling cannot live on daemonset agents because each agent only sees spans from its own node \u2014 a single trace is split across agents and the sampler makes decisions on partial data. Recommends moving tail_sampling to a central gateway tier, fed via a `loadbalancing` exporter that routes by `trace_id` so all spans for a trace land on the same gateway replica.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

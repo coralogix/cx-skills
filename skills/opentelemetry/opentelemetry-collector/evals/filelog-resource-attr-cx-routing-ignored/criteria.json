@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We set up the Coralogix Linux host integration with a filelog receiver. To route logs from different files to different ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe set up the Coralogix Linux host integration with a filelog receiver. To route logs from different files to different Coralogix subsystems, we added an operator that sets cx.application.name and cx.subsystem.name as resource attributes on each log record. The operators are definitely running \u2014 we can see the attributes in the debug exporter output. But all logs arrive in Coralogix under the global application_name and subsystem_name values hardcoded in the exporter block. The per-file attributes are completely ignored. What's wrong?",
   "type": "weighted_checklist",
   "checklist": [
     {

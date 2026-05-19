@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: In what order should I configure memory_limiter, batch, resourcedetection, and k8sattributes in a pipeline's processors ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nIn what order should I configure memory_limiter, batch, resourcedetection, and k8sattributes in a pipeline's processors list? Does the order matter?",
   "type": "weighted_checklist",
   "checklist": [
     {

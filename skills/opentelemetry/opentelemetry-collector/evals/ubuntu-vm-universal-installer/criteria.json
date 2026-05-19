@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I have a single Ubuntu 22.04 VM. I want to ship its system logs and hostmetrics to Coralogix with the smallest number of",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI have a single Ubuntu 22.04 VM. I want to ship its system logs and hostmetrics to Coralogix with the smallest number of manual steps possible. What install method do you recommend?",
   "type": "weighted_checklist",
   "checklist": [
     {

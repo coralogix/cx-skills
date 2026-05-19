@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Give me a minimum coralogix exporter block for region EU2 using the standard send-your-data env var. Respond with just t",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nGive me a minimum coralogix exporter block for region EU2 using the standard send-your-data env var. Respond with just the YAML, in a ```yaml fenced block.",
   "type": "weighted_checklist",
   "checklist": [
     {

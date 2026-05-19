@@ -15,8 +15,16 @@ license: Apache-2.0
 metadata:
   version: "0.1.0"
   integration: otel-collector
-  signals: "logs, metrics, traces"
-  deployment: "kubernetes, helm, docker, ecs, aws"
+  signals:
+    - logs
+    - metrics
+    - traces
+  deployment:
+    - kubernetes
+    - helm
+    - docker
+    - ecs
+    - aws
   docs: https://coralogix.com/docs/opentelemetry/
   repo: https://github.com/coralogix/telemetry-shippers
   triggers:
@@ -90,6 +98,7 @@ Coralogix-specific defaults that vanilla OpenTelemetry docs don't cover.
 | Windows standalone | [setup-windows-standalone.md](references/setup-windows-standalone.md) |
 | Universal installer (all OS) | [setup-installer.md](references/setup-installer.md) |
 | `spanmetrics`, `tail_sampling`, `k8sattributes` placement | [config-connectors.md](references/config-connectors.md) |
+| Span Metrics DB labels differ between `calls_total` and `db_calls_total` | [config-connectors.md](references/config-connectors.md) — place DB label compatibility transforms under top-level `spanMetrics.transformStatements` |
 | Memory — `memory_limiter` firing, RSS vs Go heap | [ops-memory-performance.md](references/ops-memory-performance.md) |
 | Troubleshoot "no data", "no traces", "Resource Catalog empty" | [ops-troubleshooting.md](references/ops-troubleshooting.md) |
 | OpAMP supervisor / Fleet Manager config overlap | [preset-fleet-management.md](references/preset-fleet-management.md) |
@@ -125,7 +134,12 @@ exporters:
 
 - **`memory_limiter` first, `batch` last.**
 - **One role owns full `k8sattributes` extraction** — typically gateway; agents use `passthrough: true`.
-- **`spanmetrics` on agent (before sampling), `tail_sampling` on gateway.** Run `transactions`/`groupbytrace/transactions` before `spanmetrics`; never on both agent and gateway.
+- **`spanmetrics` on agent (before sampling), `tail_sampling` on gateway.** Run `transactions`/`groupbytrace/transactions` before `spanmetrics`; **never on both agent and gateway simultaneously — this causes double-counting** because each tier sees all spans and emits separate metric series that accumulate.
+- **Span Metrics DB label compatibility transforms belong under top-level
+  `spanMetrics.transformStatements`.** Do not put them only under
+  `spanMetrics.dbMetrics.transformStatements`; that can populate
+  `db_calls_total` while leaving normal `calls_total` with blank
+  `db_namespace`.
 - **Don't replace `service.pipelines` wholesale** — use `extraProcessors`/`extraReceivers` hooks; wholesale overrides silently break `resource/metadata` (`cx.agent.type`) and chart upgrades.
 
 ### Platform-specific rules
@@ -146,6 +160,12 @@ exporters:
   `passthrough: true` on the others.
 - **OpAMP supervisor endpoint:** It is different from exporter `domain:` and needs the
   full URL, e.g. `https://ingress.eu2.coralogix.com/opamp/v1`.
+- **Windows `extensions: [opamp]` fails on old image pins:** The K8s Windows sub-preset
+  defaults to `coralogixrepo/opentelemetry-collector-contrib-windows:0.92.0`, which predates
+  OpAMP on Windows — enabling `extensions: [opamp]` there causes the collector to refuse to
+  start. Fix: bump the image to ≥ v0.130. When bumping the image is not an option (e.g.
+  locked in a production freeze), use the **`-Supervisor` wrapper** instead — this runs
+  `opampsupervisor` as a separate Windows Service and works regardless of collector version.
 - **Java multiline stack traces not merging (Kubernetes):** CRI tags every log line as
   `F` (full/final) — the standard `P→F` recombine never triggers. Use `firstEntryRegex`
   on the filelog `recombine` operator to detect new entries by timestamp pattern.

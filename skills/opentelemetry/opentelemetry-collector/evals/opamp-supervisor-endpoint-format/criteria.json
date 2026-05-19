@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm configuring the OpAMP supervisor for Fleet Management. Our region is eu2. My coralogix exporter is using domain: eu2",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm configuring the OpAMP supervisor for Fleet Management. Our region is eu2. My coralogix exporter is using domain: eu2.coralogix.com but the supervisor keeps getting connection refused. What should the supervisor endpoint be?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -24,7 +24,7 @@
       "name": "explains-that-the-opamp-supervisor-uses-a-dif",
       "description": "Explains that the OpAMP supervisor uses a DIFFERENT endpoint from the coralogix data exporter \u2014 it needs the full URL with scheme, `https://ingress.<region>.coralogix.com`, not the bare hostname that goes in the exporter's `domain:` field.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

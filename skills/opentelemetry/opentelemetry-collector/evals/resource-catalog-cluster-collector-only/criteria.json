@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Collector fails to start with: \"cannot start pipelines: failed to start resourcedetection/resource_catalog processor: ca",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nCollector fails to start with: \"cannot start pipelines: failed to start resourcedetection/resource_catalog processor: can't get K8s Instance Metadata; node name is empty\". This is on a node in our daemonset. What's wrong?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -18,7 +18,7 @@
       "name": "explains-that-resourcedetection-resource-cata",
       "description": "Explains that `resourcedetection/resource_catalog` (and Resource Catalog plumbing in general) belongs on the cluster-collector Deployment, not the per-node daemonset \u2014 the daemonset pod can't get node-name / K8s-instance-metadata injection. Recommends moving or removing it from the daemonset configuration.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

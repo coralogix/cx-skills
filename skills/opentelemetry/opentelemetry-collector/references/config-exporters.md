@@ -35,28 +35,13 @@ exporters:
 
 ### Transport protocol
 
-The coralogix exporter uses gRPC by default. Do not set `protocol: http` — since v0.144 of
-`opentelemetry-collector-contrib`, the exporter validates HTTP compatibility for **all** signals
-at startup, including profiles. Profiles do not support HTTP transport, so the exporter rejects
-`protocol: http` even when no profiles pipeline is configured:
-
-```
-Error: exporters::coralogix: profiles signal is not supported with HTTP protocol,
-use gRPC protocol (default) instead
-```
-
-The fix is to remove the `protocol:` field entirely (gRPC is the default and works for all signals).
-This validation runs at startup before pipeline wiring, so the error appears even if profiles are
-never exported.
-
-### Transport protocol
-
 Do not set `protocol: http`. Since collector-contrib v0.144, the coralogix exporter validates
 HTTP compatibility for all signals at startup — including profiles, which require gRPC. The
 validation runs before pipeline wiring, so `protocol: http` fails even with no profiles pipeline:
 
 ```
-Error: exporters::coralogix: profiles signal is not supported with HTTP protocol
+Error: exporters::coralogix: profiles signal is not supported with HTTP protocol,
+use gRPC protocol (default) instead
 ```
 
 Remove the `protocol:` field. gRPC is the default and works for all signals.

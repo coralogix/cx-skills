@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We're deploying the coralogix/opentelemetry-coralogix Helm chart (the otel-agent chart) for a new EKS cluster. Any reaso",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe're deploying the coralogix/opentelemetry-coralogix Helm chart (the otel-agent chart) for a new EKS cluster. Any reason not to use it?",
   "type": "weighted_checklist",
   "checklist": [
     {

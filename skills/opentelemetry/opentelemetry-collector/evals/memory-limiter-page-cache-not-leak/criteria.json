@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our memory_limiter processor is firing constantly. The collector's own process.runtime.go.mem.heap_alloc shows 49 MiB bu",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur memory_limiter processor is firing constantly. The collector's own process.runtime.go.mem.heap_alloc shows 49 MiB but kubectl top pod shows 464 MiB. Is this a memory leak?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -12,7 +12,7 @@
       "name": "explains-that-the-49-mib-go-heap-vs-464-mib-c",
       "description": "Explains that the 49 MiB Go heap vs 464 MiB container RSS gap is kernel page cache (from hostPath /var/log/pods mounts counted toward the container's cgroup memory), NOT a Go memory leak. Says clearly this is not a leak and walks through how to confirm via the collector's own `process.runtime.go.mem.*` self-telemetry.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

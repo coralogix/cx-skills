@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm reviewing my Python programmatic instrumentation. Here's my exporter setup:\n  headers = {\n      'Authorization': 'Be",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm reviewing my Python programmatic instrumentation. Here's my exporter setup:\n  headers = {\n      'Authorization': 'Bearer myKey',\n      'CX-Application-Name': 'myapp',\n  }\n  exporter = OTLPSpanExporter(endpoint='ingress.eu1.coralogix.com:443', headers=headers)\nWhat's wrong with this?",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Give me the required direct-export environment variables for sending OpenTelemetry traces from a Go service to Coralogix",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nGive me the required direct-export environment variables for sending OpenTelemetry traces from a Go service to Coralogix in eu2.",
   "type": "weighted_checklist",
   "checklist": [
     {

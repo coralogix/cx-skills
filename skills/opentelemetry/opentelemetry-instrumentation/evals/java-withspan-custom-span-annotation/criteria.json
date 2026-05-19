@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My Java app sends traces fine but I want to add a custom span to a specific method. How do I do it without changing the ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy Java app sends traces fine but I want to add a custom span to a specific method. How do I do it without changing the exporter setup?",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My Node.js app uses OTLPTraceExporter (HTTP/proto) with url set to 'https://ingress.eu2.coralogix.com:443'. Traces are n",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy Node.js app uses OTLPTraceExporter (HTTP/proto) with url set to 'https://ingress.eu2.coralogix.com:443'. Traces are not arriving in Coralogix and the exporter returns no errors. What is the correct endpoint URL to use, and why does the current one fail silently?",
   "type": "weighted_checklist",
   "checklist": [
     {

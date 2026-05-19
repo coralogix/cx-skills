@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm using Node.js with the bundled auto-instrumentation approach (@opentelemetry/auto-instrumentations-node via NODE_OPT",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm using Node.js with the bundled auto-instrumentation approach (@opentelemetry/auto-instrumentations-node via NODE_OPTIONS). My traces are appearing in Coralogix, but I don't see any data in the Transactions view in APM. Why?",
   "type": "weighted_checklist",
   "checklist": [
     {

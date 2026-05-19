@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: How do I configure the OpenTelemetry Collector to batch spans before sending to Coralogix?",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nHow do I configure the OpenTelemetry Collector to batch spans before sending to Coralogix?",
   "type": "weighted_checklist",
   "checklist": [
     {

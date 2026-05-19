@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My Node.js service injects a traceparent header into outgoing HTTP requests, but when the request reaches our .NET Frame",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy Node.js service injects a traceparent header into outgoing HTTP requests, but when the request reaches our .NET Framework backend I see independent spans in Coralogix instead of child spans \u2014 the trace is broken at the service boundary. What's wrong?",
   "type": "weighted_checklist",
   "checklist": [
     {

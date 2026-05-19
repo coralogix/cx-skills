@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I've set up .NET OpenTelemetry manual instrumentation for my eu1 service. My OTLP exporter reports 200 OK responses, so ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI've set up .NET OpenTelemetry manual instrumentation for my eu1 service. My OTLP exporter reports 200 OK responses, so data is arriving at Coralogix. But nothing appears in the APM views \u2014 no service in the Service Catalog, no traces in Explore. My endpoint is https://ingress.eu1.coralogix.com:443. What resource attributes could cause data to arrive successfully but not appear in APM?",
   "type": "weighted_checklist",
   "checklist": [
     {

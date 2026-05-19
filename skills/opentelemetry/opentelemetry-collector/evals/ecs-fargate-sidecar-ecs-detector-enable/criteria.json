@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our default ECS Fargate sidecar has detectors [env, system] in its resourcedetection config \u2014 we copied this from our EC",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur default ECS Fargate sidecar has detectors [env, system] in its resourcedetection config \u2014 we copied this from our ECS EC2 daemonset. Should we add the ecs detector too or leave it out?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -24,7 +24,7 @@
       "name": "says-the-ecs-detector-should-be-enabled-on-a",
       "description": "Says the `ecs` detector SHOULD be enabled on a Fargate sidecar \u2014 unlike the EC2 daemonset, the sidecar shares the task's awsvpc network namespace and the detector correctly attributes data to the right task, not to the collector. The \"remove ecs detector\" rule from ECS-EC2 daemonset mode is EC2-specific and inapplicable to Fargate sidecar.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

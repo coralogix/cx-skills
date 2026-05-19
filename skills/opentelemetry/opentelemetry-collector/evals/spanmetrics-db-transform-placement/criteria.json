@@ -1,0 +1,54 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nIn otel-integration Helm values, a customer put DB compatibility statements under spanMetrics.dbMetrics.transformStatements. Now db_calls_total has db_namespace populated from db.name, but normal calls_total still has db_system and a blank db_namespace for those database spans. Is this a chart bug, and where should the transform live?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-spanmetrics-transformstatements",
+      "description": "The response contains \"spanMetrics.transformStatements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-spanmetrics-dbmetrics-transformstatements",
+      "description": "The response contains \"spanMetrics.dbMetrics.transformStatements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-calls-total",
+      "description": "The response contains \"calls_total\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-calls-total",
+      "description": "The response contains \"db_calls_total\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-namespace",
+      "description": "The response contains \"db.namespace\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-name",
+      "description": "The response contains \"db.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "misconfiguration-wrong-config",
+      "description": "The response matches the pattern: (?i)(misconfiguration|wrong config|wrong placement|not.*chart.*bug)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-db-label-compatibility-statemen",
+      "description": "Explains that DB label compatibility statements that should affect normal Span Metrics belong under top-level spanMetrics.transformStatements so they run before spanmetrics consumes spans, not only under spanMetrics.dbMetrics.transformStatements. It must explain that dbMetrics-only placement can populate db_calls_total while calls_total keeps a blank db_namespace. The answer should treat this as a customer values misconfiguration rather than a chart-default bug, and should populate db.namespace from db.name with endpoint/system fallbacks when db.name is missing. FAIL if it puts the fix only under dbMetrics, after spanmetrics in the metrics pipeline, or says the chart should enable these statements by default as the immediate fix.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

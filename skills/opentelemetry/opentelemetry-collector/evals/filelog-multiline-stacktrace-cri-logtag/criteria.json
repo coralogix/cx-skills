@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our Java services on Kubernetes produce stack traces that arrive in Coralogix as dozens of separate log records \u2014 one pe",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur Java services on Kubernetes produce stack traces that arrive in Coralogix as dozens of separate log records \u2014 one per line \u2014 instead of a single merged entry. I added multiline configuration to the filelog receiver with a line_start_pattern matching the timestamp format, but it only captures the first line of the exception and drops all the \"at ...\" lines. Looking at the raw /var/log/pods files, every single log line has logtag F. Why isn't the multiline config helping, and what's the right approach?",
   "type": "weighted_checklist",
   "checklist": [
     {

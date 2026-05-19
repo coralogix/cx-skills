@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: exporters:\n  coralogix:\n    domain: \"$CORALOGIX_DOMAIN\"\n    private_key: \"$PRIVATE_KEY\"\n\nThis was working on otel-contri",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nexporters:\n  coralogix:\n    domain: \"$CORALOGIX_DOMAIN\"\n    private_key: \"$PRIVATE_KEY\"\n\nThis was working on otel-contrib v0.70 but since upgrading to v0.95 nothing exports. What changed?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -18,7 +18,7 @@
       "name": "explains-that-recent-collector-coralogix-expo",
       "description": "Explains that recent collector / coralogix-exporter versions (\u2265 v0.76) stopped expanding the unbracketed `$VAR` form silently \u2014 the bracketed `${env:VAR}` form is now required. Points at both `domain:` and `private_key:` needing the fix.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

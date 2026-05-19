@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our ECS Fargate sidecar is configured with the app container essential: true and the otel-collector sidecar essential: f",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur ECS Fargate sidecar is configured with the app container essential: true and the otel-collector sidecar essential: false. Whenever the app crashes during startup, buffered logs from FireLens never reach Coralogix. How do we fix this?",
   "type": "weighted_checklist",
   "checklist": [
     {

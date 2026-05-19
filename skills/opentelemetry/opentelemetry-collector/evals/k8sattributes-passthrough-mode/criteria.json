@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our K8s API server has been hitting rate limits since we deployed our agents. Looking at the configs we have full k8satt",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur K8s API server has been hitting rate limits since we deployed our agents. Looking at the configs we have full k8sattributes extract blocks in the daemonset, the cluster-collector, AND the gateway. They're doing identical lookups. How do we fix this without losing pod metadata?",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our Windows OTel collector is at 90% CPU whenever IIS traffic peaks. Pipeline has just otlp receiver, hostmetrics, and t",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur Windows OTel collector is at 90% CPU whenever IIS traffic peaks. Pipeline has just otlp receiver, hostmetrics, and the coralogix exporter \u2014 nothing unusual. Before we resize the instance, what should we check?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -18,7 +18,7 @@
       "name": "identifies-windows-defender-real-time-scannin",
       "description": "Identifies Windows Defender real-time scanning of rotated IIS log files (msmpeng.exe) as the likely culprit, rather than the collector itself, and recommends adding an exclusion for the IIS log path before resizing the instance.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

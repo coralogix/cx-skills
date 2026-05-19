@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: No traces are reaching Coralogix. I've added a transform processor with set(attributes[\"forwarded\"], true) to make sure ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nNo traces are reaching Coralogix. I've added a transform processor with set(attributes[\"forwarded\"], true) to make sure at least something goes through, but it hasn't changed anything. Should I try a different OTTL statement?",
   "type": "weighted_checklist",
   "checklist": [
     {

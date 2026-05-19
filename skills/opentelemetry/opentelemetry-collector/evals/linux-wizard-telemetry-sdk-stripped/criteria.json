@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We deployed the Coralogix Linux host integration through the UI wizard. Logs and metrics are flowing but in APM our Node",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe deployed the Coralogix Linux host integration through the UI wizard. Logs and metrics are flowing but in APM our Node.js and Python services don't have language icons like we see in other environments. What's happening?",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: Our Windows host in K8s is running coralogixrepo/opentelemetry-collector-contrib-windows:0.92.0 (from the otel-integrati",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur Windows host in K8s is running coralogixrepo/opentelemetry-collector-contrib-windows:0.92.0 (from the otel-integration opentelemetry-agent-windows sub-preset). We want Fleet Management. When we add extensions: [opamp] to the config, the collector refuses to start. What are our options?",
   "type": "weighted_checklist",
   "checklist": [
     {

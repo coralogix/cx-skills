@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We're running otel-integration with the Fleet Management supervisor enabled. I helm-upgraded with new processor settings",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe're running otel-integration with the Fleet Management supervisor enabled. I helm-upgraded with new processor settings in values.yaml and my changes don't seem to have taken effect. What am I missing?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -18,7 +18,7 @@
       "name": "explains-that-with-presets-fleetmanagement-su",
       "description": "Explains that with `presets.fleetManagement.supervisor.enabled: true` the supervisor owns the runtime config \u2014 Fleet Manager UI settings take precedence over values.yaml, and helm-upgrading the chart has no effect on processor config. Recommends either editing the config in the Fleet Manager UI or disabling the supervisor to let Helm values take effect again.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

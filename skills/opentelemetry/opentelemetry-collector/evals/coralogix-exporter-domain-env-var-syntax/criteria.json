@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: My coralogix exporter config has endpoint: https://ingress.eu2.coralogix.com and I've set private_key: $CORALOGIX_PRIVAT",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy coralogix exporter config has endpoint: https://ingress.eu2.coralogix.com and I've set private_key: $CORALOGIX_PRIVATE_KEY but nothing is being sent to Coralogix. What's wrong?",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I need to parse a timestamp string from attributes[\"event_time\"] and set the log timestamp from it. Can OTTL change the ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI need to parse a timestamp string from attributes[\"event_time\"] and set the log timestamp from it. Can OTTL change the event timestamp, and what should I watch out for?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -12,7 +12,7 @@
       "name": "explains-whether-timestamp-mutation-is-suppor",
       "description": "Explains whether timestamp mutation is supported in the relevant log context, shows a concrete parsing approach, and warns about format/timezone mismatch or invalid values.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

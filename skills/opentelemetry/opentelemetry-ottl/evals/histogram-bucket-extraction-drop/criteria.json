@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: We have a high-volume histogram metric http.server.request.duration with many bucket boundaries. We want to keep the _su",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe have a high-volume histogram metric http.server.request.duration with many bucket boundaries. We want to keep the _sum and _count aggregations for average latency calculations but drop the raw histogram buckets entirely to reduce ingestion cost. Can OTTL do this? What's the right sequence to extract the aggregations and then drop the source histogram?",
   "type": "weighted_checklist",
   "checklist": [
     {

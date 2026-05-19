@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm confused about when to use the \"where\" clause on individual statements versus the \"conditions:\" block on a context. ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm confused about when to use the \"where\" clause on individual statements versus the \"conditions:\" block on a context. Are they interchangeable? Does it matter which one I use?",
   "type": "weighted_checklist",
   "checklist": [
     {

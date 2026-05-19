@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I want to drop all health check spans from my traces. Should I use the transform processor with a delete or set statemen",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI want to drop all health check spans from my traces. Should I use the transform processor with a delete or set statement, or should I use the filter processor? What's the difference?",
   "type": "weighted_checklist",
   "checklist": [
     {

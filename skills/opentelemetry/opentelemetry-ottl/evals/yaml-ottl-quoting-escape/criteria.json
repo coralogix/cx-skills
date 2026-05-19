@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I'm trying to clean up span names with a transform processor's replace_pattern, but the collector refuses to start and l",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm trying to clean up span names with a transform processor's replace_pattern, but the collector refuses to start and logs: \"statement has invalid syntax: 1:28: invalid quoted string '\\\"cycle-(manager|rpa-manager)\\\\\\\\.[0-9a-f]{8}-[0-9a-f]{4}-...\\\"': invalid syntax\". My regex works fine in a regex tester. What's wrong with how I'm writing it in the YAML?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -18,7 +18,7 @@
       "name": "explains-that-the-error-is-not-an-ottl-bug-or",
       "description": "Explains that the error is NOT an OTTL bug or a bad regex, but a YAML+OTTL quoting collision: the regex has to be a valid OTTL string literal AND a valid YAML scalar. Suggests a concrete fix \u2014 most commonly using single quotes on the outside (YAML) with double quotes as the OTTL string delimiter, or using a YAML block scalar (|- or >-), or doubling the backslashes to survive both parsing layers. Avoids vague \"check your escaping\" without a working example.",
       "max_score": 2,
-      "category": "DESIGN"
+      "category": "RUBRIC"
     }
   ]
 }

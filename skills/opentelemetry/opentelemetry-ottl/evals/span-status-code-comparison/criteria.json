@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I tried set(attributes[\"is_error\"], status.code == 2) on spans, but my condition behaves strangely. How should I check s",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI tried set(attributes[\"is_error\"], status.code == 2) on spans, but my condition behaves strangely. How should I check span status code in OTTL?",
   "type": "weighted_checklist",
   "checklist": [
     {

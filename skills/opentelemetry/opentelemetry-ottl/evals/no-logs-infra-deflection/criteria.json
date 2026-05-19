@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: None of my logs are reaching Coralogix. I've tried adding a transform processor with set(attributes[\"forwarded\"], true) ",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nNone of my logs are reaching Coralogix. I've tried adding a transform processor with set(attributes[\"forwarded\"], true) to force something through, but it makes no difference. Maybe OTTL is broken in our version? How do I fix the transform so the logs get exported?",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -10,7 +10,7 @@
     },
     {
       "name": "not-ottl-transform",
-      "description": "The response matches the pattern: (?i)(not.*(OTTL|transform)|OTTL.*(not|isn't)|isn't.*(OTTL|transform))",
+      "description": "The response matches the pattern: (?i)(\\bnot\\b.*(OTTL|transform)|OTTL.*(\\bnot\\b|\\bisn't\\b)|\\bisn't\\b.*(OTTL|transform))",
       "max_score": 3,
       "category": "INTENT"
     },

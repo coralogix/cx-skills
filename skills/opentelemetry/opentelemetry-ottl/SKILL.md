@@ -50,8 +50,8 @@ metadata:
       - log_statements
       - trace_statements
       - metric_statements
-      - "where resource.attributes"
-      - "set(attributes"
+      - where resource.attributes
+      - set(attributes
       - redact
       - pii
       - mask

@@ -1,5 +1,5 @@
 {
-  "context": "Evaluating a Coralogix support response for: I want to delete attributes where the key starts with \"http.request.header.\" from spans before export. What's the OTTL w",
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI want to delete attributes where the key starts with \"http.request.header.\" from spans before export. What's the OTTL way to remove all matching keys?",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm reviewing an instrumentation PR that adds service.name to every span as a span attribute. Traces still show up in Coralogix but the team is seeing duplicate data and weird query behaviour. What's wrong, and where should service.name actually live?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-resource",
+      "description": "The response contains \"resource\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-service-name",
+      "description": "The response contains \"service.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-that-service-name-is-a-resource-at",
+      "description": "Identifies that service.name is a RESOURCE attribute and that putting it on every span duplicates data and breaks the Coralogix exporter's view of producer identity (the exporter reads resource scope only). FAIL only if the response claims span-level service.name is correct.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

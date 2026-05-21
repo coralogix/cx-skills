@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe run SDK head sampling at 10% before spans reach the collector, and then use the spanmetrics connector to power APM RED metrics. Traces are sampled, but we expected Span Metrics to still have full request, error, and latency coverage. Is that expectation correct?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "spanmetrics-span-metrics",
+      "description": "The response matches the pattern: (?i)(spanmetrics|Span Metrics)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "all-spans-every",
+      "description": "The response matches the pattern: (100%|all spans|every span)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "before-sampling-sampling",
+      "description": "The response matches the pattern: (?i)(before.*sampling|sampling.*before|head sampling)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "undercount-sampled-spans",
+      "description": "The response matches the pattern: (?i)(undercount|sampled spans|not full coverage)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-span-metrics-only-has-full-red",
+      "description": "Explains that Span Metrics only has full RED coverage if the spanmetrics connector receives 100% of spans. SDK head sampling is source-side loss: sampled-out spans never reach the collector, so no collector placement can recover them; for collector-side sampling, the sampler must run after spanmetrics. If spanmetrics only sees sampled spans, the generated calls, errors, and duration metrics undercount real traffic. FAIL if it says spanmetrics always has full coverage whenever traces are sampled, regardless of where sampling happens.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    },
+    {
+      "name": "no-says-spanmetrics-can-run-before-sdk-head-s",
+      "description": "Does not recommend fixing SDK head sampling by running the collector spanmetrics connector before SDK head sampling, and does not claim collector ordering can recover spans already sampled out by the SDK. The response should say SDK-sampled-out spans never reach the collector, so collector placement cannot recover them. Collector-side sampling guidance remains acceptable when it says the collector sampler should run after spanmetrics. FAIL if it says spanmetrics can run before SDK head sampling or claims collector placement can recover SDK-sampled-out spans.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

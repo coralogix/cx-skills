@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI know the DB attribute bridge belongs before spanmetrics, but I need the exact otel-integration Helm values YAML and rendered collector pipeline for spanMetrics.transformStatements. Should semconv provide the values block inline?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-spanmetrics-transformstatements",
+      "description": "The response contains \"spanMetrics.transformStatements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "opentelemetry-collector-skill",
+      "description": "The response matches the pattern: (?i)(opentelemetry-?collector|collector skill|collector owner|collector workflow)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "helm-values-pipeline",
+      "description": "The response matches the pattern: (?i)(Helm|values|pipeline|ConfigMap)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "says-semconv-can-identify-the-semantic-placem",
+      "description": "Says semconv can identify the semantic placement \u2014 before spanmetrics under top-level spanMetrics.transformStatements \u2014 but exact Helm values, rendered ConfigMap, and collector pipeline YAML belong to opentelemetry-collector. FAIL if it answers with full Helm/collector implementation instead of handing off the exact config authoring.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

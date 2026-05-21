@@ -1,0 +1,48 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nA customer sends OTLP delta Sum metrics from many app instances with identical labels. Docs say Coralogix supports delta temporality, but totals are wrong. Should we convert every metric to cumulative, or what else matters?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-delta",
+      "description": "The response contains \"delta\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cumulative",
+      "description": "The response contains \"cumulative\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "deltatocumulative-convert-cumulative",
+      "description": "The response matches the pattern: (?i)(deltatocumulative|convert.*cumulative|cumulative.*convert)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "writer-unique-identity",
+      "description": "The response matches the pattern: (?i)(writer[- ]unique|writer identity|service\\.instance\\.id|process|pod|host)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "aggregate-sum",
+      "description": "The response matches the pattern: (?i)(aggregate|sum)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "multi-writer-multiple",
+      "description": "The response matches the pattern: (?i)(multi[- ]writer|multiple writers|many writers|same labels|identical labels|writer[- ]unique|stable writer)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-delta-support-does-not-remove-m",
+      "description": "Explains that delta support does not remove multi-writer identity and aggregation requirements. It should recommend either preserving a stable writer-unique identity when writers should stay separate, or using a real metrics aggregation step that sums the intended low-cardinality streams before converting to cumulative / deltatocumulative when the desired output is one cumulative total. FAIL if it says temporality alone is the root cause, ignores multiple writers with identical labels, or claims groupbyattrs itself aggregates colliding datapoints.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

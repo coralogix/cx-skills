@@ -1,0 +1,18 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe added a transform processor that drops resource attributes to reduce cardinality, and now our APM counters are no longer monotonic \u2014 they reset randomly. We dropped service.instance.id, host.name, and k8s.pod.uid. Which one needs to come back to fix the single-writer violation?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-service-instance-id",
+      "description": "The response contains \"service.instance.id\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "recommends-restoring-service-instance-id-as-t",
+      "description": "Recommends restoring service.instance.id as the unique-writer identity. FAIL only if it suggests stripping more attributes instead of restoring one, or if it picks a non-identity attribute (e.g. service.version) as the fix.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

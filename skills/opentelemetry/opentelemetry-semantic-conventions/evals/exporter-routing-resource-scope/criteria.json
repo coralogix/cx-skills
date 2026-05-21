@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe use the Coralogix exporter with subsystem_name_attributes: [\"log.file.subsystem\"], but every record arrives tagged with the static fallback subsystem instead. The \"log.file.subsystem\" attribute is definitely set in our logs \u2014 debug exporter shows it under the log record attributes. Why isn't the exporter picking it up?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-resource",
+      "description": "The response contains \"resource\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "record-span-level",
+      "description": "The response matches the pattern: (record|span).*level|log[- ]record|record[- ]level",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-that-subsystem-name-attributes-app",
+      "description": "Identifies that subsystem_name_attributes / application_name_attributes on the Coralogix exporter only read RESOURCE-scope attributes. The attribute lives on the log record so the exporter cannot see it. Recommends either setting it at resource scope at the SDK / resource / resourcedetection processor, or copying it up with OTTL. FAIL if it tells the user to rename the field in their application or to change the exporter configuration.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

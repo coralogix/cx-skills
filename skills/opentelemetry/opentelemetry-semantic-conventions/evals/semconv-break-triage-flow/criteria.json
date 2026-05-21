@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nA customer says APM and Infra Explorer drilldowns went blank right after an OpenTelemetry upgrade. We don't know yet whether the release renamed an attribute, changed an enum value, moved something between resource/span/metric scope, or changed a generated metric label. What triage flow should I follow before writing an OTTL transform?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "attribute-name-rename",
+      "description": "The response matches the pattern: (?i)(attribute[- ]name|name rename)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "value-enum",
+      "description": "The response matches the pattern: (?i)(value|enum)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "metric-data-point",
+      "description": "The response matches the pattern: (?i)(metric data[- ]point|generated metric|metrics pipeline)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "scope-resource-span",
+      "description": "The response matches the pattern: (?i)(scope|resource|span)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-schema-url",
+      "description": "The response contains \"schema_url\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "gives-a-triage-sequence-before-writing-ottl-i",
+      "description": "Gives a triage sequence before writing OTTL: identify the OTel version / changelog / schema_url, identify the affected Coralogix surface, inspect raw telemetry with the debug exporter, classify the break as attribute-name, attribute-value, metric data-point / generated metric, or scope mismatch, then choose the bridge location accordingly. FAIL if it jumps straight to a generic transform without classifying the break or bridge location.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

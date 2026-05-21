@@ -1,0 +1,54 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nCoralogix Infrastructure Explorer shows our hosts but the pod view is empty for our EKS cluster. Traces are flowing fine and the OTel collector is running with hostmetrics + kubeletstats receivers. What resource attributes does Infrastructure Explorer need for pods to show up, and which collector processor populates them?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-k8s-pod-name",
+      "description": "The response contains \"k8s.pod.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8s-namespace-name",
+      "description": "The response contains \"k8s.namespace.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8s-cluster-name",
+      "description": "The response contains \"k8s.cluster.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-service-name",
+      "description": "The response contains \"service.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "k8s-node-name-k8s-container-name",
+      "description": "The response matches the pattern: (k8s\\.node\\.name|k8s\\.container\\.name)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "k8s-deployment-name-k8s-statefulset-name-k8s",
+      "description": "The response matches the pattern: (k8s\\.deployment\\.name|k8s\\.statefulset\\.name|k8s\\.daemonset\\.name|k8s\\.job\\.name|k8s\\.cronjob\\.name|k8s\\.replicaset\\.name|workload)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8sattributes",
+      "description": "The response contains \"k8sattributes\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "lists-the-resource-attributes-infrastructure",
+      "description": "Lists the resource attributes Infrastructure Explorer needs for the pod view: k8s.cluster.name, k8s.namespace.name, k8s.pod.name, k8s.node.name, k8s.container.name, plus the workload-identity attribute that matches the pod's owner \u2014 any of k8s.deployment.name, k8s.statefulset.name, k8s.daemonset.name, k8s.job.name, k8s.cronjob.name, or k8s.replicaset.name. It must also name service.name as shared service identity. Recommends the k8sattributes processor and notes the attributes must be at resource scope. FAIL if the response insists on k8s.deployment.name as the only correct workload attribute, or if it suggests these attributes belong on the span.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

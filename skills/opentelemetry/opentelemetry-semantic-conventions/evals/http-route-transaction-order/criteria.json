@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe set http.route in a collector transform after export from a Node routing-controllers app, but Coralogix Transactions still grouped by the old span names. How should we think about http.route, span name, and cgx.transaction timing?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-http-route",
+      "description": "The response contains \"http.route\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cgx-transaction",
+      "description": "The response contains \"cgx.transaction\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "coralogixtransactionsampler-sdk-sampler",
+      "description": "The response matches the pattern: (?i)(CoralogixTransactionSampler|SDK/sampler|sampler chain|transaction deriv)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "before-too-late",
+      "description": "The response matches the pattern: (?i)(before|too late|ordering|timing)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-route-aware-span-name-http-rout",
+      "description": "Explains that route-aware span name / http.route must exist before Coralogix transaction derivation, because collector-side rewrites after the sampler may be too late for cgx.transaction. It may hand sampler/framework setup to opentelemetry-instrumentation. FAIL if it says setting cgx.transaction manually is the fix.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

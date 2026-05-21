@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nCustom metrics now have both service.instance.id and service_instance_id labels, with different values from app instrumentation and the Target Allocator. Coralogix grouping is split. Is this just duplicate spelling, or a semantic problem?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-service-instance-id-1",
+      "description": "The response contains \"service.instance.id\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-service-instance-id-2",
+      "description": "The response contains \"service_instance_id\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "same-concept-conflicting",
+      "description": "The response matches the pattern: (?i)(same concept|conflicting|align|canonical|split|semantic problem)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "prometheus-normalization",
+      "description": "The response matches the pattern: (?i)(normaliz|Prometheus|underscore)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-carrying-service-instance-id-an",
+      "description": "Explains that Prometheus/Target Allocator metric paths normalize dotted OTel attribute names into underscore labels, so service_instance_id is the normalized spelling of service.instance.id rather than an unrelated dimension. It should say that carrying both spellings with different values splits metric series identity, and recommend choosing one canonical service or writer identity and aligning/removing/avoiding the duplicate source. FAIL if it omits the normalization relationship, only says to choose a canonical identity, or treats the two labels as unrelated dimensions to keep.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

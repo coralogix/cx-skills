@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nA customer installed the OpenTelemetry Javaagent for Tomcat and asks why they only see HTTP server metrics with http.request.method, http.response.status_code, and http.route, not Tomcat thread pool or JMX runtime metrics. Is this a semantic convention problem?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "http-semconv-server",
+      "description": "The response matches the pattern: (?i)(HTTP semconv|HTTP server metrics|http\\.request\\.method|http\\.response\\.status_code|http\\.route)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-jmx",
+      "description": "The response contains \"JMX\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-javaagent-http-semantic-convent",
+      "description": "Explains that Javaagent HTTP semantic-convention metrics are not Tomcat/JMX runtime metrics, so Tomcat internals require separate JMX collection/setup such as a scraper, receiver, or instrumentation setup. PASS if it says semconv does not create Tomcat/JMX metrics and points to separate Javaagent/instrumentation/JMX setup. FAIL if it says changing HTTP semconv attributes will produce Tomcat runtime metrics.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

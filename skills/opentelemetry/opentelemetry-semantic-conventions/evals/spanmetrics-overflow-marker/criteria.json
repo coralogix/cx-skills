@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur Span Metrics dashboards show series tagged otel_metric_overflow=\"true\" for one of our services, but the collector debug exporter shows otel.metric.overflow=\"true\". What is that marker, what's it telling us, and how should we react?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-otel-metric-overflow-1",
+      "description": "The response contains \"otel_metric_overflow\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-metric-overflow-2",
+      "description": "The response contains \"otel.metric.overflow\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cardinality",
+      "description": "The response contains \"cardinality\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "aggregation-cardinality-limit-cardinality-lim",
+      "description": "The response matches the pattern: (aggregation_cardinality_limit|cardinality limit)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-otel-metric-overflow-true-is-th",
+      "description": "Explains that otel.metric.overflow=\"true\" is the raw OTLP data-point attribute and otel_metric_overflow=\"true\" is the Prometheus-normalized label for the same Span Metrics overflow fallback series emitted when a service exceeds the per-service-per-metric cardinality cap. It should treat overflow as expected behavior, not a bug, and tell the user to reduce label cardinality at the source; concrete examples such as normalizing UUIDs out of span names or preferring http.route over raw url.path are helpful but not mandatory. FAIL if the response only names the PromQL label and misses the raw OTLP form, treats overflow as a bug, or responds by raising the cap without reducing source cardinality. If the response states a default cap such as 100,000, it must qualify that upstream/self-managed `aggregation_cardinality_limit: 0` disables the cap and the 100,000 preset is a Coralogix Helm chart v0.0.203+ default. Do not fail an answer that mentions adjusting or checking the limit only after source cardinality reduction; fail only when raising the cap is presented as the primary reaction or is suggested without reducing source cardinality. Do not fail a response that names the limit but makes no default-cap claim.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

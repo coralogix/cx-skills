@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nCustomer's logs have a \"subsystem\" field at the log record attribute level and the Coralogix exporter's subsystem_name_attributes is reading from resource. I want to write the OTTL transform that copies it up. What should the statement look like exactly, and which Coralogix skill owns implementing it?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "opentelemetry-ottl",
+      "description": "The response matches the pattern: (?i)opentelemetry-?ottl",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-resource",
+      "description": "The response contains \"resource\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "log-record-level",
+      "description": "The response matches the pattern: (?i)(log[- ]record|record[- ]level|attributes)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "diagnoses-the-boundary-correctly-the-value-is",
+      "description": "Diagnoses the boundary correctly: the value is at log-record scope and must be copied to resource scope for the exporter to read it. It must name opentelemetry-ottl as the owner for exact OTTL statement implementation. It may give a short conceptual set(...) sketch; do not fail solely because it includes a sketch when it also names opentelemetry-ottl as the owner and copies log-record data up to resource scope. The judge should not grade exact set(...) argument syntax here; exact OTTL syntax belongs to opentelemetry-ottl. FAIL if it treats this as semconv-owned OTTL syntax, copies the value in the wrong direction from resource down to the log record, tells the user to rename the field in their application, or changes exporter configuration as the primary fix.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

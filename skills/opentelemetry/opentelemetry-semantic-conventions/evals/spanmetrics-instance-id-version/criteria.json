@@ -1,0 +1,48 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nA self-managed collector-contrib deployment runs v0.151.0 and is not sure whether the spanmetrics collector.instance.id dimension is emitted. Which feature gate and version behavior should we verify?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-connector-spanmetrics-includecollectorinstanc",
+      "description": "The response contains \"connector.spanmetrics.includeCollectorInstanceID\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-feature-gates-connector-spanmetrics-includeco",
+      "description": "The response contains \"--feature-gates=+connector.spanmetrics.includeCollectorInstanceID\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-v0-136-0",
+      "description": "The response contains \"v0.136.0\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-v0-151-x",
+      "description": "The response contains \"v0.151.x\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-v0-152-0",
+      "description": "The response contains \"v0.152.0\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-collector-instance-id",
+      "description": "The response matches the pattern: (collector\\.instance\\.id|collector_instance_id|includeCollectorInstanceID)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "for-self-managed-collector-contrib-v0-136-0-t",
+      "description": "For self-managed collector-contrib v0.136.0 through v0.151.x, tells the user to start the collector with --feature-gates=+connector.spanmetrics.includeCollectorInstanceID or otherwise preserve a writer-unique dimension. It must also explain that v0.152.0+ promotes the gate to beta / enabled by default, while noting that collector.instance.id can still be disabled or removed and should be verified in generated metrics. PASS if it names the gate, the v0.136.0-v0.151.x behavior, and the v0.152.0+ behavior. FAIL if it omits the v0.152.0+ behavior or treats collector.instance.id as guaranteed in v0.151.0 without the feature gate.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

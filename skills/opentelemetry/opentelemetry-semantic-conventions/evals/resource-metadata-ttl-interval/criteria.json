@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nResource Catalog metadata has resource_ttl, interval, and otel.entity.interval. Resources are disappearing too early after switching collection mode. Which value should semconv treat as the raw collection interval versus the deletion policy?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-resource-ttl",
+      "description": "The response contains \"resource_ttl\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-interval",
+      "description": "The response contains \"interval\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-entity-interval",
+      "description": "The response contains \"otel.entity.interval\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "ttl-lifecycle-delete",
+      "description": "The response matches the pattern: (?i)(TTL|lifecycle|delete|expiration)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "distinguishes-raw-collection-interval-from-re",
+      "description": "Distinguishes raw collection interval from resource deletion TTL: interval / otel.entity.interval describe collection cadence, while resource_ttl is compatibility/lifecycle metadata and downstream Resource Catalog owners may apply buffering. FAIL if it treats all three fields as equivalent.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

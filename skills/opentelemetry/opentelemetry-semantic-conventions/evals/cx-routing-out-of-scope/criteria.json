@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy new service needs to report cx.application.name = \"platform\" and cx.subsystem.name = \"ingest\" and I want to set them via an environment variable. How do I do that?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-otel-resource-attributes",
+      "description": "The response contains \"OTEL_RESOURCE_ATTRIBUTES\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-application-name",
+      "description": "The response contains \"cx.application.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-subsystem-name",
+      "description": "The response contains \"cx.subsystem.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "resource-attribute-scope",
+      "description": "The response matches the pattern: (?i)(resource attribute|resource[- ]scope|resource key)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "core",
+      "description": "The response matches the pattern: (?i)(\\bcore\\b|OTEL_RESOURCE_ATTRIBUTES)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "gives-correct-resource-scope-guidance-for-set",
+      "description": "Gives correct resource-scope guidance for setting cx.application.name / cx.subsystem.name, for example using OTEL_RESOURCE_ATTRIBUTES and configuring Coralogix routing to read those resource keys. It should name core, or core routing, as the responsible owner for detailed Coralogix routing configuration when discussing ownership. PASS for a concise env-var answer that uses OTEL_RESOURCE_ATTRIBUTES at resource scope and does not claim semconv owns detailed routing. FAIL if the response claims cx.* are OpenTelemetry-standard attributes (they are Coralogix proprietary), omits resource scope, claims semconv owns detailed routing, or instructs the user to set them at span / log scope.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

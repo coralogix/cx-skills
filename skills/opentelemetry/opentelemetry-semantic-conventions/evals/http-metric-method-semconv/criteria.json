@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI'm adding HTTP method as a metric data-point attribute for new OpenTelemetry HTTP server metrics. Should the metric use http.method or http.request.method?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-http-request-method",
+      "description": "The response contains \"http.request.method\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-http-method",
+      "description": "The response matches the pattern: (http\\.method|legacy|not .*http\\.method)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "stable-current-modern",
+      "description": "The response matches the pattern: (?i)(stable|current|modern|new OpenTelemetry|new HTTP server metric)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "recommends-http-request-method-as-the-current",
+      "description": "Recommends http.request.method as the current stable OpenTelemetry HTTP method attribute for new native HTTP metric data points. It should treat http.method as legacy for this case and may explain that Coralogix Span Metrics bridges or reads that legacy source internally for compatibility. FAIL if it recommends authoring new HTTP metrics with http.method as the primary/current attribute.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

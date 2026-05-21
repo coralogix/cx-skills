@@ -1,0 +1,54 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAfter a customer upgraded their OTel Collector, Azure hosts in Infrastructure Explorer started grouping incorrectly. The raw resource attributes still include cloud.platform, but the value changed from azure_vm to azure.vm and azure_aks to azure.aks. Is this an attribute rename, and where should we fix it?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-cloud-platform",
+      "description": "The response contains \"cloud.platform\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-azure-vm-1",
+      "description": "The response contains \"azure_vm\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-azure-vm-2",
+      "description": "The response contains \"azure.vm\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-azure-aks-1",
+      "description": "The response contains \"azure_aks\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-azure-aks-2",
+      "description": "The response contains \"azure.aks\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "value-enum",
+      "description": "The response matches the pattern: (?i)(value|enum)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "support-accept-handle",
+      "description": "The response matches the pattern: (?i)(support|accept|handle|map|match).*(both|old.*new|underscore.*dot|dot.*underscore)|both (values|families|forms)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-this-as-a-cloud-platform-value-enu",
+      "description": "Identifies this as a cloud.platform VALUE / enum rename, not an attribute-name rename. Recommends Coralogix-side support for both azure_vm / azure.vm and azure_aks / azure.aks in Infra Explorer / Resource Catalog identity mapping or filters, with a collector resource transform only as a temporary compatibility bridge before Coralogix export / Resource Catalog correlation. FAIL if it tells the customer the attribute is missing or only suggests renaming the key cloud.platform.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

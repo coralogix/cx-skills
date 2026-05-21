@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe need full Java auto-instrumentation setup for a Spring service: agent download, OTEL_EXPORTER_OTLP_ENDPOINT, OTEL_RESOURCE_ATTRIBUTES, Kubernetes injection annotations, and validation steps. Should this semconv skill provide the full setup?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "opentelemetry-instrumentation",
+      "description": "The response matches the pattern: (?i)opentelemetry-?instrumentation",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-exporter-otlp-endpoint",
+      "description": "The response contains \"OTEL_EXPORTER_OTLP_ENDPOINT\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-resource-attributes",
+      "description": "The response contains \"OTEL_RESOURCE_ATTRIBUTES\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "says-full-sdk-auto-instrumentation-setup-belo",
+      "description": "Says full SDK/auto-instrumentation setup belongs to opentelemetry-instrumentation, while semconv can only identify required resource/span attributes such as service.name when needed. FAIL if semconv answers with full Java agent setup instructions instead of handing off implementation.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

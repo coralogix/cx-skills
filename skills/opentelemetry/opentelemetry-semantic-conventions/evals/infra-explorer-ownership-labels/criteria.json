@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI want my services in Infrastructure Explorer filterable by Environment (prod/staging/dev), Service, and Team. Which tags or labels drive these ownership filters?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-deployment-environment-name",
+      "description": "The response contains \"deployment.environment.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "cx-service-app-kubernetes-io-service",
+      "description": "The response matches the pattern: (cx_service|app\\.kubernetes\\.io/service|CX_SERVICE_NAME)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "cx-team-team",
+      "description": "The response matches the pattern: (cx_team|\\bteam\\b)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-that-infrastructure-explorer-reads",
+      "description": "Identifies that Infrastructure Explorer reads ownership from specific Kubernetes labels / cloud tags plus the documented deployment.environment.name exception, and names at least one supported key per filter \u2014 for example: Environment from any of `environment` / `cx_env` / `app.kubernetes.io/environment` / `CX_ENV_ID` / `deployment.environment.name`; Service from any of `service` / `cx_service` / `app.kubernetes.io/service` / `CX_SERVICE_NAME` (ideally noting fallback to the workload name when none are set); Team from `team` or `cx_team`. FAIL if the response asserts `service.name` is the Service ownership key (it isn't \u2014 `service.name` is the APM Service Catalog identifier; Infra Explorer ownership uses different keys), or if it makes up a reverse-DNS team attribute as the canonical answer.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

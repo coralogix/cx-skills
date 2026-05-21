@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAPM metrics cardinality is huge. Span Metrics dimensions include dimensions: [service.name, span.name, url.full, k8s.pod.name, k8s.pod.ip, http.method]. The service also has routes such as /checkout/{cart_id} available on spans. Which labels should be avoided by default, and what should HTTP grouping use instead?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-url-full",
+      "description": "The response contains \"url.full\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-http-route",
+      "description": "The response contains \"http.route\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8s-pod-name",
+      "description": "The response contains \"k8s.pod.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8s-pod-ip",
+      "description": "The response contains \"k8s.pod.ip\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "cardinality-pod-churn",
+      "description": "The response matches the pattern: (?i)(cardinality|pod churn|high[- ]cardinality|unbounded|avoid|not raw|pod IP|pod name churn)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "recommends-avoiding-url-full-k8s-pod-ip-and-b",
+      "description": "Recommends avoiding url.full, k8s.pod.ip, and blanket k8s.pod.name dimensions for Span Metrics because of cardinality; HTTP grouping should prefer templated http.route. It may note k8s.pod.name is allowed only for targeted single-writer collision cases. FAIL if it recommends url.full as the standard APM metric dimension.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

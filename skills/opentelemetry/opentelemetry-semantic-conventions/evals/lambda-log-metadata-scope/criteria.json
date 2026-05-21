@@ -1,0 +1,48 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nFor Lambda logs, the customer wants only cx_metadata.faas_execution and not the rest of the built-in resource metadata. Are these normal log attributes I should filter with semconv, or Coralogix metadata controls?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-cx-metadata-faas-execution",
+      "description": "The response contains \"cx_metadata.faas_execution\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-logs-metadata-enabled",
+      "description": "The response contains \"CX_LOGS_METADATA_ENABLED\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-logs-metadata-include-trace-ref",
+      "description": "The response contains \"CX_LOGS_METADATA_INCLUDE_TRACE_REF\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cx-logs-resource-built-in-attributes",
+      "description": "The response contains \"CX_LOGS_RESOURCE_BUILT_IN_ATTRIBUTES\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "resource-log-record",
+      "description": "The response matches the pattern: (?i)(resource|log record|metadata)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "dashboard-correlation",
+      "description": "The response matches the pattern: (?i)(dashboard|correlation)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-cx-metadata-faas-execution-is-c",
+      "description": "Explains that cx_metadata.faas_execution is Coralogix serverless metadata, not a generic OTel log attribute, and that the relevant controls include CX_LOGS_METADATA_ENABLED, CX_LOGS_METADATA_INCLUDE_TRACE_REF, and CX_LOGS_RESOURCE_BUILT_IN_ATTRIBUTES. It must also warn that removing metadata can affect serverless dashboards or trace/log correlation. FAIL if it treats this as a normal semconv rename.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

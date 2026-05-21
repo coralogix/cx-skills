@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAPI Error Tracking has many empty HTTP status codes for Python aiohttp spans. The spans have status ERROR and exception.type events, but no http.response.status_code because the request timed out before a response existed. Is this a normal semconv attribute rename?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-http-response-status-code",
+      "description": "The response contains \"http.response.status_code\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-exception-type",
+      "description": "The response contains \"exception.type\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "synthetic-workaround-not",
+      "description": "The response matches the pattern: (?i)(synthetic|workaround|not standard|custom|fallback signal|not.*rename)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-missing-http-response-status-co",
+      "description": "Explains that missing http.response.status_code can happen when no response exists, so this is not a normal OTel attribute rename. It should treat exception.type / span error status as fallback signals; mapping them to a synthetic HTTP status is a Coralogix/product workaround rather than standard OTel semconv. FAIL if it treats exception-to-status mapping as standard OTel semconv.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

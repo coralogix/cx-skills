@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAfter a .NET SqlClient upgrade, database spans use db.system.name=microsoft.sql_server. We bridge db.system.name to db.system, but the UI still expects the old MSSQL value. Is this a name rename or a value compatibility problem?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-db-system-name",
+      "description": "The response contains \"db.system.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-system",
+      "description": "The response contains \"db.system\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-microsoft-sql-server",
+      "description": "The response matches the pattern: (microsoft\\.sql_server|mssql|MSSQL|sql_server)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "value-enum-compat",
+      "description": "The response matches the pattern: (?i)(value|enum|compat)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-the-value-compatibility-issue-afte",
+      "description": "Identifies the value compatibility issue after the name bridge: db.system.name can be mirrored to db.system, but the remaining problem is enum/value compatibility, so the product must accept/map newer values such as microsoft.sql_server or the bridge must map them to the legacy value such as mssql. PASS if it distinguishes the key/name bridge from the enum/value mapping problem. FAIL if it treats the key rename alone as sufficient.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

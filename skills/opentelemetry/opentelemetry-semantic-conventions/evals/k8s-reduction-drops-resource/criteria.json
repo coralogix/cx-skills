@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAfter enabling reduceResourceAttributes, Datadog receiver spans only sometimes have k8s.pod.name and k8s.namespace.name. Some spans still have processTags with Kubernetes data. How should semconv triage this?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-reduceresourceattributes",
+      "description": "The response contains \"reduceResourceAttributes\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8s-pod-name",
+      "description": "The response contains \"k8s.pod.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-processtags",
+      "description": "The response contains \"processTags\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-resource",
+      "description": "The response contains \"resource\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "treats-this-as-enrichment-reduction-order-and",
+      "description": "Treats this as enrichment/reduction order and scope consistency: Kubernetes metadata must become OTel resource attributes before reduction/export and must be preserved on all relevant signals. PASS if it says processTags are a separate source and do not replace resource-scope k8s.* attributes. FAIL if it says processTags alone are enough for all Coralogix resource correlation.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

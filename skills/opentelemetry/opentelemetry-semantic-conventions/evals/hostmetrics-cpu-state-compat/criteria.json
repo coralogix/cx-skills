@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nInfrastructure Explorer host CPU suddenly shows about 95% usage even though the actual usage is low. The metrics come from the OTel hostmetricsreceiver. I see docs saying system.cpu.time should have cpu.mode and cpu.logical_number, but the receiver output has state and cpu. How should we think about this?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "system-cpu-hostmetricsreceiver-cpu",
+      "description": "The response matches the pattern: (?i)(system\\.cpu|hostmetricsreceiver|CPU metrics|CPU usage)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cpu-mode",
+      "description": "The response contains \"cpu.mode\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-cpu-logical-number",
+      "description": "The response contains \"cpu.logical_number\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-state",
+      "description": "The response contains \"state\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "hostmetricsreceiver-host-metrics",
+      "description": "The response matches the pattern: (?i)(hostmetricsreceiver|host metrics receiver)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-this-as-a-system-cpu-metric-data-p",
+      "description": "Identifies this as a system.cpu metric data-point attribute compatibility issue between current OTel system semantic conventions and hostmetricsreceiver output, not a missing host.* resource attribute. It should name the label-family mapping, such as cpu.mode / cpu.logical_number and state / cpu forms (including wait vs iowait where relevant), and explain that the backend/query/transform path must account for the emitted family. FAIL if it says k8sattributes or resource detection is the primary fix.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

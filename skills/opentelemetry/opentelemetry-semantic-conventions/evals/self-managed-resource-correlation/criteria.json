@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe copied a k8sattributes / resource / transform processor chain into our self-managed collector and export logs, metrics, and traces to the normal coralogix exporter. The k8s.* resource attributes are present on telemetry, but Infrastructure Explorer inventory is still empty. What collector path are we missing?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-k8sobjects",
+      "description": "The response contains \"k8sobjects\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-coralogix-resource-catalog",
+      "description": "The response contains \"coralogix/resource_catalog\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-x-coralogix-ingress",
+      "description": "The response contains \"x-coralogix-ingress\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-metadata-as-otlp-logs-v1",
+      "description": "The response contains \"metadata-as-otlp-logs/v1\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "cluster-collector-level",
+      "description": "The response matches the pattern: (cluster-collector|cluster collector|cluster-level collector|cluster level collector)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-the-k8sattributes-resource-tran",
+      "description": "Explains that the k8sattributes / resource / transform chain only adds resource attributes for correlation and does not create Resource Catalog inventory entries by itself. For a self-managed collector, names the missing inventory path: k8sobjects receiver on the cluster-collector, resourcedetection/resource_catalog, and the dedicated coralogix/resource_catalog exporter with the x-coralogix-ingress: metadata-as-otlp-logs/v1 logs header. FAIL if the response says the normal coralogix exporter or k8sattributes processor alone should populate Infrastructure Explorer inventory.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI already know a log field needs to be copied to resource scope. Can you write the exact OTTL set(...) statement and where clause for me, including context selection?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "opentelemetry-ottl",
+      "description": "The response matches the pattern: (?i)opentelemetry-?ottl",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "syntax-statement-context",
+      "description": "The response matches the pattern: (?i)(syntax|statement|context)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "treats-this-as-a-pure-ottl-syntax-task-and-ex",
+      "description": "Treats this as a pure OTTL syntax task and explicitly defers exact statement authoring to opentelemetry-ottl. It may restate that semconv only identifies the required source and destination scopes. PASS if it says to use opentelemetry-ottl to write the exact copy-up statement, set(...) expression, context, or where clause; do not fail repetitive wording if it still clearly defers. Do not require the semconv answer to provide the exact statement. FAIL if semconv writes the full set(...) statement as the final answer or claims OTTL syntax ownership.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

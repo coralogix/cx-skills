@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe enabled the upstream spanmetrics feature gate spanmetrics.statusCodeConvention.useOtelPrefix. Now generated RED metrics use otel.status_code instead of status.code. Should the compatibility bridge go in the traces pipeline before spanmetrics, or somewhere else?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-spanmetrics-statuscodeconvention-useotelprefi",
+      "description": "The response contains \"spanmetrics.statusCodeConvention.useOtelPrefix\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-status-code",
+      "description": "The response contains \"otel.status_code\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-status-code",
+      "description": "The response contains \"status.code\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "metrics-pipeline-after",
+      "description": "The response matches the pattern: (?i)(metrics pipeline|after spanmetrics|generated metrics)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-this-is-a-generated-span-metric",
+      "description": "Explains that this is a generated Span Metrics / RED metric data-point attribute change controlled by the spanmetrics.statusCodeConvention.useOtelPrefix feature gate, so compatibility belongs in the metrics pipeline after spanmetrics, not in the traces pipeline before spanmetrics. FAIL if it recommends changing application instrumentation or only adding a trace-span transform before spanmetrics.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

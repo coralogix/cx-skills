@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nIn our APM Service Catalog several services show up but a couple have zero operations listed. The service node is there, the traces are arriving, but no operations. What attributes does the Service Catalog depend on for each operation to register? If I add a span attribute called span.kind, is that enough?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-service-name",
+      "description": "The response contains \"service.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-span-kind",
+      "description": "The response contains \"span.kind\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "http-route-db-operation-rpc-method",
+      "description": "The response matches the pattern: (http\\.route|db\\.operation|rpc\\.method|messaging\\.operation)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "names-all-three-dependency-categories-1-servi",
+      "description": "Names all three dependency categories: (1) service.name as a resource attribute, (2) the top-level span kind field (often shown as span.kind, but not a span attribute named attributes[\"span.kind\"]), (3) at least one operation-name attribute (any of http.route / db.operation / rpc.method / messaging.operation). FAIL if it omits span.kind / span kind entirely, skips the operation-name source attribute entirely, or says setting a span attribute named span.kind is sufficient.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

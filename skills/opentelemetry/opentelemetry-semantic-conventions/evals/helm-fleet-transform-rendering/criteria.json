@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nFleet UI produced JSON with span_metrics.transform_statements, but the rendered Helm ConfigMap doesn't show the DB bridge in the normal spanmetrics traces path. The values file also has spanMetrics.dbMetrics.transformStatements. What should I verify?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-span-metrics-transform-statements",
+      "description": "The response contains \"span_metrics.transform_statements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-spanmetrics-transformstatements",
+      "description": "The response contains \"spanMetrics.transformStatements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-spanmetrics-dbmetrics-transformstatements",
+      "description": "The response contains \"spanMetrics.dbMetrics.transformStatements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "rendered-actual-configmap",
+      "description": "The response matches the pattern: (?i)(rendered|actual).*(ConfigMap|collector config|collector)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-fleet-ui-json-helm-values-and-r",
+      "description": "Explains that Fleet/UI JSON, Helm values, and rendered collector ConfigMap can differ, and the semconv bridge must render into the top-level spanMetrics.transformStatements / traces path before normal spanmetrics. PASS if it tells the user to verify the rendered ConfigMap and not rely only on the UI JSON or values file. FAIL if it says checking values.yaml is enough.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

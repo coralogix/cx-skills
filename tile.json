@@ -11,6 +11,9 @@
     },
     "opentelemetry-ottl": {
       "path": "skills/opentelemetry/opentelemetry-ottl/SKILL.md"
+    },
+    "opentelemetry-semantic-conventions": {
+      "path": "skills/opentelemetry/opentelemetry-semantic-conventions/SKILL.md"
     }
   }
 }

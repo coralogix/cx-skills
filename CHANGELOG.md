@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.5 (2026-05-21)
+
+### Changed
+
+- sync skill 'opentelemetry/opentelemetry-collector' (#25)
+- sync skill 'opentelemetry/opentelemetry-semantic-conventions' (#24)
+
+
 ## v0.1.4 (2026-05-19)
 
 ### Changed

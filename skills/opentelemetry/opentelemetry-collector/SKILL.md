@@ -6,7 +6,10 @@ description: >
   (`domain:` vs `endpoint:`, `${env:CORALOGIX_PRIVATE_KEY}` bracket syntax,
   `coralogix/resource_catalog` variant), the universal processor chain, agent →
   cluster-collector → gateway topology, spanmetrics/tail_sampling/k8sattributes placement,
-  and Coralogix-specific presets. Covers the `otel-integration` Helm chart (EKS/GKE/AKS/
+  component stability checks, data-safety/redaction routing including `url_sanitizer`,
+  `sanitize_span_name`, `allow_all_keys`, and before/after validation for broad sanitizer
+  over-sanitization, spanmetrics cardinality protection, and Coralogix-specific presets.
+  Covers the `otel-integration` Helm chart (EKS/GKE/AKS/
   OpenShift, GKE Autopilot Warden, EKS Fargate), ECS EC2 daemonset, ECS Fargate sidecar,
   Linux/Windows/macOS standalone, Docker, and the universal installer. Not for OTTL
   authoring (use the `opentelemetry-ottl` skill) or OpAMP supervisor/Fleet Manager internals beyond the
@@ -69,6 +72,21 @@ metadata:
       - tail_sampling
       - spanmetrics
       - memory_limiter
+      - redactionprocessor
+      - redaction processor
+      - url_sanitizer
+      - sanitize_span_name
+      - url.full
+      - http.route
+      - PII
+      - secrets
+      - over-sanitize
+      - before/after
+      - aggregation_cardinality_limit
+      - aggregationCardinalityLimit
+      - cardinality
+      - Rule of 100
+      - component stability
       - daemonset
       - sidecar
       - cluster-collector
@@ -99,6 +117,8 @@ Coralogix-specific defaults that vanilla OpenTelemetry docs don't cover.
 | Universal installer (all OS) | [setup-installer.md](references/setup-installer.md) |
 | `spanmetrics`, `tail_sampling`, `k8sattributes` placement | [config-connectors.md](references/config-connectors.md) |
 | Span Metrics DB labels differ between `calls_total` and `db_calls_total` | [config-connectors.md](references/config-connectors.md) — place DB label compatibility transforms under top-level `spanMetrics.transformStatements` |
+| Cardinality, URL/span-name sanitization, and PII redaction routing | [data-safety-cardinality.md](references/data-safety-cardinality.md) |
+| Collector component maturity, alpha/beta/stable/deprecated guidance | [component-stability.md](references/component-stability.md) |
 | Memory — `memory_limiter` firing, RSS vs Go heap | [ops-memory-performance.md](references/ops-memory-performance.md) |
 | Troubleshoot "no data", "no traces", "Resource Catalog empty" | [ops-troubleshooting.md](references/ops-troubleshooting.md) |
 | OpAMP supervisor / Fleet Manager config overlap | [preset-fleet-management.md](references/preset-fleet-management.md) |
@@ -118,6 +138,17 @@ them elsewhere in the answer.
   `coralogix` exporter won't light up the entity views.
 - **No data + transform/OTTL:** clearly say to stop trying OTTL; check receiver/exporter
   connectivity, DNS/TLS/proxy/egress, private key, and region/domain first.
+
+### Component stability
+
+- **Check stability before production recommendations.** Collector components have per-signal
+  stability in their upstream README. `alpha` is for limited non-critical use, `beta` is
+  broader but can still break, `stable` is the production default, and `deprecated` means
+  avoid new deployments and plan migration. A config that validates is not enough evidence
+  that the component is safe for production.
+- **When recommending alpha/beta components, qualify the risk.** Pin collector versions,
+  test the exact config on staging traffic, read release notes before upgrades, and offer a
+  stable fallback if the workload is business-critical.
 
 **Minimal working exporter config:**
 
@@ -141,6 +172,29 @@ exporters:
   `db_calls_total` while leaving normal `calls_total` with blank
   `db_namespace`.
 - **Don't replace `service.pipelines` wholesale** — use `extraProcessors`/`extraReceivers` hooks; wholesale overrides silently break `resource/metadata` (`cx.agent.type`) and chart upgrades.
+
+### Cardinality and redaction
+
+- **Rule of 100 for metric dimensions.** If an attribute can have more than about 100 unique
+  values, do not add it as a Span Metrics dimension. Keep IDs, raw URLs, emails, request IDs,
+  session IDs, and `trace_id` on spans/logs instead, or normalize them before metrics are
+  generated.
+- **`url.full`, `k8s.pod.name`, and `k8s.pod.ip` are dangerous Span Metrics dimensions.**
+  Prefer `http.route`, low-cardinality host/operation labels, and stable service/resource
+  labels. If a customer insists on `url.full`, sanitize it before `spanmetrics` consumes the
+  span and make the risk explicit.
+- **`aggregation_cardinality_limit` is a guardrail, not a fix.** For Helm
+  `spanMetrics.aggregationCardinalityLimit` / collector `aggregation_cardinality_limit`,
+  use it to collapse overflow series, but still remove or normalize high-cardinality labels.
+- **Redact before export and before metrics derivation.** PII/secrets should be removed,
+  masked, or hashed in the collector pipeline before `spanmetrics`, `batch`, and `coralogix`.
+  For broad URL-like span names or URL attributes, explicitly recommend
+  `redactionprocessor` with the literal keys `url_sanitizer` and `sanitize_span_name`, and
+  include `allow_all_keys: true` unless intentionally using an explicit `allowed_keys`
+  whitelist; otherwise unspecified attributes are dropped. Warn that broad sanitizers can
+  over-sanitize and validate before/after examples. Use the `opentelemetry-ottl` skill for
+  targeted transforms such as `SHA256`, `replace_pattern`, `replace_all_patterns`,
+  `delete_key`, and nil-safe guards.
 
 ### Platform-specific rules
 
@@ -244,6 +298,12 @@ detector enabled only for sidecar mode.
 
 Use [references/ops-memory-performance.md](references/ops-memory-performance.md). Compare
 Go heap metrics to RSS before changing pod limits or `memory_limiter` settings.
+
+### 5. Reduce Span Metrics cardinality or sanitize PII
+
+Use [references/data-safety-cardinality.md](references/data-safety-cardinality.md). Keep the
+answer layered: prevent bad labels at instrumentation, normalize/sanitize before
+`spanmetrics`, and only then discuss collector/backend cardinality limits.
 
 ## Limitations
 

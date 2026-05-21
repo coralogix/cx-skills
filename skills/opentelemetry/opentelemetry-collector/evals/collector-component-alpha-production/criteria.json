@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nThe collector config validates and starts when I add a new contrib processor for production traffic, but the processor README says its stability is Alpha for the signal we need. Can I tell the customer this is safe because the YAML validates, or should I call out the stability level?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-alpha",
+      "description": "The response contains \"Alpha\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-readme-stability",
+      "description": "The response matches the pattern: (?i)(README|stability|per[- ]signal|component)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-pin-test-upgrade",
+      "description": "The response matches the pattern: (?i)(pin|pinned|version|staging|test|release notes|rollback)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "alpha-production-risk",
+      "description": "Explains that Alpha collector components are for limited non-critical workloads and may change configuration with little notice; they should not be presented as the default safe choice for business-critical production traffic.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    },
+    {
+      "name": "validation-is-not-production-proof",
+      "description": "States that `otelcol validate` or successful startup only proves the config parses/loads, not that the component is production-stable or upgrade-safe. A response that calls it safe solely because validation passes is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

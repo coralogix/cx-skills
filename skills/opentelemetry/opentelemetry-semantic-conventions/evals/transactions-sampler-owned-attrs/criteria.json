@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI want APM Transactions in Coralogix. I see references to cgx.transaction attributes in the docs. Do I need to set those manually in my SDK instrumentation?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-cgx-transaction",
+      "description": "The response contains \"cgx.transaction\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-coralogixtransactionsampler",
+      "description": "The response contains \"CoralogixTransactionSampler\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "states-that-cgx-transaction-cgx-transaction-r",
+      "description": "States that cgx.transaction / cgx.transaction.root are populated automatically by CoralogixTransactionSampler and the user does NOT set them manually. FAIL only if the response tells the user to set cgx.transaction by hand.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

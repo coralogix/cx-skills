@@ -1,0 +1,54 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAfter upgrading a customer's OpenTelemetry SQL instrumentation, their spans now have db.system.name, db.namespace, db.operation.name, and db.query.text, plus network.peer.address for the database endpoint, but APM Database Catalog stopped showing databases and spanmetrics has an empty db_system label. Should we tell them to downgrade, or what compatibility bridge is needed for Coralogix?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-db-system-name",
+      "description": "The response contains \"db.system.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-system",
+      "description": "The response contains \"db.system\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-query-text",
+      "description": "The response contains \"db.query.text\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-statement",
+      "description": "The response contains \"db.statement\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-network-peer-address",
+      "description": "The response contains \"network.peer.address\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-net-peer-name",
+      "description": "The response contains \"net.peer.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "bridge-mirror-transform",
+      "description": "The response matches the pattern: (?i)(bridge|mirror|transform|compat)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-this-is-a-current-coralogix-com",
+      "description": "Explains that this is a current Coralogix compatibility issue: modern/stable DB semconv attributes should be kept but mirrored into the Coralogix-supported names before APM / Span Metrics consume the spans. Must include at least db.system.name -> db.system and db.query.text -> db.statement, and should include db.namespace -> db.name, db.operation.name -> db.operation, and network.peer.address or server.address -> net.peer.name. FAIL if it tells the customer to downgrade the SDK, delete the stable attributes, or claims Coralogix Database Catalog already fully reads only the stable names.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

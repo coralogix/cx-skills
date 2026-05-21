@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur metrics backend is overwhelmed \u2014 we're seeing tens of millions of unique time series from a single counter. The labels include user.id and request_path with the full querystring. Where do those attributes belong, and what bounded label can we use for HTTP routes on metrics instead?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-span",
+      "description": "The response contains \"span\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-http-route",
+      "description": "The response contains \"http.route\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "unbounded-bounded-low",
+      "description": "The response matches the pattern: (unbounded|bounded|low[- ]cardinality|high[- ]cardinality|cardinality)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-that-user-id-and-full-url-paths-ar",
+      "description": "Identifies that user.id and full URL paths are high-cardinality and belong on span attributes, not metric attributes. Recommends http.route (templated) on metrics instead of url.path. FAIL if it keeps user.id on metrics or recommends a hashing trick instead of moving to spans.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

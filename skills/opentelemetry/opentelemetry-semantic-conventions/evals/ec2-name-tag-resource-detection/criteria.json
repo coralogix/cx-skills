@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nEC2 logs are correlated to hosts, but host.name is the private DNS name. The customer wants the EC2 Name tag in logs and Resource Catalog. Which enrichment and permission should I check?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-host-name",
+      "description": "The response contains \"host.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-ec2-describetags",
+      "description": "The response contains \"ec2:DescribeTags\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "ec2-name-tag",
+      "description": "The response matches the pattern: (?i)(EC2|Name tag|tag)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "resource-detection-resourcedetection",
+      "description": "The response matches the pattern: (?i)(resource detection|resourcedetection|resource detector|ec2tags|ec2 detector)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-ec2-name-tag-host-identity-requ",
+      "description": "Explains that EC2 Name tag host identity requires EC2 tag/resource detection in the relevant logs/resource catalog path and IAM permission such as ec2:DescribeTags. It should verify host.name is resource-scope. FAIL if it says log parsing alone should change host.name.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWith spanmetrics.statusCodeConvention.useOtelPrefix enabled, the collector debug exporter shows generated metric datapoints with otel.status_code=ERROR and OK, while unset datapoints have no otel.status_code attribute. The old raw datapoints used status.code=Error, Ok, and Unset, while Prometheus labels may show STATUS_CODE_ERROR. Which raw values or absence checks should a collector-side metrics bridge match?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-otel-status-code",
+      "description": "The response contains \"otel.status_code\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-status-code",
+      "description": "The response contains \"status.code\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-error-1",
+      "description": "The response contains \"Error\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-ok-1",
+      "description": "The response contains \"Ok\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-unset",
+      "description": "The response contains \"Unset\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-error-2",
+      "description": "The response contains \"ERROR\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-ok-2",
+      "description": "The response contains \"OK\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "nil-absen-ct",
+      "description": "The response matches the pattern: (?i)(nil|absen[ct]e?|missing|omitted|no otel.status_code)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "raw-datapoint-not",
+      "description": "The response matches the pattern: (?i)(raw|datapoint|not.*STATUS_CODE)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-the-raw-collector-metric-datapoint-v",
+      "description": "Explains the raw collector metric datapoint value mapping: old status.code Error / Ok correspond to new otel.status_code ERROR / OK, while old status.code Unset corresponds to a missing/nil otel.status_code attribute scoped to generated spanmetrics datapoints, not to otel.status_code == \"UNSET\". It should explicitly avoid matching Prometheus-normalized STATUS_CODE_* labels inside collector-side OTTL. FAIL if it says otel.status_code has a UNSET raw value or uses STATUS_CODE_ERROR as the collector-side match value.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

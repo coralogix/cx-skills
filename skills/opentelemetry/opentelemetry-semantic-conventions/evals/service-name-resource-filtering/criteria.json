@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI wrote a span filter for Kong using attributes[\"service.name\"] and it does not match anything. The metrics label is service_name, so I thought service.name was a span attribute. What scope should I use?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-service-name-1",
+      "description": "The response contains \"service.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-service-name-2",
+      "description": "The response contains \"service_name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "resource-attributes-resource-scope",
+      "description": "The response matches the pattern: (?i)(resource\\.attributes|resource[- ]scope)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-service-name-is-an-otel-resourc",
+      "description": "Explains that service.name is an OTel resource attribute, while service_name is a generated/normalized metric label. The response should explicitly name service_name when explaining why the metrics label is not a span attribute. It should say the filter belongs at resource scope, ideally naming resource.attributes[\"service.name\"] when giving concrete collector syntax. FAIL if it recommends attributes[\"service.name\"] as the correct span attribute lookup or treats service.name as a span attribute.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy HTTP server spans have url.full set on them, my HTTP client spans have url.path and url.query set. APM is showing operation names with full URLs including query strings on the server side. What's wrong?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-url-full",
+      "description": "The response contains \"url.full\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "server-inbound",
+      "description": "The response matches the pattern: (?i)(server|inbound)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "client-outbound",
+      "description": "The response matches the pattern: (?i)(client|outbound)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "calls-out-that-url-full-is-for-client-spans-o",
+      "description": "Calls out that url.full is for client spans only (outbound HTTP) and that server spans should use a different URL attribute set (url.path / url.query / url.scheme / http.route \u2014 at least one of these named). Recommends swapping. FAIL only if it does not identify url.full as client-only.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

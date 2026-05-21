@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nA customer's APM Database Catalog page is empty for their MySQL service even though traces are flowing. They use auto-instrumentation from the OTel Java agent and haven't customised anything. What attributes does Database Monitoring need on each database client span, and which ones is the agent likely producing already?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-db-system",
+      "description": "The response contains \"db.system\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-name",
+      "description": "The response contains \"db.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-operation",
+      "description": "The response contains \"db.operation\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-statement",
+      "description": "The response contains \"db.statement\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-net-peer-name",
+      "description": "The response contains \"net.peer.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "lists-all-five-coralogix-required-target-attr",
+      "description": "Lists all five Coralogix-required target attributes (db.system, db.name, db.operation, db.statement, net.peer.name) and explains that Database Monitoring needs every one. It may separately mention source/newer names the OTel Java agent may emit, such as db.system.name, db.namespace, db.operation.name, db.query.text, and server.address / network.peer.address. PASS if it lists the five target attributes and names those likely agent-produced source names; bridge/mirror wording is helpful but not required unless the response presents the source names as sufficient replacements for the target set. FAIL only if the response omits one of the five target attributes, treats the source names as sufficient replacements without mirroring/bridging, or claims Database Monitoring requires only a different attribute set.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

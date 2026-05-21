@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nProfiling spans? The profiles pipeline has OTel v1.10 proto changes like ProfilesDictionary and profile attribute indices, and app / subsystem metadata is not where logs and traces put it. Should the semconv skill own the full fix?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-profilesdictionary",
+      "description": "The response contains \"ProfilesDictionary\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "profiles-profiling",
+      "description": "The response matches the pattern: (?i)(profiles|profiling)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "boundary-hand-off",
+      "description": "The response matches the pattern: (?i)(boundary|hand ?off|belongs?|owned|owner)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "says-profiling-proto-resource-enrichment-is-a",
+      "description": "Says profiling proto/resource enrichment is an associated boundary: semconv can identify resource-vs-profile metadata concerns, but full OTel profiles proto handling and pipeline setup belong to the profiling or collector owner. FAIL if it invents stable Coralogix profile semconv requirements as if they were current trace/span requirements.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

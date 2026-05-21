@@ -1,0 +1,90 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nA Helm user put the DB compatibility transform under spanMetrics.dbMetrics.transformStatements. Now db_calls_total has db_namespace populated from db.name, but normal Span Metrics calls_total still has db_system populated and db_namespace blank for database spans. Where should this transform live, and what should the pre-spanmetrics bridge do when db.name and db.namespace are both missing?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-spanmetrics-transformstatements",
+      "description": "The response contains \"spanMetrics.transformStatements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-spanmetrics-dbmetrics-transformstatements",
+      "description": "The response contains \"spanMetrics.dbMetrics.transformStatements\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-calls-total",
+      "description": "The response matches the pattern: (db_calls_total|DB-specific|database-specific)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-calls-total",
+      "description": "The response matches the pattern: (calls_total|normal Span Metrics|general Span Metrics)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-namespace-1",
+      "description": "The response contains \"db_namespace\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-namespace-2",
+      "description": "The response contains \"db.namespace\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-name",
+      "description": "The response contains \"db.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-server-address",
+      "description": "The response contains \"server.address\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-network-peer-name",
+      "description": "The response contains \"network.peer.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-net-peer-name",
+      "description": "The response contains \"net.peer.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-network-peer-address",
+      "description": "The response contains \"network.peer.address\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-db-system",
+      "description": "The response contains \"db.system\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "top-level-not",
+      "description": "The response matches the pattern: (?i)(top[- ]level|not.*dbMetrics|before spanmetrics|traces pipeline|fallback|first available|chain|when.*missing)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-the-helm-transform-belongs-unde",
+      "description": "Explains that the Helm transform belongs under top-level spanMetrics.transformStatements / the traces pipeline before spanmetrics consumes spans, not only under spanMetrics.dbMetrics.transformStatements. It should connect that placement to the symptom where DB-specific metrics get db_namespace while normal/general Span Metrics stay blank. The bridge must populate db.namespace using db.name first when available, and when db.name/db.namespace are missing it should use endpoint/system fallbacks such as server.address, network.peer.name / net.peer.name, network.peer.address, and finally db.system. FAIL if it only maps db.name -> db.namespace and leaves db_namespace blank for endpoint-only database spans, treats this as a chart-default bug instead of misconfiguration, or puts the fix only under dbMetrics or after spanmetrics in the metrics pipeline.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe run the OTel Collector as a Kubernetes DaemonSet with one agent per node. A service has pods on several nodes, and its Span Metrics counters look like multiple writers are colliding for the same service_name. Should k8s.pod.name be a spanmetrics dimension only if there are multiple collectors on one node, or can the normal one-agent-per-node topology need it too?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-k8s-pod-name",
+      "description": "The response contains \"k8s.pod.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "daemonset-one-agent",
+      "description": "The response matches the pattern: (?i)(daemonset|one[- ]agent[- ]per[- ]node|one collector per node|per node)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "collision-collid-overwrite",
+      "description": "The response matches the pattern: (?i)(collision|collid|overwrite|multiple writers|same service_name)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "cardinality-pod-churn",
+      "description": "The response matches the pattern: (?i)(cardinality|pod churn|high[- ]cardinality|blanket default|collision case|only when needed|only to prevent|only if.*collision|collision.*only)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-k8s-pod-name-can-be-needed-as-a",
+      "description": "Explains that k8s.pod.name can be needed as a Span Metrics dimension in the standard one-agent-per-node DaemonSet topology when pods for the same service run on multiple nodes, because separate collector agents can write colliding series. Also warns that k8s.pod.name should be added only for the collision case, not as a blanket default; ideally it names the high-cardinality / pod-churn-sensitive tradeoff. FAIL if it says k8s.pod.name is only relevant when multiple collectors run on the same node, or if it recommends adding it as a blanket default.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

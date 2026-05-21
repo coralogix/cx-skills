@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe have multiple gateway collectors behind a load balancer. Tail sampling and spanmetrics run on the gateways, and spans from one trace can hit different gateways. Which topology issue should I call out before blaming semantic attributes?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "traceid-trace-id",
+      "description": "The response matches the pattern: (?i)(traceID|trace ID)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "load-balanc-routingkey",
+      "description": "The response matches the pattern: (?i)(load[- ]?balanc|routingKey|traceID load balancing)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-the-topology-issue-trace-aware-pro",
+      "description": "Identifies the topology issue: trace-aware processing such as tail sampling and often spanmetrics should use traceID routing so spans of a trace reach the same gateway. It may hand off exact load-balancing exporter configuration to opentelemetry-collector, but the core answer is the traceID load-balancing / trace-aware routing topology requirement. PASS if the response concisely names traceID load balancing. FAIL if it only recommends adding span attributes or blames semantic attributes instead of topology.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

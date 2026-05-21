@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe're using the Coralogix Kubernetes Helm chart at v0.0.202 and did not set spanMetrics.aggregationCardinalityLimit. Is the 100,000 Span Metrics cardinality cap already enabled by default?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-v0-0-203",
+      "description": "The response contains \"v0.0.203\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-aggregationcardinalitylimit",
+      "description": "The response contains \"aggregationCardinalityLimit\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "v0-0-202-older-chart",
+      "description": "The response matches the pattern: (?i)(v0\\.0\\.202|older chart|before v0\\.0\\.203)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "set-explicit-not",
+      "description": "The response matches the pattern: (?i)(set .*explicit|not enabled|disabled|0)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-the-coralogix-helm-chart-s-100",
+      "description": "Explains that the Coralogix Helm chart's 100,000 default applies starting with chart v0.0.203, so chart v0.0.202 should not be assumed to have overflow protection enabled unless spanMetrics.aggregationCardinalityLimit is set explicitly. FAIL if it says all Coralogix Helm chart versions default to 100,000.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

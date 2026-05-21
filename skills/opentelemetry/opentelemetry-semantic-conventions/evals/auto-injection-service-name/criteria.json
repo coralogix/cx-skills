@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nKubernetes auto-instrumentation injected our pods and traces are arriving, but APM service discovery is empty or shows unknown_service. Which resource attribute is probably missing, and how should it be supplied?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-service-name",
+      "description": "The response contains \"service.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-otel-service-name",
+      "description": "The response matches the pattern: (OTEL_SERVICE_NAME|OTEL_RESOURCE_ATTRIBUTES)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-resource",
+      "description": "The response contains \"resource\" (case-insensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "identifies-missing-resource-scope-service-nam",
+      "description": "Identifies missing resource-scope service.name as the likely issue and recommends setting OTEL_SERVICE_NAME or equivalent resource attributes during auto-injection. FAIL if it recommends adding service.name only as a span attribute.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

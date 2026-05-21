@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe modified spanmetrics exclude_dimensions and are considering exclude_dimensions: [\"collector.instance.id\"]. We run several collector agents for the same service_name. Is it safe to remove collector.instance.id if the other labels stay the same?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-collector-instance-id",
+      "description": "The response matches the pattern: (collector\\.instance\\.id|collector_instance_id)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "collector-instance-id",
+      "description": "The response matches the pattern: collector[._]instance[._]id",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "writer-unique-single",
+      "description": "The response matches the pattern: (?i)(writer[- ]unique|single[- ]writer|multiple writers|stable writer)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-that-collector-instance-id-is-a-conn",
+      "description": "Explains that collector.instance.id is a connector-generated default dimension used to keep spanmetrics single-writer in multi-collector or multi-agent deployments, and should not be excluded unless another stable writer-unique dimension is already in place. FAIL if it says exclude_dimensions: [\"collector.instance.id\"] is safe without another unique writer dimension.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

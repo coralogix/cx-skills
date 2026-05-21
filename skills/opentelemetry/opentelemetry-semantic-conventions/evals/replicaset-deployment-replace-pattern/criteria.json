@@ -1,0 +1,36 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur k8sattributes processor only gives k8s.replicaset.name for Deployment-owned pods, and we need a temporary OTTL fallback that derives k8s.deployment.name for Infrastructure Explorer across metrics, traces, and logs. Should semconv write the replace_pattern syntax, or hand that off?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "k8s-replicaset-name-replicaset",
+      "description": "The response matches the pattern: (k8s\\.replicaset\\.name|ReplicaSet)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8s-deployment-name",
+      "description": "The response contains \"k8s.deployment.name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "opentelemetry-ottl",
+      "description": "The response matches the pattern: (?i)opentelemetry-?ottl",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "resource-scope-level",
+      "description": "The response matches the pattern: (?i)(resource[- ]scope|resource[- ]level|metrics.*traces.*logs|all three signals)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "diagnoses-the-semantic-shape-the-temporary-re",
+      "description": "Diagnoses the semantic shape: the temporary ReplicaSet-to-Deployment fallback must run at resource scope for metrics, traces, and logs, and should not be applied to standalone ReplicaSets. It should defer exact replace_pattern capture-group syntax to opentelemetry-ottl instead of writing the final expression here. FAIL if semconv writes the exact replacement expression as the required answer, runs the transform for only one signal, or treats standalone ReplicaSets as Deployments.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe are using a custom `spanmetrics` connector instead of the Coralogix Helm preset. Do we automatically get the 100,000 cardinality protection, and what happens when the limit is reached? The team wants to keep `url.full` and `k8s.pod.ip` as dimensions because a dashboard uses them.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-aggregation-cardinality-limit",
+      "description": "The response matches the pattern: (aggregation_cardinality_limit|aggregationCardinalityLimit)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-overflow",
+      "description": "The response matches the pattern: (?i)(overflow|otel_metric_overflow|otel\\.metric\\.overflow)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-url-full",
+      "description": "The response contains \"url.full\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-k8s-pod-ip",
+      "description": "The response contains \"k8s.pod.ip\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "custom-connector-needs-explicit-limit",
+      "description": "Explains that custom `spanmetrics` connectors or older/non-Helm deployments should verify or set the cardinality limit explicitly rather than assuming the Coralogix Helm preset default applies.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    },
+    {
+      "name": "limit-is-guardrail-not-label-approval",
+      "description": "Explains that the limit collapses excess label combinations into an overflow series and protects the pipeline, but it does not make high-cardinality dimensions such as `url.full` or `k8s.pod.ip` good dashboard labels. A response that treats the 100,000 limit as approval to keep those dimensions is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

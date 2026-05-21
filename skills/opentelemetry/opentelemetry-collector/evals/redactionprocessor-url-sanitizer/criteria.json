@@ -1,0 +1,48 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe do not have `http.route` on spans, so APM operations are based on raw URL-like span names and `url.full`. They include account IDs, merchant IDs, query params, and sometimes tokens. We need to reduce spanmetrics cardinality and avoid sending PII/secrets to Coralogix. Should we use the redaction processor, OTTL, or both, and where should this run?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-redactionprocessor",
+      "description": "The response matches the pattern: (?i)(redactionprocessor|redaction processor)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-url-sanitizer",
+      "description": "The response contains \"url_sanitizer\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-sanitize-span-name",
+      "description": "The response contains \"sanitize_span_name\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "requires-allow-all-keys-or-allowed-keys",
+      "description": "If the response recommends `redactionprocessor` URL sanitization, it requires `allow_all_keys: true` or a deliberate `allowed_keys` list. A response that proposes `url_sanitizer` without either setting is a FAIL because redactionprocessor is fail-closed and drops unspecified attributes.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    },
+    {
+      "name": "mentions-transform-or-ottl",
+      "description": "The response matches the pattern: (?i)(OTTL|transform|replace_pattern|replace_all_patterns|SHA256|delete_key)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "run-before-spanmetrics-and-export",
+      "description": "Says redaction/sanitization must run before `spanmetrics` and before export to Coralogix so high-cardinality or sensitive values are not converted into metrics or shipped raw.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    },
+    {
+      "name": "warns-about-over-sanitization",
+      "description": "Warns that broad URL sanitizers should be validated with representative before/after examples because they can over-sanitize useful path or domain segments; targeted OTTL is better when exact fields or patterns must be preserved.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    }
+  ]
+}

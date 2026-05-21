@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.6 (2026-05-21)
+
+### Fixed
+
+- add missing opentelemetry-semantic-conventions in tile config (#27)
+
+
 ## v0.1.5 (2026-05-21)
 
 ### Changed

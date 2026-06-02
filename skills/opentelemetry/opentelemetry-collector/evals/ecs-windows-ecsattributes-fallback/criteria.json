@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur ECS EC2 Windows daemon collector is on an older CDOT build and cannot reach the Docker engine, but we still need the host-related resource attributes for Infra Explorer. What should we do?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "windows-ecsattributes-fallback",
+      "description": "The response matches the pattern: (?i)(Windows|Docker|ecsattributes|task metadata|Infra Explorer)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "upgrade-v0-5-11-or-newer",
+      "description": "The response matches the pattern: (?i)(v0[.]5[.]11|0[.]5[.]11|upgrade|newer|current CDOT)",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "explains-fallback-to-ecs-task-metadata",
+      "description": "Explains that `ecsattributesprocessor` falls back to ECS task metadata when Docker is unavailable on Windows, so host-related resource attributes can still populate for Infra Explorer. Mentions that older builds need an upgrade rather than claiming the Windows path cannot work without Docker.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    },
+    {
+      "name": "no-claims-windows-needs-docker",
+      "description": "A response that says Windows ECS must have Docker, that host metadata cannot be recovered on Windows, or that the user should just remove the ECS attributes processor is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

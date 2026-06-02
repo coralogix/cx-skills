@@ -132,10 +132,11 @@ them elsewhere in the answer.
 ### Exporter and routing
 
 - **`domain:` is a bare hostname, not a URL.** `eu2.coralogix.com` — not `https://ingress.eu2.coralogix.com`, not a UI hostname.
-- **Bracket env vars.** `${env:CORALOGIX_PRIVATE_KEY}`, not `$CORALOGIX_PRIVATE_KEY` — unbracketed form silently fails in v0.76+.
+- **Bracket env vars.** `${env:CORALOGIX_PRIVATE_KEY}`, not `$CORALOGIX_PRIVATE_KEY` — unbracketed form silently fails in v0.76+. Minimum exporter block: `domain: "<region>.coralogix.com"` and `private_key: "${env:CORALOGIX_PRIVATE_KEY}"`.
 - **Use a dedicated `coralogix/resource_catalog` exporter for Infrastructure Explorer**
   with the `x-coralogix-ingress: metadata-as-otlp-logs/v1` header. The default
   `coralogix` exporter won't light up the entity views.
+- **`resourcedetection/resource_catalog` crash on daemonset** — error `can't get K8s Instance Metadata; node name is empty` means this processor is on a daemonset agent. It belongs on the `opentelemetry-cluster-collector` Deployment only. Fix: remove it from the daemonset config. Do not conflate with the `coralogix/resource_catalog` exporter, which is a separate component.
 - **No data + transform/OTTL:** clearly say to stop trying OTTL; check receiver/exporter
   connectivity, DNS/TLS/proxy/egress, private key, and region/domain first.
 
@@ -150,22 +151,11 @@ them elsewhere in the answer.
   test the exact config on staging traffic, read release notes before upgrades, and offer a
   stable fallback if the workload is business-critical.
 
-**Minimal working exporter config:**
-
-```yaml
-exporters:
-  coralogix:
-    domain: "coralogix.com" # Replace with your specific Coralogix domain (e.g., coralogix.us, coralogix.in)
-    private_key: "${env:CORALOGIX_PRIVATE_KEY}"
-    application_name: "your_application_name"
-    subsystem_name: "your_subsystem_name"
-```
-
 ### Pipeline placement (Kubernetes)
 
 - **`memory_limiter` first, `batch` last.**
 - **One role owns full `k8sattributes` extraction** — typically gateway; agents use `passthrough: true`.
-- **`spanmetrics` on agent (before sampling), `tail_sampling` on gateway.** Run `transactions`/`groupbytrace/transactions` before `spanmetrics`; **never on both agent and gateway simultaneously — this causes double-counting** because each tier sees all spans and emits separate metric series that accumulate.
+- **`spanmetrics` on agent (before sampling), `tail_sampling` on gateway.** Run `transactions`/`groupbytrace/transactions` before `spanmetrics`; **never on both agent and gateway simultaneously — this causes double-counting** because each tier sees all spans and emits separate metric series that accumulate. **`tail_sampling` on a daemonset agent causes incomplete traces** because each agent only sees spans from its own node — a single trace is split across agents and the sampler decides on partial data. Fix: move `tail_sampling` to a central gateway tier and add a `loadbalancing` exporter on the agents that routes spans to gateway by `trace_id`, so all spans for a trace reach the same gateway replica.
 - **Span Metrics DB label compatibility transforms belong under top-level
   `spanMetrics.transformStatements`.** Do not put them only under
   `spanMetrics.dbMetrics.transformStatements`; that can populate

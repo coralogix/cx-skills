@@ -334,6 +334,7 @@ attributes, not exception semantic convention fields.
 | Missing TLS credentials | TLS handshake failure | Use `credentials.NewTLS(nil)` on all exporters |
 | `OTEL_EXPORTER_OTLP_ENDPOINT` includes `https://` | Dial error | Use bare host:port `ingress.<region>.coralogix.com:443`; keep the required `:443` port |
 | Semconv version mismatches installed SDK | `panic: conflicting Schema URL` at startup | Import `semconv/vX.Y.Z` that matches your `go.opentelemetry.io/otel` version; do not add semconv as a separate `go.mod` require entry |
+| `sdk/metric` drops new attribute sets at 2000 series | Missing metric dimensions and `otel.metric.overflow=true` | Use `WithCardinalityLimit(0)` only when unlimited cardinality is intentional; otherwise remove or normalize high-cardinality labels |
 | Missing `CoralogixSampler` (Go sampler) | No Transactions in APM | Wrap sampler: `sampler.NewCoralogixSampler(sdktrace.AlwaysSample())` |
 | No `tp.Shutdown()` deferred | Last spans dropped | Always defer `Shutdown` with a timeout context |
 | Logs API used below `v0.18.0` | `SetErr` not available | Upgrade `go.opentelemetry.io/otel/log` to `>= v0.18.0` |

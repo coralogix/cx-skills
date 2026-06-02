@@ -80,6 +80,8 @@ Keep this list short and only use it when the user’s symptom matches. For deta
 - **Python auth header:** env var needs `%20` (`Authorization=Bearer%20<KEY>`); programmatic headers use a tuple sequence with lowercase key + literal space (`("authorization", f"Bearer {token}")`).
 - **Node.js HTTP/proto:** exporter `url` must include `/v1/traces` (`https://ingress.<region>.coralogix.com:443/v1/traces`); gRPC doesn’t.
 - **Go gRPC:** `credentials.NewTLS(nil)` and bare endpoint `ingress.<region>.coralogix.com:443` (no `https://` in `WithEndpoint`).
+- **Go metrics cardinality:** `sdk/metric` defaults to a cardinality limit of `2000`; use `WithCardinalityLimit(0)` only when you intentionally need unlimited series, and expect `otel.metric.overflow=true` when the limit is hit.
+- **.NET OTLP disk retry:** `OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY=disk` now requires `OTEL_DOTNET_EXPERIMENTAL_OTLP_DISK_RETRY_DIRECTORY_PATH`; do not rely on an implicit temp-directory fallback.
 - **Transactions:** require `CoralogixTransactionSampler` (Node.js: `@coralogix/opentelemetry`); bundled `NODE_OPTIONS` auto-instr doesn’t support Transactions.
 - **Short-lived Python scripts:** `SimpleSpanProcessor` vs `BatchSpanProcessor`; metrics need `PeriodicExportingMetricReader` flush/wait.
 - **.NET Framework incoming propagation:** `OpenTelemetry.Instrumentation.AspNet` + `AddAspNetInstrumentation()`.

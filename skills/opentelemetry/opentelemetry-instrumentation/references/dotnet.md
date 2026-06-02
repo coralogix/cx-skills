@@ -321,6 +321,7 @@ outgoing `HttpClient` calls and does NOT fix broken incoming trace propagation.
 | Wrong domain casing (e.g. `EU2` instead of `eu2` in URI) | Connection failure | Lowercase the domain in the `Uri` constructor |
 | `Thread.Sleep` too short | No data exported | Allow at least 1–5 seconds before process exit for async export |
 | Missing `cx.application.name` / `cx.subsystem.name` | APM features degraded | Add to `AddAttributes` in `ResourceBuilder` |
+| `OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY=disk` without `OTEL_DOTNET_EXPERIMENTAL_OTLP_DISK_RETRY_DIRECTORY_PATH` | Disk retry fails to initialize | Set an explicit directory path; do not rely on the old shared temp-directory fallback |
 | NLog bridge + `Microsoft.Extensions.Logging` NLog provider both active | Duplicate logs | Use only one path |
 | `OpenTelemetry.Exporter.OpenTelemetryProtocol < 1.8.0` | Exceptions not emitted as semantic convention fields | Upgrade to `>= 1.8.0` |
 | Exceptions thrown but spanmetrics show `STATUS_CODE_UNSET` | Span status not set explicitly | Call `activity.SetStatus(ActivityStatusCode.Error, message)` in every catch block |

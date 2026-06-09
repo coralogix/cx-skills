@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.7 (2026-06-09)
+
+### Changed
+
+- sync skill 'opentelemetry/opentelemetry-instrumentation' (#30)
+- update skill 'opentelemetry/opentelemetry-collector' (#29)
+
+
 ## v0.1.6 (2026-05-21)
 
 ### Fixed

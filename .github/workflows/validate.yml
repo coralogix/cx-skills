@@ -65,7 +65,7 @@ jobs:
 
       - name: Review and optimize skills
         if: ${{ env.TESSL_TOKEN != '' && github.event_name == 'pull_request' }}
-        uses: tesslio/skill-review-and-optimize@2a22a9760c3990cd1a67fb391f18939363c9d5f8
+        uses: tesslio/skill-review-and-optimize@90e919d50ecb2dd11e07d69ef1440e7b2716189b
         with:
           optimize: false
           tessl-token: ${{ env.TESSL_TOKEN }}

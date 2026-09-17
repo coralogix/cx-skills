@@ -1,7 +1,7 @@
 {
   "name": "coralogix/opentelemetry-skills",
   "version": "0.1.7",
-  "summary": "OpenTelemetry Collector deployment, instrumentation (Java/Python/Node.js/.NET/Go), and OTTL pipeline transforms for Coralogix — coralogix exporter config, Helm chart selection, Kubernetes topology, ECS/EKS/GKE deployments, SDK setup, APM transactions, and OTTL cardinality/PII/routing.",
+  "summary": "OpenTelemetry Collector deployment, instrumentation (Java/Python/Node.js/.NET/Go), and OTTL pipeline transforms for Coralogix \u2014 coralogix exporter config, Helm chart selection, Kubernetes topology, ECS/EKS/GKE deployments, SDK setup, APM transactions, and OTTL cardinality/PII/routing.",
   "skills": {
     "opentelemetry-collector": {
       "path": "skills/opentelemetry/opentelemetry-collector/SKILL.md"
@@ -14,6 +14,9 @@
     },
     "opentelemetry-semantic-conventions": {
       "path": "skills/opentelemetry/opentelemetry-semantic-conventions/SKILL.md"
+    },
+    "coralogix-ai-center": {
+      "path": "skills/ai-center/coralogix-ai-center/SKILL.md"
     }
   }
 }

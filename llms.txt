@@ -23,6 +23,12 @@ OpenTelemetry Collector distributions, SDKs, APIs, or platform tooling.
 
 ## Available skills
 
+AI Center:
+- [coralogix-ai-center](skills/ai-center/coralogix-ai-center/SKILL.md):
+  Instrument a GenAI application with OpenTelemetry `gen_ai.*` spans (inference,
+  tool and agent spans with messages, usage and provider), run it, and verify the
+  spans render in Coralogix AI Center; also audits existing gen_ai spans.
+
 OpenTelemetry:
 - [opentelemetry-collector](skills/opentelemetry/opentelemetry-collector/SKILL.md):
   Deploy, configure, and troubleshoot the OpenTelemetry Collector for Coralogix.

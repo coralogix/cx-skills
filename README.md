@@ -9,6 +9,7 @@ APIs, naming conventions, collector behavior, SDK instrumentation, and pipeline 
 
 | Skill | Use case | Entry point |
 |---|---|---|
+| `coralogix-ai-center` | Instrument a GenAI application with OpenTelemetry `gen_ai.*` spans, run it, and verify it renders in Coralogix AI Center — any language, provider, framework, or OTel maturity; also verifies existing gen_ai spans. | [`skills/ai-center/coralogix-ai-center/SKILL.md`](skills/ai-center/coralogix-ai-center/SKILL.md) |
 | `opentelemetry-collector` | OpenTelemetry Collector deployment, configuration, and troubleshooting for Helm, ECS, standalone, and installer flows. | [`skills/opentelemetry/opentelemetry-collector/SKILL.md`](skills/opentelemetry/opentelemetry-collector/SKILL.md) |
 | `opentelemetry-instrumentation` | OpenTelemetry SDK instrumentation for Java, Python, Node.js, .NET, and Go — OTLP exporter setup, Coralogix resource attributes, APM samplers, and debugging missing telemetry. | [`skills/opentelemetry/opentelemetry-instrumentation/SKILL.md`](skills/opentelemetry/opentelemetry-instrumentation/SKILL.md) |
 | `opentelemetry-ottl` | OpenTelemetry Transformation Language for transform, filter, and routing questions across logs, metrics, and traces. | [`skills/opentelemetry/opentelemetry-ottl/SKILL.md`](skills/opentelemetry/opentelemetry-ottl/SKILL.md) |

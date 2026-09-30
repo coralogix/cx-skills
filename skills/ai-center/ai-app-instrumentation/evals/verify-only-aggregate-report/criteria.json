@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nPull the last 3 days of gen_ai spans from our tenant with the cx CLI and do a quick verification. Tell me what is wrong.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "archive-tier-aggregates",
+      "description": "Queries the archive tier with a pinned absolute window and uses aggregate queries (groupby with count / count_if / distinct_count) rather than per-attribute listings.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "user-facing-report",
+      "description": "Report leads with a one-line verdict and a findings table in product language (finding, scope, impact, owner); gate ids appear at most in parentheses and unused sections are omitted.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-stability-wait",
+      "description": "Does not re-query for count stability or sleep while waiting, and does not ask the user questions about naming, tenant, archive or who runs the app for a read-only verification. FAIL if it runs a stability re-query loop or prints the full 12-gate table as the report.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

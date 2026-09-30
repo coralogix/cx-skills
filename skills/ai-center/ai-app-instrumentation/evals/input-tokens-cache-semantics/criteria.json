@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAnthropic returns input_tokens, cache_read_input_tokens and cache_creation_input_tokens. What goes into gen_ai.usage.input_tokens?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "cache-counts-own-attributes",
+      "description": "States the cache read and cache creation counts go on their own gen_ai.usage.cache_read.input_tokens and gen_ai.usage.cache_creation.input_tokens attributes.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "provider-specific-relationship",
+      "description": "Says the relationship between gen_ai.usage.input_tokens and the cache counts is provider-specific and defers to Coralogix's span-attributes.md rather than asserting a fixed rule from memory.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-invented-attribute",
+      "description": "Does not invent an attribute such as cache_write. FAIL if it names a cache_write (or similarly invented) gen_ai.usage attribute.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

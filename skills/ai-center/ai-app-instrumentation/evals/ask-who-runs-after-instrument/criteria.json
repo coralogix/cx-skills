@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWhen should the skill ask the user whether they or the agent will run the application, and how should that question be phrased?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "asked-at-start-of-run",
+      "description": "Places the question after Instrument, at the start of Run, asked with one structured question (the agent's own question tool when it has one, else a short numbered list) that explains the app has to run once to send spans, offering \"I run it\" and \"You run it\".",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "not-in-assess-skipped-when-answered",
+      "description": "States that it is not one of the four Assess questions, and that it is skipped when the user already said who runs the app.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-early-or-table-form",
+      "description": "Does not ask it first thing or render it as a row of the Assess question table. FAIL if it does either.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWhich gen_ai.operation.name values does AI Center treat as metadata-only, and what does that mean for where messages must go?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "metadata-only-operation-list",
+      "description": "Lists invoke_agent, invoke_workflow, create_agent, embeddings and retrieval as metadata-only, so message content placed on them is not rendered.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "messages-on-inference-spans",
+      "description": "States that messages belong on inference spans (chat, text_completion, generate_content), one per model call.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-wrapper-rendering-claim",
+      "description": "Does not claim that messages on invoke_agent render, or that rendering depends on the content-capture switch. FAIL if it says either.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nAfter adding gen_ai spans, 100 bare invoke_agent spans with conversation id 00000000-0000-0000-0000-000000000001 appeared on the tenant. What happened and how do I prove it's fixed?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "test-suite-exported",
+      "description": "Identifies the test suite as the source (a Settings class read a .env carrying the export switch on, and the all-zero id is a fixture) and forces export off in the test environment.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "proof-by-tenant-query",
+      "description": "Proves the fix by running the suite and querying the tenant for spans of this application in that window, expecting an empty result, rather than by reading a code default.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-blame-elsewhere",
+      "description": "Does not attribute the spans to another developer, an earlier attempt or the environment, and does not dismiss them as noise. FAIL if it does.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

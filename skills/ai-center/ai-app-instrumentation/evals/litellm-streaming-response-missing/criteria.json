@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur spans come from LiteLLM's otel callback. Prompts are there but gen_ai.output.messages is missing on streamed calls only. Should we write our own instrumentation?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "known-litellm-streaming-bug",
+      "description": "Identifies this as a known LiteLLM otel callback issue scoped to streamed calls, and recommends checking the installed version's changelog / upgrading once it's fixed.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "record-as-upstream-gap",
+      "description": "Records the missing responses as an upstream gap in the report, with the library named as the owner.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-hand-rolled-emitter",
+      "description": "Does not recommend hand-writing spans or adding a second span source on the same call path. FAIL if it proposes either.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

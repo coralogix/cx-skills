@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nTo restart my app during verification I ran pkill -f 'my-app' and killed whatever held its port. The machine is shared. Was that ok?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "kill-only-recorded-pids",
+      "description": "Answers no: only PIDs you started may be killed, captured when the process starts (e.g. APP_PID=$!, or the PID the start command's wrapper reports if it is one) and stopped with kill on that recorded PID.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "shared-machine-blast-radius",
+      "description": "Explains that a pattern kill and a kill-by-port also match other people's sessions on a shared machine.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-pkill-or-port-kill",
+      "description": "Does not endorse pkill -f or killing whatever holds a port. FAIL if it accepts either.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

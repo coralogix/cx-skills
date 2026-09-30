@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nWe instrumented our agent and put gen_ai.input.messages and gen_ai.output.messages on the invoke_agent span. AI Center lists the application and shows cost, but every conversation is empty. Content capture is on. Why?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "inference-span-required",
+      "description": "Explains that AI Center renders messages only from inference spans (chat, text_completion, generate_content) and that each model call needs its own chat span carrying the messages.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "invoke-agent-metadata-only",
+      "description": "States that invoke_agent (and invoke_workflow, create_agent, embeddings, retrieval) are treated as metadata-only, so content placed there is not rendered.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-wrong-cause",
+      "description": "Does not blame archive lag, the content-capture switch or attribute size as the cause. FAIL if it suggests waiting or re-enabling capture instead of moving the messages to chat spans.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

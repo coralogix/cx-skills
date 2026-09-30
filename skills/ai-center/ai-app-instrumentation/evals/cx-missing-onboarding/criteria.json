@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\ncx: command not found, I want to verify my AI Center spans.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "asks-url-and-install-method",
+      "description": "Asks, in one question, for the Coralogix URL they open in the browser and the install method (Homebrew brew install coralogix/tap/cx, recommended on macOS, or the curl install script, any platform).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "installs-and-oauth-init",
+      "description": "Installs the CLI, confirms with cx --version, then runs cx init --oauth --url <url> so authentication happens via browser login, and verifies with cx profiles list and/or a trivial cx spans call.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-api-key-request",
+      "description": "Does not ask the user for an API key or key value at any point. FAIL if it does.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

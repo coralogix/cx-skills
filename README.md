@@ -13,6 +13,7 @@ APIs, naming conventions, collector behavior, SDK instrumentation, and pipeline 
 | `opentelemetry-instrumentation` | OpenTelemetry SDK instrumentation for Java, Python, Node.js, .NET, and Go — OTLP exporter setup, Coralogix resource attributes, APM samplers, and debugging missing telemetry. | [`skills/opentelemetry/opentelemetry-instrumentation/SKILL.md`](skills/opentelemetry/opentelemetry-instrumentation/SKILL.md) |
 | `opentelemetry-ottl` | OpenTelemetry Transformation Language for transform, filter, and routing questions across logs, metrics, and traces. | [`skills/opentelemetry/opentelemetry-ottl/SKILL.md`](skills/opentelemetry/opentelemetry-ottl/SKILL.md) |
 | `opentelemetry-semantic-conventions` | OpenTelemetry telemetry-shape diagnosis for Coralogix APM, Database Monitoring, Span Metrics, Resource Catalog, AI Center, Custom Metrics, and logs/serverless surfaces. | [`skills/opentelemetry/opentelemetry-semantic-conventions/SKILL.md`](skills/opentelemetry/opentelemetry-semantic-conventions/SKILL.md) |
+| `ai-app-instrumentation` | Ingest: instrument a GenAI application with OpenTelemetry `gen_ai.*` spans (model calls with messages, usage and provider, tool calls, agents), run it, and verify it renders in Coralogix AI Center; also verifies existing gen_ai spans. | [`skills/ai-center/ai-app-instrumentation/SKILL.md`](skills/ai-center/ai-app-instrumentation/SKILL.md) |
 
 Every skill in this repo is continuously evaluated against all three major LLM providers Anthropic, OpenAI & Google to ensure consistent cross-model reliability
 

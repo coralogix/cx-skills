@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nMy Python service drives Claude Code through the Claude Agent SDK with include_partial_messages=True. I emit one gen_ai chat span per AssistantMessage and AI Center shows hundreds of chat spans per turn, all with zero tokens and zero cost. What is wrong and how should the spans be built?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "one-span-per-completed-call",
+      "description": "States that a chat span must represent one completed model call, not one AssistantMessage, content block or streaming delta.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "usage-from-stream-events",
+      "description": "Points at the streaming protocol events for usage: open on message_start, take usage from message_start plus message_delta, close on message_stop (or names ResultMessage.model_usage as the fallback for turn totals).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-blame-on-model",
+      "description": "Does not attribute the zero usage to the model, the gateway or the tenant; treats it as an emitter defect to fix. FAIL if it recommends keeping one span per AssistantMessage or per content block.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

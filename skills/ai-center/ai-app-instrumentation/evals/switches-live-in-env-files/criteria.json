@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nI turned trace export on by passing ENABLE_TRACE_EXPORT=true on the command line when I started the service, and set the app name as a constant in code. The report says environments are switched on. Is that right?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "switches-and-identity-in-config-file",
+      "description": "Answers no: the export switch, the content switch and the application identity must be set in a config file the app actually loads (the environment's own env file, or the personal gitignored .env for a temporary value) and cited as file:line.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "default-off-in-code-on-per-environment",
+      "description": "States that kill switches default OFF in code and are turned ON per environment in that environment's config.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-inline-or-constant-as-wiring",
+      "description": "Does not treat an inline command-line value or a code constant as wiring. FAIL if it reports the environment as switched on.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

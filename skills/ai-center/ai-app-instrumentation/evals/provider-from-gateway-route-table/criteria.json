@@ -1,0 +1,24 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur agent calls Claude through a LiteLLM gateway (ANTHROPIC_BASE_URL). The SDK reports provider 'firstParty' and our spans say gen_ai.provider.name=anthropic, but LiteLLM routes those models to Bedrock and some to OpenAI. What should the provider be?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "provider-per-call-from-route-table",
+      "description": "States that the provider is whoever served the call, resolved per call by mapping the response model through the gateway's route table (LiteLLM model_list -> litellm_params.model prefix: bedrock/ -> aws.bedrock, openai/ -> openai, vertex_ai/ -> gcp.vertex_ai).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "client-fields-are-not-the-provider",
+      "description": "Explains that an SDK or CLI \"provider\" field (firstParty, gateway) describes the client, not the backend, and that the API shape is not the provider.",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "no-static-provider",
+      "description": "Does not accept one static provider value for every call. FAIL if it answers \"anthropic because the API is Anthropic-shaped\".",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

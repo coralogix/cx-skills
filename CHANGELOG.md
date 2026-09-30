@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.0 (2026-09-30)
+
+### Changed
+
+- sync skill 'ai-center/ai-app-instrumentation' (#34)
+
+
 ## v0.1.7 (2026-06-09)
 
 ### Changed

@@ -60,7 +60,7 @@ jobs:
 
       - name: Set up Tessl CLI
         if: env.TESSL_TOKEN != ''
-        uses: tesslio/setup-tessl@v2
+        uses: tesslio/setup-tessl@25ec223fc0da33b41b8044ff5ab2b85235f4f91e # v2
         with:
           token: ${{ env.TESSL_TOKEN }}
 

@@ -1,0 +1,30 @@
+{
+  "context": "Evaluating a Coralogix support response for this user question:\n\nOur LLM app sends traces to Coralogix, but AI Center shows no applications and no prompts. Which semantic-convention attributes are we missing, and should we fix it with a collector transform?",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "mentions-ai-app-instrumentation",
+      "description": "The response contains \"ai-app-instrumentation\" (case-sensitive).",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "mentions-gen-ai",
+      "description": "The response matches the pattern: (?i)gen_ai",
+      "max_score": 3,
+      "category": "INTENT"
+    },
+    {
+      "name": "hands-off-to-ai-app-instrumentation",
+      "description": "Hands the AI Center / GenAI question off to the ai-app-instrumentation skill as the owner of GenAI span shape, detection, and AI Center verification.",
+      "max_score": 2,
+      "category": "RUBRIC"
+    },
+    {
+      "name": "no-collector-genai-synthesis",
+      "description": "Does not recommend synthesizing gen_ai.* attributes in a collector transform. A response that proposes a collector transform to add gen_ai.* attributes is a FAIL.",
+      "max_score": 2,
+      "category": "MUST_NOT"
+    }
+  ]
+}

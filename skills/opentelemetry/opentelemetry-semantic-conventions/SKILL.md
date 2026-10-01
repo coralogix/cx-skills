@@ -6,15 +6,16 @@ description: >
   generated metric labels, or collection topology affecting product
   behavior. Trigger for missing or empty APM Service Catalog,
   Transactions, Error/API Error Tracking, Database Catalog/DB Monitoring,
-  Span Metrics RED metrics, Infrastructure Explorer/Resource Catalog, AI
-  Center/GenAI, Custom Metrics, or logs/serverless metadata, especially
-  with service.name, http.route, http.response.status_code, db.system /
-  db.system.name, db.namespace, k8s.*, host.*, cloud.*, gen_ai.*,
-  resource_ttl, interval, otel.entity.interval, url.full,
-  service.instance.id, label/cardinality, or temporality questions. Do not
-  use for pure OTTL syntax, collector/Helm wiring, SDK install,
-  cx.application.name/cx.subsystem.name routing, dashboards, Jira, or
-  version-upgrade planning.
+  Span Metrics RED metrics, Infrastructure Explorer/Resource Catalog,
+  Custom Metrics, or logs/serverless metadata, especially with
+  service.name, http.route, http.response.status_code, db.system /
+  db.system.name, db.namespace, k8s.*, host.*, cloud.*, resource_ttl,
+  interval, otel.entity.interval, url.full, service.instance.id,
+  label/cardinality, or temporality questions. Do not use for pure OTTL
+  syntax, collector/Helm wiring, SDK install,
+  cx.application.name/cx.subsystem.name routing, dashboards, Jira,
+  version-upgrade planning, or AI Center / gen_ai.* spans (use
+  ai-app-instrumentation).
 license: Apache-2.0
 metadata:
   version: "0.2.0"
@@ -34,9 +35,10 @@ metadata:
       Load when Coralogix/OpenTelemetry product behavior depends on telemetry
       attributes, semantic conventions, scope, generated metric labels,
       cardinality, temporality, or collection topology. Covers missing or
-      empty APM, DB Monitoring, Span Metrics, Infra/Resource Catalog, AI
-      Center/GenAI, Custom Metrics, and logs/serverless metadata; skip pure
-      OTTL, collector, SDK, and cx app/subsystem routing implementation.
+      empty APM, DB Monitoring, Span Metrics, Infra/Resource Catalog,
+      Custom Metrics, and logs/serverless metadata; skip pure OTTL,
+      collector, SDK, cx app/subsystem routing implementation, and AI
+      Center / GenAI (ai-app-instrumentation).
     always: false
     file_patterns:
       - "**/*instrumentation*.py"
@@ -54,8 +56,6 @@ metadata:
       - "spanmetrics"
       - "aggregation_cardinality_limit"
       - "k8sattributes"
-      - "gen_ai.system"
-      - "gen_ai.provider.name"
     keywords:
       - semantic conventions
       - semconv
@@ -74,8 +74,6 @@ metadata:
       - database monitoring
       - service catalog
       - span metrics
-      - ai center
-      - gen_ai
       - custom metrics
       - otel_metric_overflow
       - otel.metric.overflow
@@ -106,7 +104,7 @@ cross-product triage workflow; detailed product rules live in `references/`.
 | Diagnose `otel.metric.overflow="true"` / `otel_metric_overflow="true"` series | [spanmetrics.md](references/spanmetrics.md) — expected overflow fallback, not a bug; raw OTLP vs PromQL labels; reduce source cardinality; qualify `aggregation_cardinality_limit: 0` vs Helm v0.0.203+ 100,000 default |
 | Diagnose missing pods / hosts in Infrastructure Explorer | [infrastructure-explorer.md](references/infrastructure-explorer.md) — resource-scope `k8s.cluster.name`, `k8s.namespace.name`, `k8s.pod.name`, `k8s.node.name`, `k8s.container.name`, `service.name`, plus owner `k8s.deployment.name` / `k8s.statefulset.name` / `k8s.daemonset.name` / `k8s.job.name` / `k8s.cronjob.name` / `k8s.replicaset.name`; EC2 tag target is `host.name` |
 | Diagnose resource metadata lifetime / Resource Catalog inventory issues | [infrastructure-explorer.md](references/infrastructure-explorer.md) — `resource_ttl`, `interval`, `otel.entity.interval`, `schema_url`, `coralogix/resource_catalog`, `x-coralogix-ingress: metadata-as-otlp-logs/v1` |
-| Diagnose AI Center missing LLM rows | [ai-center-genai.md](references/ai-center-genai.md) — legacy/new `gen_ai.*` detection attributes and trace/archive requirements |
+| AI Center: missing LLM rows, `gen_ai.*` attributes, prompts, cost | Not this skill — hand off to `ai-app-instrumentation`, which owns GenAI span shape, detection, and AI Center verification |
 | Diagnose custom metric temporality, duplicate labels, or `_1_total` names | [custom-metrics.md](references/custom-metrics.md) — `delta` temporality, writer identity, Prometheus normalization, and low-cardinality labels |
 | Diagnose Lambda/log metadata scope or EC2 tag enrichment | [logs-serverless.md](references/logs-serverless.md) — log-record vs resource scope, `cx_metadata.*`, dashboard/correlation warning, and host identity enrichment |
 | Decide when semconv should hand off to another skill | [associated-boundaries.md](references/associated-boundaries.md) — `core` owns `cx.application.name` / `cx.subsystem.name`; Javaagent setup including `OTEL_RESOURCE_ATTRIBUTES` and JMX receiver belongs to instrumentation; exact `set(...)` / where / context belongs to `opentelemetry-ottl` |
@@ -150,13 +148,13 @@ SDK / instrumentation / Collector upgrade.
    - span attributes before APM / DB / Span Metrics consume spans;
    - generated RED metric labels after `spanmetrics`;
    - resource attributes before export / Resource Catalog correlation;
-   - GenAI span attributes before trace export plus the AI Center trace path;
    - log/resource metadata before exporter routing or serverless metadata
      processing.
 6. Hand exact implementation to the owning skill:
    `opentelemetry-ottl` for transform syntax, `opentelemetry-collector` for
    pipeline/Helm/Fleet wiring, `opentelemetry-instrumentation` for SDK and
-   sampler setup, and `core` for Coralogix app/subsystem routing.
+   sampler setup, `core` for Coralogix app/subsystem routing, and
+   `ai-app-instrumentation` for AI Center / GenAI spans.
 
 Minimal evidence-only collector config for step 3:
 
@@ -195,8 +193,9 @@ This skill diagnoses telemetry semantics. Hand off implementation details:
 - `core`: `cx.application.name`, `cx.subsystem.name`, regional domains, and
   application/subsystem routing order.
 - `opentelemetry-instrumentation`: SDK env vars, sampler chains,
-  `CoralogixTransactionSampler`, GenAI proxy/library setup, and manual span
-  code.
+  `CoralogixTransactionSampler`, and manual span code.
+- `ai-app-instrumentation`: AI Center and GenAI — `gen_ai.*` span shape,
+  detection, GenAI proxy/library setup, and verification in AI Center.
 - `opentelemetry-ottl`: exact `set(...)`, `replace_pattern(...)`, contexts,
   and where clauses.
 - `opentelemetry-collector`: collector pipeline wiring, Helm/Fleet values,

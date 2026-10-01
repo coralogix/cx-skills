@@ -13,8 +13,9 @@ product consume?"
    `schema_url`; it can explain which semconv version produced the signal.
 2. Identify the Coralogix surface that changed: APM Service Catalog,
    Transactions, Error/API Error Tracking, Database Catalog, Span Metrics
-   labels, Infrastructure Explorer / Resource Catalog, AI Center, Custom
-   Metrics, or a dashboard/query built from receiver metrics.
+   labels, Infrastructure Explorer / Resource Catalog, Custom Metrics, or a
+   dashboard/query built from receiver metrics. (AI Center belongs to
+   `ai-app-instrumentation`.)
 3. Inspect a raw sample at the collector with the `debug` exporter before
    and after any transforms. Look for empty labels, rows moving to
    `unknown`, blank drilldowns, sudden cardinality drops for a dimension,
@@ -43,8 +44,8 @@ product consume?"
      pipeline after `spanmetrics`.
    - Resource attributes for Infrastructure Explorer: resource context in
      every signal pipeline before export / inventory correlation.
-   - GenAI span attributes: instrumentation/proxy path before trace export
-     and the AI Center trace/archive path.
+   - GenAI span attributes for AI Center: hand off to
+     `ai-app-instrumentation`.
    - Receiver metrics such as `system.cpu.*`: metrics pipeline after the
      receiver and before export or dashboard queries.
 6. Hand exact implementation to the owning skill: `opentelemetry-ottl` for

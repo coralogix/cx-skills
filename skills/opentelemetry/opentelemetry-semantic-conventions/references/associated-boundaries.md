@@ -42,9 +42,9 @@ Use direct handoff language:
 - "Semconv diagnosis: the generated RED metric label changed after
   spanmetrics. Use `opentelemetry-collector` for the metrics-pipeline
   processor placement."
-- "Semconv diagnosis: AI Center needs GenAI span attributes and trace
-  archive path. Use `opentelemetry-instrumentation` for library setup and
-  collector/ingestion owners for archive routing."
+- "AI Center / GenAI spans are not a semconv diagnosis here. Use
+  `ai-app-instrumentation` for GenAI span shape, library setup, and AI
+  Center verification."
 - "Semconv diagnosis: multiple gateways are splitting one trace before
   tail sampling and `spanmetrics`; use traceID routing / load-balancing
   exporter configuration from `opentelemetry-collector`."

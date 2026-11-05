@@ -1,1 +1,5 @@
-* @coralogix/team-cs-devops
+# team-cxai owns everything by default
+* @coralogix/team-cxai
+
+# CS/Integrations DevOps team owns the OpenTelemetry skills
+/skills/opentelemetry/ @coralogix/team-ido

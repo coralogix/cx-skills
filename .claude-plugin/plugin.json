@@ -24,5 +24,9 @@
     "developer",
     "coding",
     "productivity"
+  ],
+  "skills": [
+    "./skills/opentelemetry/",
+    "./skills/ai-center/"
   ]
 }

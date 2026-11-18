@@ -1,0 +1,2 @@
+# sh cannot run a CRLF script, which a Windows clone with core.autocrlf would make.
+*.sh text eol=lf

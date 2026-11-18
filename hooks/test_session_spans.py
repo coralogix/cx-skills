@@ -117,6 +117,50 @@ class SessionSpansTest(unittest.TestCase):
         self.assertEqual(len(span["spanId"]), 16)
         int(span["traceId"] + span["spanId"], 16)
         self.assertEqual(span["startTimeUnixNano"], "1")
+        self.assertNotIn("parentSpanId", span)
+
+    def test_span_in_a_turn_is_a_child_of_the_turn_span(self):
+        turn = "00-1ee0e8fa073e87da683359eeb0d0373a-b1d3ad205fbc0389-01"
+        event = {"session_id": "s1", "hook_event_name": "UserPromptSubmit", "cwd": self.root}
+        tracing_on = {"TRACEPARENT": turn, "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA": "1"}
+        with mock.patch.dict(os.environ, tracing_on):
+            fields = session_spans.hook_fields(event)
+        payload = session_spans.traces_payload(fields, {})
+        span = payload["resourceSpans"][0]["scopeSpans"][0]["spans"][0]
+        self.assertEqual(span["traceId"], "1ee0e8fa073e87da683359eeb0d0373a")
+        self.assertEqual(span["parentSpanId"], "b1d3ad205fbc0389")
+
+    def test_traceparent_from_the_shell_is_not_used(self):
+        shell = "00-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-bbbbbbbbbbbbbbbb-01"
+        tracing = "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA"
+        cases = (
+            ("SessionStart", {"TRACEPARENT": shell, tracing: "1"}),
+            ("SessionEnd", {"TRACEPARENT": shell, tracing: "1"}),
+            ("UserPromptSubmit", {"TRACEPARENT": shell, tracing: "0"}),
+        )
+        for hook_event, environment in cases:
+            with self.subTest(hook_event=hook_event, environment=environment):
+                event = {"session_id": "s1", "hook_event_name": hook_event, "cwd": self.root}
+                with mock.patch.dict(os.environ, environment):
+                    self.assertIsNone(session_spans.hook_fields(event)["traceparent"])
+
+    def test_invalid_traceparent_falls_back_to_the_session_trace(self):
+        session_trace = session_spans.traces_payload(
+            {"session_id": "s1", "hook_event": "Stop", "time_unix_nano": "1"}, {}
+        )["resourceSpans"][0]["scopeSpans"][0]["spans"][0]["traceId"]
+        for traceparent in (
+            "00-00000000000000000000000000000000-b1d3ad205fbc0389-01",
+            "00-1ee0e8fa073e87da683359eeb0d0373a-0000000000000000-01",
+            "00-1EE0E8FA073E87DA683359EEB0D0373A-b1d3ad205fbc0389-01",
+            "not a traceparent",
+        ):
+            with self.subTest(traceparent=traceparent):
+                fields = {"session_id": "s1", "hook_event": "Stop", "time_unix_nano": "1"}
+                fields["traceparent"] = traceparent
+                payload = session_spans.traces_payload(fields, {})
+                span = payload["resourceSpans"][0]["scopeSpans"][0]["spans"][0]
+                self.assertEqual(span["traceId"], session_trace)
+                self.assertNotIn("parentSpanId", span)
 
     def test_prompt_span_has_cwd_branch_and_no_url_credentials(self):
         event = {"session_id": "s1", "hook_event_name": "UserPromptSubmit", "cwd": self.https_repo}

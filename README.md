@@ -53,7 +53,9 @@ start, on each prompt, after each Edit, MultiEdit, Write or NotebookEdit, when t
 directory changes, and at session end. A span holds the session id, the event name, the tool
 name of an edit, and the host, `owner/repo` and branch of the repository's `origin`. It never
 holds prompts, tool input or output, local paths, or credentials. A background process sends
-the span, so the session never waits for the network.
+the span, so the session never waits for the network. When Claude Code tracing is on, a span
+sent during a turn joins the trace in `TRACEPARENT`, the turn's trace; the other spans of a
+session share one trace of their own.
 
 Requirements: Python 3.7 or later and `git`; on macOS, the Xcode Command Line Tools; on
 Windows, Git for Windows (Claude Code runs hooks in Git Bash). If no spans arrive, the last

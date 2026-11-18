@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import secrets
 import subprocess
 import sys
@@ -29,6 +30,13 @@ SERVICE_NAME = "claude-code-hook"
 SOURCE_TYPE = "claude_code_agent"
 SPAN_NAME_PREFIX = "agent_hook."
 SPAN_KIND_INTERNAL = 1
+# W3C trace context: version-traceid-parentid-flags.
+TRACEPARENT_PATTERN = re.compile(r"[0-9a-f]{2}-([0-9a-f]{32})-([0-9a-f]{16})-[0-9a-f]{2}")
+# The variables that turn Claude Code tracing on, and the values it reads as on.
+TRACING_FLAGS = ("CLAUDE_CODE_ENHANCED_TELEMETRY_BETA", "ENABLE_ENHANCED_TELEMETRY_BETA")
+ON_VALUES = ("1", "true", "yes", "on")
+# Events outside a turn: Claude Code sets no turn span for them.
+NO_TURN_EVENTS = ("SessionStart", "SessionEnd")
 
 EDITED_FILE_KEYS = {
     "Edit": "file_path",
@@ -83,10 +91,20 @@ def hook_fields(event: dict) -> dict | None:
         # The event time: the sender can start late and spend seconds in git.
         "time_unix_nano": str(time.time_ns()),
         "directory": edited_file_directory(event) or event.get("new_cwd") or event.get("cwd"),
+        "traceparent": turn_traceparent(hook_event),
     }
     if hook_event == "PostToolUse":
         fields["tool_name"] = event.get("tool_name")
     return fields
+
+
+def turn_traceparent(hook_event: str) -> str | None:
+    """Claude Code sets TRACEPARENT to the turn's span only during a turn with its tracing on.
+    Otherwise the hook inherits TRACEPARENT from the shell, which names an unrelated trace."""
+    tracing = any(os.environ.get(flag, "").strip().lower() in ON_VALUES for flag in TRACING_FLAGS)
+    if not tracing or hook_event in NO_TURN_EVENTS:
+        return None
+    return os.environ.get("TRACEPARENT")
 
 
 def edited_file_directory(event: dict) -> str | None:
@@ -194,10 +212,16 @@ def repository_name(path: str) -> str:
 
 
 def traces_payload(fields: dict, attributes: dict) -> dict:
-    """All spans of a session share one trace."""
+    """A span inside a turn joins the turn's trace; the other spans of a session share one trace."""
     event_time = fields["time_unix_nano"]
+    turn_span = TRACEPARENT_PATTERN.fullmatch(fields.get("traceparent") or "")
+    if turn_span and turn_span.group(1).strip("0") and turn_span.group(2).strip("0"):
+        trace_id, parent_span_id = turn_span.group(1), turn_span.group(2)
+    else:
+        trace_id = hashlib.sha256(fields["session_id"].encode()).hexdigest()[:32]
+        parent_span_id = None
     span = {
-        "traceId": hashlib.sha256(fields["session_id"].encode()).hexdigest()[:32],
+        "traceId": trace_id,
         "spanId": secrets.token_hex(8),
         "name": SPAN_NAME_PREFIX + fields["hook_event"],
         "kind": SPAN_KIND_INTERNAL,
@@ -205,6 +229,8 @@ def traces_payload(fields: dict, attributes: dict) -> dict:
         "endTimeUnixNano": event_time,
         "attributes": otlp_attributes(attributes),
     }
+    if parent_span_id:
+        span["parentSpanId"] = parent_span_id
     resource = {"service.name": SERVICE_NAME, "cx.source.integration.type": SOURCE_TYPE}
     return {
         "resourceSpans": [

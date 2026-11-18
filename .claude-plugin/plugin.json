@@ -28,5 +28,19 @@
   "skills": [
     "./skills/opentelemetry/",
     "./skills/ai-center/"
-  ]
+  ],
+  "hooks": "./hooks/claude-code.json",
+  "userConfig": {
+    "coralogix_domain": {
+      "type": "string",
+      "title": "Coralogix domain",
+      "description": "Your Coralogix domain, such as eu2.coralogix.com. Together with the send-data key, it turns on the Claude Code session spans for AI Center. Leave it empty to keep them off."
+    },
+    "coralogix_send_data_key": {
+      "type": "string",
+      "title": "Coralogix Send-Your-Data API key",
+      "description": "The Send-Your-Data API key of your Coralogix team. Leave it empty to keep the session spans off.",
+      "sensitive": true
+    }
+  }
 }

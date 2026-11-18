@@ -41,6 +41,24 @@ claude plugin marketplace add coralogix/cx-skills
 claude plugin install coralogix@cx-skills
 ```
 
+#### Session spans for AI Center
+
+The Claude Code plugin can link each Claude Code session to the git branches it works on, so
+that AI Center can join sessions to pull requests and tickets. It is off until you set the
+plugin options **Coralogix domain** (such as `eu2.coralogix.com`) and **Coralogix Send-Your-Data
+API key**, in the dialog that opens when you enable the plugin or in `/plugin`.
+
+When it is on, the plugin sends one span to `https://ingress.<domain>/v1/traces` on session
+start, on each prompt, after each Edit, MultiEdit, Write or NotebookEdit, when the working
+directory changes, and at session end. A span holds the session id, the event name, the tool
+name of an edit, and the host, `owner/repo` and branch of the repository's `origin`. It never
+holds prompts, tool input or output, local paths, or credentials. A background process sends
+the span, so the session never waits for the network.
+
+Requirements: Python 3.7 or later and `git`; on macOS, the Xcode Command Line Tools; on
+Windows, Git for Windows (Claude Code runs hooks in Git Bash). If no spans arrive, the last
+error is in `~/.claude/plugins/data/<plugin id>/session_spans_last_error.txt`.
+
 ### Cursor
 
 Via the UI:
